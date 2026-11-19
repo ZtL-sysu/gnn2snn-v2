@@ -1,0 +1,145 @@
+\section{Introduction}
+\label{sec:intro}
+
+Graph neural networks are the default tool for relational data, and their cost profile is becoming
+the binding constraint. Message passing touches every edge at every layer, so inference on a large
+graph is memory-bandwidth bound rather than compute bound, and streaming or embedded
+deployments---sensor meshes, embedded screening, on-device recommendation---must meet a latency
+budget that changes with the device and the moment. Spiking neural networks (SNNs) offer a
+structurally different execution model: computation is event-driven, neurons integrate and fire, and
+a step costs a sparse set of synaptic events rather than a dense tensor product. Whether that also
+saves \emph{energy} depends entirely on how many spikes the mapping emits, which is an empirical
+question and not one this paper assumes; the property conversion does guarantee is different, and it
+is the one we build on.
+
+There are two ways to obtain such a network. The first is to train it directly: unroll the spiking
+dynamics over $T$ timesteps, replace the derivative of the spike with a surrogate, and run
+backpropagation through time. This works, and it is what essentially all spiking graph networks do
+today. It is also expensive in a way that is easy to underestimate: the network must be retrained
+for every latency budget, because $T$ is baked into the unrolled graph, and training cost grows
+linearly in $T$ on top of a backward pass that is already $T$ times a forward pass. A deployed model
+therefore cannot adapt when the latency budget changes---it must be retrained, off-device, by
+someone who has the training pipeline. The second route is \emph{conversion}: train an ordinary ANN,
+then replace its rectifiers with spiking neurons and its activations with firing rates. Conversion is
+attractive precisely because it decouples training from latency---one training run, deployable at
+any $T$, with no backward pass anywhere near the device---and in vision it has matured to the point
+where the accuracy gap at modest $T$ is a fraction of a percentage point.
+
+For graphs, conversion \emph{methods} already exist --- a training-free conversion of a text
+classification GNN \citep{hwang2024onespike} and a tactile-graph conversion with structural
+retraining \citep{zhang2025quantization} --- but we are not aware of a published \emph{analysis} of what the
+conversion error is made of on a graph, or of any per-layer window allocation in graph conversion.
+That analysis is
+the subject of this paper, and the borrowing of vision recipes fails for a reason that
+is specific to message passing. In a convolutional network the input to a unit at step $t$ is a
+fixed tensor: every channel of every receptive field is available simultaneously. In a graph, the
+input to a unit is a \emph{sum over neighbours}, and each neighbour fires at its own time. The unit
+therefore integrates a sequence of partial sums whose addends arrive out of order, and the
+instantaneous current at step $t$ is the ANN pre-activation with its terms reordered in time. We
+call this \textbf{neighbourhood temporal misalignment}. The name is deliberately qualified:
+\emph{temporal misalignment} has been used for feed-forward conversion, where random rearrangement
+of spikes \emph{across layers} can improve accuracy and can be exploited with stochastic neurons
+\citep{bojkovic2025temporal}. Ours is a different object. It lives \emph{inside a single
+aggregation}, over a set of neighbours that share no clock, so it is a property of the graph rather
+than of the network's depth---and, as we show in \secref{sec:ablate}, the two phenomena lead to
+opposite conclusions about whether stochasticity helps. \figref{fig:framework} summarises the
+setting: one trained GCN, a latency-agnostic deployment, and the neighbour-level clock skew that the
+rest of the paper quantifies.
+
+Those artefacts are worth stating precisely, because they set the shape of the method, and two of
+them are integer effects that conversion necessarily introduces. First, a spiking neuron driven by a
+constant current emits $\lfloor Tc/\theta \rfloor$ spikes, so its rate represents $c$ with an error
+that is \emph{systematically negative} and of size $1/(2T)$; in the vision literature this is
+corrected by adding a per-step bias, and we show that on graphs the correction has a closed form.
+Second, if the output layer is decoded by \emph{counting} spikes, the decision is quantised to
+multiples of $1/T$ and---more damagingly---the logits are clipped at one spike per step, which
+destroys the ordering of large logits long before the rate has converged. A third artefact is
+inherited from vision but inverts on graphs: conversion normally rescales activations so that they
+fit under the threshold, and this rescaling assumes that averaging operators are row-stochastic.
+Symmetric GCN normalisation is not: the row sums of $D^{-1/2}(A+I)D^{-1/2}$ are $\rhon$, which we
+measure at up to $5.75$ on Cora, so the usual global scale factor is simply the wrong object.
+
+Writing misalignment down makes the rest analytic. \textbf{Conversion error in a spiking graph
+network is deterministic}: it is a function of the trained weights and the latency, not a random
+variable to be averaged over seeds. The closed form, the spectral-gain law, the order invariance, and
+the boundary at which the closed form stops holding all follow from that claim, as does the one
+prediction that fails. Our contributions are:
+
+\begin{enumerate}\itemsep2pt
+\item \textbf{A conversion formulation for graph node classification}, with an exact error identity,
+$\Btwohat - \Btwo = \Ahat(\Eone W_{2})$ where $\Eone = \cntone/T - \mathrm{relu}(\Bone)$, that
+separates the conversion error into a term the neighbourhood averages and a term it cannot
+(\secref{sec:align}). No approximation is made in deriving it, which is what allows the theory and
+the implementation to be checked against each other exactly (\secref{sec:theory}).
+\item \textbf{A parameter-free bias.} In the population, $\mathbb{E}[\Eone] = \beta - 1/(2T)$, so
+$\betastar = \theta/(2T)$ is the unique per-step bias that cancels the systematic error
+(\secref{sec:bias}). The bias is inherited from forward-bias conversion; what is new is that on
+graphs it admits a closed form, which removes calibration altogether, and that it beats the
+train-mask-selected bias grid (step $0.05$) in all nine graph-by-latency cells we test.
+\item \textbf{A membrane readout} that decodes the \emph{accumulated} layer-2 current rather than the
+spike count (\secref{sec:readout}). Because $\mathrm{mem} = \cntone\theta + u = \sum_t
+\mathrm{inst}_t$ holds exactly, the readout costs nothing in spikes, yet it removes both the $1/T$
+decision grid and the unit-clipping ceiling: at $T=8$ it is worth $3.7$ points on Cora and $6.2$ on
+CiteSeer, largest exactly where the clipping binds hardest. The same identity has a structural
+consequence we did not expect and now test directly: the accumulator contains no $t$, so the
+membrane decoder is exactly invariant to the \emph{order} of upstream spikes while the count
+decoder is not (\secref{sec:order}). That turns a preference into a mechanism, and it is what
+separates our error from the cross-layer temporal misalignment of \citet{bojkovic2025temporal}.
+\item \textbf{A margin-recovery theorem} (\secref{sec:thm}) giving the number of timesteps needed to
+preserve the ANN's decision, $T = O(\anorm \lVert DW\rVert_{2} / \Deltan)$, verified cell by cell
+with a theory-versus-simulation gap of exactly zero, together with a quantitative account of where
+the bound is loose (\secref{sec:tight}).
+\item \textbf{A depth law, and a negative result.} The identity extends to $L$ layers
+(\eqnref{eq:recursion}), where it says the output error is amplified by the cumulative spectral gain
+$G=\prod_l\lVert M_l\rVert_{2}$ of the trained ANN. Measured over nine cells the amplification follows
+$G^{0.95}$ with $r=0.990$, so the latency a deep model will need is computable from its weights
+before any simulation (\secref{sec:depth}). Two natural repairs---gauge-normalising each layer, or
+rescaling the readout---do not work, and we say why: the spike threshold is an absolute scale, so
+$G$ cannot be reparametrised away. Conversion therefore favours shallow, sufficient-width models,
+and width is the lever that does work: the layer-1 error norm grows as $\sqrt{H}$ while the logit
+margin grows with it, so the fidelity gap stays near zero up to $H=64$ even though the ANN gains
+$0.8$--$1.9$ points.
+\item \textbf{A conversion that needs no simulation.} For a layer driven by a constant current the
+count over $T$ steps is $\lfloor T(B+\beta)/\theta\rfloor$ in closed form, so the two-layer
+conversion can be scored with one sparse matmul instead of $T$ steps of spiking. Measured over $105$
+cells the closed form and the simulator agree to $0.08$ points on average and $0.40$ at worst, which
+is float32 drift on one or two test nodes (\secref{sec:closed}). At $L=3$ the same closed form fails
+by $3.5$ points, and the reason is the finding rather than an implementation detail: the reset makes
+an intermediate layer's \emph{count} depend on the order of its input even though the output
+membrane does not.
+\item \textbf{What the laws do and do not predict.} Fitting the single constant of
+\eqnref{eq:sigma} on some cells and scoring others, the machinery ranks candidate models almost
+perfectly ($\rho=0.967$ under leave-one-configuration-out) but misses the absolute gap by $4.6$
+points on average, and the ablation the mechanism implies --- scrambling the per-node error scales
+--- does not hurt. We report this as a failed prediction and claim only the ranking
+(\secref{sec:ranking}).
+\item \textbf{A four-arm Pareto under one protocol.} Conversion, a directly trained spiking GCN, the
+rate-coded published formulation, and the published-architecture formulation, all at seven seeds on
+five latencies. No arm dominates the conversion anywhere; the cost ordering depends on the
+accounting convention --- under a static synaptic-update proxy the conversion is the cheapest arm at
+matched accuracy on all three graphs, while under event-driven counting a linear-readout external
+arm is cheaper at low latency on two of them --- and the published-architecture formulation stays
+more accurate on two graphs (\secref{sec:pareto}).
+\item \textbf{A constructive latency decision in the deep regime}: where uniform budgets explode
+with the depth law, a validation-only per-layer window search (the idea family is established prior
+art; the graph instantiation and regime measurement are ours) keeps the accuracy band with
+$22.7$--$93.4\%$ fewer layer-updates on six of eight held-out four-layer cells --- with the
+pre-registered mixed-depth screen disclosed as not met --- and three weight-only routes are
+reported as measured transfer failures (\secref{sec:allocation}, \secref{sec:transfer}).
+\item \textbf{An empirical study at seven seeds} across six graphs, three aggregation operators, three
+hidden widths and two trained spiking baselines (\secref{sec:exp}). Converted networks reach the ANN
+to within $1.5$ points at $T \le 8$ on all three citation graphs; they never need more timesteps than
+a tuned directly-trained spiking GCN to reach a given accuracy, are two-fold earlier on Cora, and are
+the only arm that reaches the band at all on CiteSeer; they are clearly ahead of the rate-coded
+formulation used by published spiking-GCN work. Every one of those comparisons is reported against a
+measured run-to-run floor rather than against a star (\secref{sec:baselines})---and the method
+degrades in the \emph{predicted} way when the aggregation
+operator, the threshold, the width or the decoder is changed.
+\end{enumerate}
+
+We state the boundaries of these claims early, because they are load-bearing. The scale experiment
+(ogbn-arxiv, $169{,}343$ nodes) is a \emph{fidelity} test: we ask whether conversion preserves a
+given ANN, not whether our ANN is the best available on that dataset. Our efficiency evidence is
+spike counts and timesteps, not joules measured on neuromorphic hardware. And our strongest baseline
+is a faithful re-implementation of a published spiking-GNN \emph{formulation}, not a reproduction of
+a published codebase. Each of these is revisited in \secref{sec:boundaries}.

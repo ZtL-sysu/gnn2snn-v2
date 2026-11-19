@@ -1,0 +1,13 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{SpikeGraphormer, Cora, everything fixed but the split. The only difference between the rows is one command-line flag; the code, the hyper-parameters, the seed and the number of epochs are identical. \emph{Final} is the accuracy at the epoch selected by validation, \emph{best} the best test accuracy over training. The published $84.8\pm0.7$ matches the first row.}\label{tab:split}
+\begin{tabular}{lrr}
+\toprule
+split & final & best \\
+\midrule
+random, 20 per class (their \texttt{run.sh}) & 84.7 & 85.6 \\
+public Planetoid (\texttt{--protocol semi}) & 74.0 & 75.9 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,77 @@
+% ============================================================================
+%  Converting Graph Neural Networks to Spiking Networks
+%  Anonymous submission draft. Self-contained preamble: no venue .sty is
+%  assumed (neurips.sty / iclr*.sty are not installed in this TeX Live).
+%  Build:  latexmk -pdf -interaction=nonstopmode main.tex
+% ============================================================================
+\documentclass[10pt,twocolumn]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{newtxtext}
+\usepackage{amsmath}
+% amssymb must precede newtxmath: both define \Bbbk and the later one wins.
+\usepackage{amssymb}
+\usepackage{newtxmath}
+\usepackage{amsbsy}
+\usepackage{mathtools}% \coloneqq
+% newtxmath already defines \openbox; amsthm would redefine it and abort.
+\let\openbox\relax
+\usepackage{amsthm}
+\usepackage[letterpaper,margin=0.75in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage[font=small,labelfont=bf,skip=4pt]{caption}
+\usepackage{subcaption}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[round,authoryear]{natbib}
+\usepackage[colorlinks=true,allcolors=blue!55!black]{hyperref}
+\usepackage{algorithm}
+\usepackage[noend]{algorithmic}
+
+% ---- compact conference-style spacing
+\setlength{\columnsep}{0.28in}
+\setlength{\parskip}{0pt}
+\renewcommand{\arraystretch}{1.05}
+\captionsetup[table]{position=top}
+
+% ---- macros used by the paper
+\newtheorem{theorem}{Theorem}
+\newcommand{\Ahat}{\hat{A}}
+\newcommand{\Bone}{B_{1}}
+\newcommand{\Btwo}{B_{2}}
+\newcommand{\Btwohat}{\hat{B}_{2}}
+\newcommand{\Eone}{E_{1}}
+\newcommand{\betastar}{\beta^{\star}}
+\newcommand{\anorm}{\lVert a_{n}\rVert_{2}}
+\newcommand{\rhon}{\rho_{n}}
+\newcommand{\cntone}{c_{1}}
+\newcommand{\Deltan}{\Delta_{n}}
+\newcommand{\T}{T}
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\tabref}[1]{Table~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\eqnref}[1]{Eq.~(\ref{#1})}
+
+\title{\vspace{-1.2em}\bfseries When Does Graph-to-Spiking Conversion Work?\\
+Spectral Gain, Activation Mass, and an Order-Invariant Readout}
+\author{Anonymous submission}
+\date{}
+
+\begin{document}
+\maketitle
+\vspace{-1.5em}
+
+\input{sections/abstract}
+\input{sections/intro}
+\input{sections/related}
+\input{sections/method}
+\input{sections/experiments}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\end{document}

@@ -1,0 +1,22 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Does the theory predict cells it has not seen? $c$ is the single fitted constant of
+\eqnref{eq:sigma}; all other inputs come from the trained weights. MAE is in percentage points of
+conversion gap. The two link functions differ only in tail behaviour and are both reported, with the
+better one selected on the fit cells (here gauss) and never on the
+held-out ones. Required-$T$ is the smallest $T$ reaching ANN$-1.5$\,pp: it matches exactly on
+2/12 folds (17\,\%) and is off by more than one grid step on 6 of them, which is why we claim the ranking and
+not the level.}
+\label{tab:predict}
+\begin{tabular}{llrrr}
+\toprule
+link & held-out regime & cells & MAE (pp) & Spearman $\rho$ \\
+\midrule
+gauss & leave-one-config-out & 48 & 4.64 & 0.967 \\
+gauss & leave-one-dataset-out & 48 & 5.41 & 0.780 \\
+logit & leave-one-config-out & 48 & 5.47 & 0.967 \\
+logit & leave-one-dataset-out & 48 & 5.47 & 0.842 \\
+\bottomrule
+\end{tabular}
+\end{table}

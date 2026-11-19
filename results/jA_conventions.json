@@ -1,0 +1,57 @@
+{
+  "stage": "E-A2-conventions",
+  "dataset": "cora",
+  "rows": [
+    {
+      "convention": "raw_bow_selfloops",
+      "dataset": "cora",
+      "seed": 0,
+      "acc": 0.515,
+      "error": null,
+      "scratch": "C:\\code\\phd-snn\\auto-paper\\20261028-171500\\Spiking-GNN-Conversion\\f-research-v1-run-20261028-174053-gnn-snn-conv\\third_party\\spikinggcn_official\\_jA2_raw_bow_selfloops_1795011495",
+      "wall_seconds": 365.0,
+      "config_sha256": "adaef7372c97697ee68460473d9b4afff91d2758c0e0bd0ac99c5df6336267f2"
+    },
+    {
+      "convention": "row_normalized_features",
+      "dataset": "cora",
+      "seed": 0,
+      "acc": 0.13,
+      "error": null,
+      "scratch": "C:\\code\\phd-snn\\auto-paper\\20261028-171500\\Spiking-GNN-Conversion\\f-research-v1-run-20261028-174053-gnn-snn-conv\\third_party\\spikinggcn_official\\_jA2_row_normalized_features_1795011860",
+      "wall_seconds": 361.3,
+      "config_sha256": "adaef7372c97697ee68460473d9b4afff91d2758c0e0bd0ac99c5df6336267f2"
+    },
+    {
+      "convention": "rownorm_then_maxrescale_encoder",
+      "dataset": "cora",
+      "seed": 0,
+      "acc": 0.13,
+      "error": null,
+      "scratch": "C:\\code\\phd-snn\\auto-paper\\20261028-171500\\Spiking-GNN-Conversion\\f-research-v1-run-20261028-174053-gnn-snn-conv\\third_party\\spikinggcn_official\\_jA2_rownorm_then_maxrescale_encoder_1795012221",
+      "wall_seconds": 363.1,
+      "config_sha256": "adaef7372c97697ee68460473d9b4afff91d2758c0e0bd0ac99c5df6336267f2"
+    },
+    {
+      "convention": "raw_bow_no_selfloops",
+      "dataset": "cora",
+      "seed": 0,
+      "acc": 0.515,
+      "error": null,
+      "scratch": "C:\\code\\phd-snn\\auto-paper\\20261028-171500\\Spiking-GNN-Conversion\\f-research-v1-run-20261028-174053-gnn-snn-conv\\third_party\\spikinggcn_official\\_jA2_raw_bow_no_selfloops_1795012584",
+      "wall_seconds": 362.4,
+      "config_sha256": "adaef7372c97697ee68460473d9b4afff91d2758c0e0bd0ac99c5df6336267f2"
+    },
+    {
+      "convention": "rownorm_no_selfloops",
+      "dataset": "cora",
+      "seed": 0,
+      "acc": 0.13,
+      "error": null,
+      "scratch": "C:\\code\\phd-snn\\auto-paper\\20261028-171500\\Spiking-GNN-Conversion\\f-research-v1-run-20261028-174053-gnn-snn-conv\\third_party\\spikinggcn_official\\_jA2_rownorm_no_selfloops_1795012947",
+      "wall_seconds": 361.8,
+      "config_sha256": "adaef7372c97697ee68460473d9b4afff91d2758c0e0bd0ac99c5df6336267f2"
+    }
+  ],
+  "note": "re-measured through the audited official pipeline; per-row logs are scratch dirs + wp13 log sink"
+}

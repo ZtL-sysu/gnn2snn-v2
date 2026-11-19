@@ -1,0 +1,340 @@
+{
+  "schema_version": 1,
+  "brief": {
+    "question": "Are published spiking-GNN accuracies commensurable across papers, and what makes a reported number portable?",
+    "answer": "No: an executable audit of every code-releasing method in a bounded seven-method survey finds dataset-dependent reproduction failure, split-flag sensitivity worth 10.7 pp, and unlabelled split mixing in comparison tables; the binding property is split transportability, which dominates seed noise on Cora (61.5x s.d.), is marginal on CiteSeer (4.1x), and is confounded on PubMed (2.2x).",
+    "audience": "Benchmark/evaluation researchers and practitioners assembling spiking-GNN comparison tables.",
+    "domain_bridge": "A number measured under one split is not a baseline for another; the audit makes the split label and the reproduction environment part of the claim.",
+    "priorities": [
+      "executability of the audit protocol",
+      "per-dataset transportability honesty",
+      "unlabelled split mixing as a field-level hazard",
+      "convention causality",
+      "replay closure"
+    ],
+    "terminology": {
+      "Split I": "20 labelled instances per class (verbatim)",
+      "Split II": "8:2 train:test, 20% of training for validation (verbatim)",
+      "transportability": "split gap vs measured seed spread",
+      "3sigma bar": "pre-registered criterion gap >= 3x seed s.d."
+    },
+    "section_jobs": {
+      "abstract": "question, design, main findings, meaning",
+      "introduction": "specific unresolved question and the comparison used to answer it",
+      "methods": "scientific operations, conditions, measurement scope",
+      "results": "principal comparison, effect, uncertainty, adverse findings first-class",
+      "discussion": "interpretation of the pattern/trade-off; supported use; hypotheses labelled",
+      "conclusion": "answer the opening question with supported main evidence",
+      "local-revision": "replace the defective passage; KEEP returns identical bytes"
+    },
+    "style": "formal journal register; census bounded to the survey; verbatim quotes for split definitions",
+    "journal_requirements": "unresolved (author-managed); complete and proportionate; six numbered sections",
+    "author_constraints": "declaration_mode author-managed; no rankings of audited methods; bounded census wording",
+    "study_type": "empirical",
+    "paragraph_plan": [
+      {
+        "id": "A-pp1",
+        "section": "results",
+        "point": "audit grid and dataset-dependent reproduction",
+        "fact_ids": [
+          "A-grid",
+          "A-seeds"
+        ],
+        "adds": "opens with the executable grid"
+      },
+      {
+        "id": "A-pp2",
+        "section": "results",
+        "point": "split flag sensitivity",
+        "fact_ids": [
+          "A-splitflag"
+        ],
+        "adds": "one flag ten points"
+      },
+      {
+        "id": "A-pp3",
+        "section": "results",
+        "point": "unlabelled split mixing",
+        "fact_ids": [
+          "A-mixing"
+        ],
+        "adds": "field-level hazard with verbatim quotes"
+      },
+      {
+        "id": "A-pp4",
+        "section": "results",
+        "point": "input conventions decide the cell",
+        "fact_ids": [
+          "A-conventions"
+        ],
+        "adds": "corrected five-variant causality"
+      },
+      {
+        "id": "A-pp5",
+        "section": "results",
+        "point": "transportability verdict per dataset",
+        "fact_ids": [
+          "A-transport",
+          "A-finding",
+          "A-replay",
+          "A-scope"
+        ],
+        "adds": "per-dataset scoping and replay closure"
+      }
+    ],
+    "qualification_placement": [
+      {
+        "fact_id": "A-scope",
+        "home": "methods",
+        "repeat_when": "abstract and conclusion state census scope"
+      },
+      {
+        "fact_id": "A-transport",
+        "home": "results",
+        "repeat_when": "conclusion restates the verdict"
+      },
+      {
+        "fact_id": "A-seeds",
+        "home": "results",
+        "repeat_when": "limitations"
+      },
+      {
+        "fact_id": "A-mixing",
+        "home": "results",
+        "repeat_when": "abstract headline"
+      }
+    ]
+  },
+  "facts": [
+    {
+      "id": "A-grid",
+      "kind": "result",
+      "statement": "Three of seven surveyed methods ship code and form the auditable census; SpikingGCN reproduces on CiteSeer (70.6 vs 72.5) but fails dataset-dependently elsewhere (Cora 50.0 vs 80.7, 5 seeds, per-seed 0.481-0.526; PubMed 64.3 vs 77.6, 3 seeds, s.d. 5.37 pp).",
+      "status": "observed_verified",
+      "model": "Spiking-GNN reproduction audit (Paper A)",
+      "condition": "as specified in the named artifact",
+      "metric": "acc_repro_vs_published",
+      "value": "see statement",
+      "unit": "pp",
+      "aggregation": "3-5 seeds",
+      "uncertainty": "seed s.d.",
+      "measurement_scope": "three datasets",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "inputs/registered/wp10_audit.json",
+          "sha256": "ec2c13011e3b6a5e3850f3e3fda06589bc60cd2d256bef4be0da4a625f77b4eb"
+        },
+        {
+          "path": "logs/jA1_spikegcl_multiseed.log",
+          "sha256": "61608c96194a7a604507855053dbfac707fd5583c5a016aee5470ba571d4a012"
+        }
+      ]
+    },
+    {
+      "id": "A-splitflag",
+      "kind": "result",
+      "statement": "SpikeGraphormer reproduces on its own split (84.7 vs 84.8 plus/minus 0.7, 3 runs) and drops to 74.0 on the public split: one flag is worth 10.7 pp.",
+      "status": "observed_verified",
+      "model": "Spiking-GNN reproduction audit (Paper A)",
+      "condition": "as specified in the named artifact",
+      "metric": "acc_by_split",
+      "value": "84.7 / 74.0",
+      "unit": "pp",
+      "aggregation": "3 runs / 1 run",
+      "uncertainty": "published s.d.",
+      "measurement_scope": "their split vs public",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "inputs/registered/wp10_audit.json",
+          "sha256": "ec2c13011e3b6a5e3850f3e3fda06589bc60cd2d256bef4be0da4a625f77b4eb"
+        }
+      ]
+    },
+    {
+      "id": "A-mixing",
+      "kind": "result",
+      "statement": "Comparison tables quote the same baseline on two splits without labels: one paper GCN row 81.5 is consistent with the Split-I family; another SpikingGCN row 87.7/77.7/87.5 is consistent with Split II (88.7/77.6/89.3); split definitions quoted verbatim (arXiv:2205.02767).",
+      "status": "observed_verified",
+      "model": "Spiking-GNN reproduction audit (Paper A)",
+      "condition": "as specified in the named artifact",
+      "metric": "cited_vs_split_values",
+      "value": "81.5 / 87.7 rows",
+      "unit": "pp",
+      "aggregation": "table rows",
+      "uncertainty": "verbatim quotes",
+      "measurement_scope": "literature tables",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "results/jA_splitquotes.md",
+          "sha256": "a7631e371fa1658b14eee17d0a657955d3b4dcbcc6c15ed7b79eb03976d5f8eb"
+        },
+        {
+          "path": "inputs/registered/wp10_audit.json",
+          "sha256": "ec2c13011e3b6a5e3850f3e3fda06589bc60cd2d256bef4be0da4a625f77b4eb"
+        }
+      ]
+    },
+    {
+      "id": "A-conventions",
+      "kind": "result",
+      "statement": "Input conventions decide the SpikingGCN Cora cell: raw bag-of-words 51.5% with or without self-loops; every row-normalised variant collapses to 13.0% including the conventional max-rescale fix; the old fourth-row 13.0 was the row-normalised no-self-loop variant (mislabel corrected).",
+      "status": "observed_verified",
+      "model": "Spiking-GNN reproduction audit (Paper A)",
+      "condition": "as specified in the named artifact",
+      "metric": "test_acc_5_variants",
+      "value": "0.515/0.130/0.130/0.515/0.130",
+      "unit": "fraction",
+      "aggregation": "5 variants",
+      "uncertainty": "seed 0",
+      "measurement_scope": "Cora, audited pipeline",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "results/jA_conventions.json",
+          "sha256": "6dd6dee27b237f5881b70bd78bff9799c845c7789c60e80d474589bab5ad8da8"
+        }
+      ]
+    },
+    {
+      "id": "A-transport",
+      "kind": "result",
+      "statement": "Split transportability vs matching seed noise, per dataset: Cora gap 8.0 pp = 4.06x SpikingGCN's own seed s.d. (1.97 pp, 5 seeds) = 1.35x the 3sigma bar (marginal); CiteSeer 5.1 pp = 4.11x a labelled proxy noise (SpikeGCL 1.24 pp s.d.; matching cell single-seed) = 1.37x the bar (marginal); PubMed 11.7 pp = 2.18x its s.d. (5.37 pp) = 0.73x the bar (confounded, re-scoped). No dataset-level strong verdict stands.",
+      "status": "observed_verified",
+      "model": "Spiking-GNN reproduction audit (Paper A)",
+      "condition": "as specified in the named artifact",
+      "metric": "gap_vs_seed_spread",
+      "value": "1.35x/1.37x/0.73x the 3sigma bar",
+      "unit": "pp ratio",
+      "aggregation": "4 seeds",
+      "uncertainty": "per-dataset verdict",
+      "measurement_scope": "three datasets",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "audits/jA1-outcome.md",
+          "sha256": "39b0286e31f8ec5e7f42583a300e25de3f43a4a35c0855edb0a8853bb44637e0"
+        },
+        {
+          "path": "logs/jA1_spikegcl_multiseed.log",
+          "sha256": "61608c96194a7a604507855053dbfac707fd5583c5a016aee5470ba571d4a012"
+        },
+        {
+          "path": "inputs/registered/wp10_audit.json",
+          "sha256": "ec2c13011e3b6a5e3850f3e3fda06589bc60cd2d256bef4be0da4a625f77b4eb"
+        }
+      ]
+    },
+    {
+      "id": "A-replay",
+      "kind": "result",
+      "statement": "Every audit-table number recomputes from raw logs: replay/checksum audit 0 mismatches.",
+      "status": "observed_verified",
+      "model": "Spiking-GNN reproduction audit (Paper A)",
+      "condition": "as specified in the named artifact",
+      "metric": "mismatches",
+      "value": "0",
+      "unit": "count",
+      "aggregation": "full table",
+      "uncertainty": "exact",
+      "measurement_scope": "all audited cells",
+      "claim_strength": "integrity",
+      "evidence": [
+        {
+          "path": "audits/jA_replay-checksum.json",
+          "sha256": "2e47b8f162aed0e7274a82035d8fe0c18c2570ac2b205d3dfc92c8066c0e0399"
+        }
+      ]
+    },
+    {
+      "id": "A-seeds",
+      "kind": "result",
+      "statement": "A same-nominal-seed CiteSeer re-run differed by 1.0 pp from the audited cell (0.7826 vs 0.7728): recorded sensitivity evidence.",
+      "status": "observed_verified",
+      "model": "Spiking-GNN reproduction audit (Paper A)",
+      "condition": "as specified in the named artifact",
+      "metric": "rerun_delta",
+      "value": "1.0",
+      "unit": "pp",
+      "aggregation": "1 comparison",
+      "uncertainty": "single pair",
+      "measurement_scope": "CiteSeer",
+      "claim_strength": "boundary",
+      "evidence": [
+        {
+          "path": "logs/jA1_spikegcl_multiseed.log",
+          "sha256": "61608c96194a7a604507855053dbfac707fd5583c5a016aee5470ba571d4a012"
+        }
+      ]
+    },
+    {
+      "id": "A-scope",
+      "kind": "result",
+      "statement": "The census covers the seven methods of this survey (three with code); no field-wide claim; this audit covers trained spiking GNNs, not training-free conversion methods.",
+      "status": "observed_verified",
+      "model": "Spiking-GNN reproduction audit (Paper A)",
+      "condition": "as specified in the named artifact",
+      "metric": "census_bound",
+      "value": "3 of 7",
+      "unit": "count",
+      "aggregation": "survey",
+      "uncertainty": "bounded wording",
+      "measurement_scope": "survey-defined population",
+      "claim_strength": "boundary",
+      "evidence": [
+        {
+          "path": "audits/jA2-outcome.md",
+          "sha256": "d1e3675c1079640405efc8881766a5d4a763bfa1a8a3b9c9641cd06e2e3c8ecd"
+        }
+      ]
+    },
+    {
+      "id": "A-finding",
+      "kind": "result",
+      "statement": "Each individual number is internally consistent: a variance checklist would catch none of these failures; the binding property is transportability, not variance.",
+      "status": "observed_verified",
+      "model": "Spiking-GNN reproduction audit (Paper A)",
+      "condition": "as specified in the named artifact",
+      "metric": "failure_mode_taxonomy",
+      "value": "3 modes",
+      "unit": "count",
+      "aggregation": "audit",
+      "uncertainty": "qualitative",
+      "measurement_scope": "all cases",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "audits/jA_replay-checksum.json",
+          "sha256": "2e47b8f162aed0e7274a82035d8fe0c18c2570ac2b205d3dfc92c8066c0e0399"
+        },
+        {
+          "path": "audits/jA1-outcome.md",
+          "sha256": "0d0a3dbbcf42deb2212f732644c3894be6443cd6b03a6c73af43b8aefd2b97ea"
+        }
+      ]
+    },
+    {
+      "id": "A-sgcn-seeds",
+      "kind": "result",
+      "statement": "SpikingGCN's own Cora seed spread is 1.97 pp s.d. (per-seed 48.1-52.6, 5 seeds) and its PubMed spread 5.37 pp s.d. (3 seeds, derived).",
+      "status": "observed_verified",
+      "model": "Spiking-GNN reproduction audit (Paper A)",
+      "condition": "as specified in the named artifact",
+      "metric": "seed_sdp_pp",
+      "value": "1.97 / 5.37",
+      "unit": "pp",
+      "aggregation": "5 and 3 seeds",
+      "uncertainty": "sample s.d.",
+      "measurement_scope": "Cora and PubMed",
+      "claim_strength": "boundary",
+      "evidence": [
+        {
+          "path": "inputs/registered/wp10_audit.json",
+          "sha256": "ec2c13011e3b6a5e3850f3e3fda06589bc60cd2d256bef4be0da4a625f77b4eb"
+        }
+      ]
+    }
+  ]
+}

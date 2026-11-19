@@ -1,0 +1,889 @@
+{
+  "stage": "E-B5-attribution",
+  "rule": "every delta = ablation - default(T=8); default series matched to grid or star",
+  "rows": [
+    {
+      "dataset": "cora",
+      "kind": "default_series",
+      "default_T8": 0.8021428571428572,
+      "grid_T8": 0.8021428571428572,
+      "star_T8": 0.8025714285714286,
+      "delta_vs_grid_pp": 0.0,
+      "delta_vs_star_pp": -0.04285714285714448,
+      "matches": "both-within-0.05pp"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "readout_count",
+      "T": "4",
+      "acc": 0.6128571428571429,
+      "default": 0.7911428571428571,
+      "delta_pp": -17.828571428571426,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "readout_count",
+      "T": "8",
+      "acc": 0.7652857142857142,
+      "default": 0.8021428571428572,
+      "delta_pp": -3.685714285714292,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "readout_count",
+      "T": "16",
+      "acc": 0.7861428571428571,
+      "default": 0.8022857142857143,
+      "delta_pp": -1.6142857142857125,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "bias_none",
+      "T": "4",
+      "acc": 0.6325714285714286,
+      "default": 0.7911428571428571,
+      "delta_pp": -15.857142857142858,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "bias_none",
+      "T": "8",
+      "acc": 0.7764285714285715,
+      "default": 0.8021428571428572,
+      "delta_pp": -2.571428571428569,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "bias_none",
+      "T": "16",
+      "acc": 0.7998571428571427,
+      "default": 0.8022857142857143,
+      "delta_pp": -0.24285714285715576,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "bias_ftbc_scalar",
+      "T": "4",
+      "acc": 0.7911428571428571,
+      "default": 0.7911428571428571,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "bias_ftbc_scalar",
+      "T": "8",
+      "acc": 0.8021428571428572,
+      "default": 0.8021428571428572,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "bias_ftbc_scalar",
+      "T": "16",
+      "acc": 0.8022857142857143,
+      "default": 0.8022857142857143,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "bias_ftbc_perchannel",
+      "T": "4",
+      "acc": 0.7881428571428574,
+      "default": 0.7911428571428571,
+      "delta_pp": -0.29999999999997806,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "bias_ftbc_perchannel",
+      "T": "8",
+      "acc": 0.8021428571428572,
+      "default": 0.8021428571428572,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "bias_ftbc_perchannel",
+      "T": "16",
+      "acc": 0.8022857142857143,
+      "default": 0.8022857142857143,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "neuron_if",
+      "T": "4",
+      "acc": 0.7911428571428571,
+      "default": 0.7911428571428571,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "neuron_if",
+      "T": "8",
+      "acc": 0.8021428571428572,
+      "default": 0.8021428571428572,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "neuron_if",
+      "T": "16",
+      "acc": 0.8022857142857143,
+      "default": 0.8022857142857143,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "neuron_tpp",
+      "T": "4",
+      "acc": 0.6822857142857143,
+      "default": 0.7911428571428571,
+      "delta_pp": -10.885714285714288,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "neuron_tpp",
+      "T": "8",
+      "acc": 0.7755714285714286,
+      "default": 0.8021428571428572,
+      "delta_pp": -2.657142857142858,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "neuron_tpp",
+      "T": "16",
+      "acc": 0.7854285714285716,
+      "default": 0.8022857142857143,
+      "delta_pp": -1.6857142857142682,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "theta_0.5",
+      "T": "4",
+      "acc": 0.7371428571428572,
+      "default": 0.7911428571428571,
+      "delta_pp": -5.399999999999993,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "theta_0.5",
+      "T": "8",
+      "acc": 0.7545714285714284,
+      "default": 0.8021428571428572,
+      "delta_pp": -4.75714285714287,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "theta_0.5",
+      "T": "16",
+      "acc": 0.7411428571428572,
+      "default": 0.8022857142857143,
+      "delta_pp": -6.114285714285705,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "theta_1.0",
+      "T": "4",
+      "acc": 0.7911428571428571,
+      "default": 0.7911428571428571,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "theta_1.0",
+      "T": "8",
+      "acc": 0.8021428571428572,
+      "default": 0.8021428571428572,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "theta_1.0",
+      "T": "16",
+      "acc": 0.8022857142857143,
+      "default": 0.8022857142857143,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "theta_2.0",
+      "T": "4",
+      "acc": 0.19842857142857143,
+      "default": 0.7911428571428571,
+      "delta_pp": -59.27142857142857,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "theta_2.0",
+      "T": "8",
+      "acc": 0.4775714285714286,
+      "default": 0.8021428571428572,
+      "delta_pp": -32.457142857142856,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "cora",
+      "kind": "delta",
+      "ablation": "theta_2.0",
+      "T": "16",
+      "acc": 0.5635714285714286,
+      "default": 0.8022857142857143,
+      "delta_pp": -23.871428571428567,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "default_series",
+      "default_T8": 0.688,
+      "grid_T8": 0.688,
+      "star_T8": 0.6907142857142857,
+      "delta_vs_grid_pp": 0.0,
+      "delta_vs_star_pp": -0.271428571428578,
+      "matches": "grid"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "readout_count",
+      "T": "4",
+      "acc": 0.4781428571428571,
+      "default": 0.6838571428571428,
+      "delta_pp": -20.571428571428573,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "readout_count",
+      "T": "8",
+      "acc": 0.6255714285714287,
+      "default": 0.688,
+      "delta_pp": -6.242857142857128,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "readout_count",
+      "T": "16",
+      "acc": 0.6795714285714285,
+      "default": 0.696,
+      "delta_pp": -1.642857142857146,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "bias_none",
+      "T": "4",
+      "acc": 0.42357142857142854,
+      "default": 0.6838571428571428,
+      "delta_pp": -26.02857142857143,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "bias_none",
+      "T": "8",
+      "acc": 0.6385714285714287,
+      "default": 0.688,
+      "delta_pp": -4.942857142857127,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "bias_none",
+      "T": "16",
+      "acc": 0.6882857142857143,
+      "default": 0.696,
+      "delta_pp": -0.7714285714285674,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "bias_ftbc_scalar",
+      "T": "4",
+      "acc": 0.6838571428571428,
+      "default": 0.6838571428571428,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "bias_ftbc_scalar",
+      "T": "8",
+      "acc": 0.688,
+      "default": 0.688,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "bias_ftbc_scalar",
+      "T": "16",
+      "acc": 0.696,
+      "default": 0.696,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "bias_ftbc_perchannel",
+      "T": "4",
+      "acc": 0.6904285714285715,
+      "default": 0.6838571428571428,
+      "delta_pp": 0.6571428571428672,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "bias_ftbc_perchannel",
+      "T": "8",
+      "acc": 0.688,
+      "default": 0.688,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "bias_ftbc_perchannel",
+      "T": "16",
+      "acc": 0.695857142857143,
+      "default": 0.696,
+      "delta_pp": -0.014285714285700024,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "neuron_if",
+      "T": "4",
+      "acc": 0.6838571428571428,
+      "default": 0.6838571428571428,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "neuron_if",
+      "T": "8",
+      "acc": 0.688,
+      "default": 0.688,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "neuron_if",
+      "T": "16",
+      "acc": 0.696,
+      "default": 0.696,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "neuron_tpp",
+      "T": "4",
+      "acc": 0.46885714285714286,
+      "default": 0.6838571428571428,
+      "delta_pp": -21.499999999999996,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "neuron_tpp",
+      "T": "8",
+      "acc": 0.6457142857142857,
+      "default": 0.688,
+      "delta_pp": -4.228571428571426,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "neuron_tpp",
+      "T": "16",
+      "acc": 0.6564285714285714,
+      "default": 0.696,
+      "delta_pp": -3.957142857142859,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "theta_0.5",
+      "T": "4",
+      "acc": 0.5671428571428571,
+      "default": 0.6838571428571428,
+      "delta_pp": -11.671428571428578,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "theta_0.5",
+      "T": "8",
+      "acc": 0.6152857142857143,
+      "default": 0.688,
+      "delta_pp": -7.271428571428562,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "theta_0.5",
+      "T": "16",
+      "acc": 0.5915714285714285,
+      "default": 0.696,
+      "delta_pp": -10.442857142857143,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "theta_1.0",
+      "T": "4",
+      "acc": 0.6838571428571428,
+      "default": 0.6838571428571428,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "theta_1.0",
+      "T": "8",
+      "acc": 0.688,
+      "default": 0.688,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "theta_1.0",
+      "T": "16",
+      "acc": 0.696,
+      "default": 0.696,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "theta_2.0",
+      "T": "4",
+      "acc": 0.18557142857142855,
+      "default": 0.6838571428571428,
+      "delta_pp": -49.82857142857143,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "theta_2.0",
+      "T": "8",
+      "acc": 0.423,
+      "default": 0.688,
+      "delta_pp": -26.499999999999996,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "citeseer",
+      "kind": "delta",
+      "ablation": "theta_2.0",
+      "T": "16",
+      "acc": 0.4502857142857143,
+      "default": 0.696,
+      "delta_pp": -24.571428571428566,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "default_series",
+      "default_T8": 0.7684285714285715,
+      "grid_T8": 0.7684285714285715,
+      "star_T8": 0.774,
+      "delta_vs_grid_pp": 0.0,
+      "delta_vs_star_pp": -0.557142857142856,
+      "matches": "grid"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "readout_count",
+      "T": "4",
+      "acc": 0.7591428571428571,
+      "default": 0.7681428571428571,
+      "delta_pp": -0.9000000000000008,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "readout_count",
+      "T": "8",
+      "acc": 0.7682857142857143,
+      "default": 0.7684285714285715,
+      "delta_pp": -0.014285714285711126,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "readout_count",
+      "T": "16",
+      "acc": 0.776,
+      "default": 0.772857142857143,
+      "delta_pp": 0.3142857142857003,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "bias_none",
+      "T": "4",
+      "acc": 0.6941428571428572,
+      "default": 0.7681428571428571,
+      "delta_pp": -7.399999999999995,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "bias_none",
+      "T": "8",
+      "acc": 0.7604285714285713,
+      "default": 0.7684285714285715,
+      "delta_pp": -0.8000000000000118,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "bias_none",
+      "T": "16",
+      "acc": 0.7738571428571428,
+      "default": 0.772857142857143,
+      "delta_pp": 0.09999999999997788,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "bias_ftbc_scalar",
+      "T": "4",
+      "acc": 0.7681428571428571,
+      "default": 0.7681428571428571,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "bias_ftbc_scalar",
+      "T": "8",
+      "acc": 0.7684285714285715,
+      "default": 0.7684285714285715,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "bias_ftbc_scalar",
+      "T": "16",
+      "acc": 0.772857142857143,
+      "default": 0.772857142857143,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "bias_ftbc_perchannel",
+      "T": "4",
+      "acc": 0.7700000000000001,
+      "default": 0.7681428571428571,
+      "delta_pp": 0.18571428571430015,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "bias_ftbc_perchannel",
+      "T": "8",
+      "acc": 0.7684285714285715,
+      "default": 0.7684285714285715,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "bias_ftbc_perchannel",
+      "T": "16",
+      "acc": 0.772857142857143,
+      "default": 0.772857142857143,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "neuron_if",
+      "T": "4",
+      "acc": 0.7681428571428571,
+      "default": 0.7681428571428571,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "neuron_if",
+      "T": "8",
+      "acc": 0.7684285714285715,
+      "default": 0.7684285714285715,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "neuron_if",
+      "T": "16",
+      "acc": 0.772857142857143,
+      "default": 0.772857142857143,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "neuron_tpp",
+      "T": "4",
+      "acc": 0.6598571428571428,
+      "default": 0.7681428571428571,
+      "delta_pp": -10.828571428571433,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "neuron_tpp",
+      "T": "8",
+      "acc": 0.7427142857142858,
+      "default": 0.7684285714285715,
+      "delta_pp": -2.571428571428569,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "neuron_tpp",
+      "T": "16",
+      "acc": 0.7584285714285715,
+      "default": 0.772857142857143,
+      "delta_pp": -1.4428571428571568,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "theta_0.5",
+      "T": "4",
+      "acc": 0.6818571428571428,
+      "default": 0.7681428571428571,
+      "delta_pp": -8.62857142857143,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "theta_0.5",
+      "T": "8",
+      "acc": 0.7297142857142858,
+      "default": 0.7684285714285715,
+      "delta_pp": -3.87142857142857,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "theta_0.5",
+      "T": "16",
+      "acc": 0.7162857142857142,
+      "default": 0.772857142857143,
+      "delta_pp": -5.657142857142883,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "theta_1.0",
+      "T": "4",
+      "acc": 0.7681428571428571,
+      "default": 0.7681428571428571,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "theta_1.0",
+      "T": "8",
+      "acc": 0.7684285714285715,
+      "default": 0.7684285714285715,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "theta_1.0",
+      "T": "16",
+      "acc": 0.772857142857143,
+      "default": 0.772857142857143,
+      "delta_pp": 0.0,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "theta_2.0",
+      "T": "4",
+      "acc": 0.5214285714285715,
+      "default": 0.7681428571428571,
+      "delta_pp": -24.671428571428567,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "theta_2.0",
+      "T": "8",
+      "acc": 0.666857142857143,
+      "default": 0.7684285714285715,
+      "delta_pp": -10.157142857142842,
+      "attribution": "vs default series (= grid-bias variant)"
+    },
+    {
+      "dataset": "pubmed",
+      "kind": "delta",
+      "ablation": "theta_2.0",
+      "T": "16",
+      "acc": 0.6828571428571427,
+      "default": 0.772857142857143,
+      "delta_pp": -9.00000000000003,
+      "attribution": "vs default series (= grid-bias variant)"
+    }
+  ],
+  "verdict": {
+    "all_printed_match": true,
+    "footnote_fix": "tab3 'bit-identical to Table 1' false: default=grid-bias series, Table1=closed-form star; max gap 0.56pp pubmed",
+    "gate": "PASS-if-all_printed_match"
+  },
+  "printed_delta_checks": [
+    {
+      "printed": "readout_count_T8_cora",
+      "printed_pp": -3.68,
+      "computed_pp": -3.69,
+      "match": true
+    },
+    {
+      "printed": "readout_count_T8_citeseer",
+      "printed_pp": -6.24,
+      "computed_pp": -6.24,
+      "match": true
+    },
+    {
+      "printed": "readout_count_T8_pubmed",
+      "printed_pp": -0.01,
+      "computed_pp": -0.01,
+      "match": true
+    },
+    {
+      "printed": "bias_none_T8_cora",
+      "printed_pp": -2.57,
+      "computed_pp": -2.57,
+      "match": true
+    },
+    {
+      "printed": "bias_none_T8_citeseer",
+      "printed_pp": -4.94,
+      "computed_pp": -4.94,
+      "match": true
+    },
+    {
+      "printed": "bias_none_T8_pubmed",
+      "printed_pp": -0.8,
+      "computed_pp": -0.8,
+      "match": true
+    }
+  ]
+}

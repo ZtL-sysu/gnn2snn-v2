@@ -1,0 +1,146 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{ANN-to-SNN conversion.}
+Conversion replaces a trained network's rectifiers with spiking neurons and interprets firing rates
+as activations. The classical difficulty is that a rate code is only accurate when the rate is
+large, so networks either need many timesteps or a rescaling of activations to fit the dynamic
+range; weight and threshold balancing \citep{diehl2015fast}, normalisation with bias handling
+\citep{rueckauer2017conversion}, spike-norm regularisation \citep{sengupta2019going} and
+optimal-potential initialisation \citep{bu2022optimal,deng2021optimal} and offset-spike calibration
+with a provably optimal initial membrane shift \citep{hao2023offset} each address part of this.
+A parallel line removes the bias-induced rate offset by adding a constant to the membrane potential,
+which is the direct ancestor of our $\betastar$: \citet{wu2024ftbc} calibrate a forward temporal bias
+and argue that a proper bias makes the expected conversion error vanish after each step, while
+\citet{bojkovic2025temporal} obtain a related correction and additionally exploit random spike
+rearrangement across layers with two-phase probabilistic (TPP) neurons. Conversion has also been
+extended to temporal data by aligning rollout delays with propagation delays
+\citep{kugele2020efficient}, and mature software now makes both training and conversion routine
+\citep{fang2023spikingjelly}.
+
+Our work differs in object, not in spirit. We inherit the per-step forward bias and say so plainly:
+$\betastar = \theta/(2T)$ is not a new mechanism, it is the \emph{closed-form value} the mechanism
+takes when the operator is a graph aggregation whose row sums are $\rhon \neq 1$. What we add is
+(i) the graph formulation and the misalignment term that has no convolutional analogue, (ii) the
+observation that the systematic error is $\rho$-weighted and that the \emph{relative} error is
+$\rho$-invariant, which explains why the bias matters more on graphs than on grids, (iii) a decoder
+that avoids the output quantisation the conversion literature usually accepts, and (iv) a
+margin-based recovery theorem with an explicit constant. We also report a negative result that the
+vision literature does not have to face: an absolute threshold with no global rescaling is
+\emph{correct} here, because graph activations rarely exceed the threshold, whereas the standard
+rescaling would be wrong because it assumes unit row sums.
+
+\paragraph{What the residual error is made of.} Recent conversion work resolves the classical
+rate-saturation picture into more specific mechanisms, and these are the ones our identity
+separates. Quantisation at the first timestep is addressed by polarity multi-spike mapping
+\citep{zhang2025quantization} and by scale-and-fire neurons that make a single timestep sufficient
+\citep{chen2025onetimestep}; differential coding \citep{huang2025differential} and
+error-compensation learning \citep{liu2025errorcomp} reduce the same discrepancy without retraining
+the ANN; adaptive calibration \citep{wang2024adaptivecal} and low-bit noise injection
+\citep{li2024noiseadaptor} target the low-latency regime specifically. Phase coding
+\citep{hwang2024onespike}, sign-gradient dynamics beyond ReLU \citep{oh2024signgd} and
+activation-flexible finite-state neurons \citep{jia2026activation} change the encoding itself, and
+the machinery now extends to transformers \citep{huang2025spiketrans,wang2025trainingfree}. Closest
+to our depth analysis, \citet{xu2026erroramp} show that conversion error amplifies with network
+depth in continuous control; our spectral-gain law measures the same phenomenon on graphs, where
+neighbourhood aggregation makes the error travel along edges as well as through time.
+
+\paragraph{Per-layer timesteps are prior art; the derivation is the contribution.} Allocating
+different timestep budgets to different layers of a converted network is established:
+\citet{ramesh2025pascal} determine the per-layer timestep counts of converted SNNs from layerwise
+quantisation-step statistics, \citet{guo2026mixed} learn per-layer quantisation-level budgets in a
+conversion pipeline with a temporal-alignment mechanism across layers, and
+\citet{nallathambi2022ldsnn} optimise per-layer timesteps by search, reporting $1.67$--$3.84\times$
+fewer synaptic updates than a uniform budget. We therefore claim no priority for per-layer
+allocation as an idea. What we bring to the question is an analysis: an exact error identity for
+graph conversion from which window budgets can be derived (spectral gain and margin), a
+measurement of where the derivable headroom actually lives (the deep regime, where uniform budgets
+explode with the depth law), and an honest map of when weight-derived decisions fail to transfer.
+Where the earlier derivations come from activation statistics
+\citep{ramesh2025pascal}, learned quantisation levels \citep{guo2026mixed}, or search
+\citep{nallathambi2022ldsnn}, ours is derived in closed form from an exact error identity ---
+and where that derivation fails to transfer across graphs, the working procedure is a
+validation-only window search rather than the formula (\secref{sec:allocation},
+\secref{sec:transfer}); where theirs are demonstrated
+on vision architectures, ours is measured on graph networks.
+
+\paragraph{What is inherited and what is not.}
+Because the bias mechanism is not ours, it is worth being blunt about the boundary. \emph{Inherited:}
+the idea that a constant forward bias can cancel the systematic part of a rate-code error, together
+with the per-step form of that correction \citep{wu2024ftbc}, and the observation that a corrected
+neuron can be made unbiased without an activation-distribution assumption \citep{bojkovic2025temporal}.
+\emph{Not inherited:} the graph formulation (an aggregation whose row sums are not one), the
+closed-form value $\betastar = \theta/(2T)$ that follows once $\rhon \neq 1$ is allowed, the
+$\rho$-weighting of the systematic term and the $\rho$-invariance of the relative error, the membrane
+decoder, and the margin-recovery statement. A reader who knows FTBC should read our bias as ``the
+value FTBC's mechanism takes here'', not as a new mechanism; what we would defend as new is the
+identity it follows from on a graph and the three consequences that identity has.
+
+\paragraph{Temporal misalignment: the term, and why ours is a different object.}
+\citet{bojkovic2025temporal} introduce ``temporal misalignment'' for feed-forward conversion:
+random spike rearrangement \emph{across SNN layers} can improve converted accuracy, and they propose
+TPP neurons that exploit it. We use the qualified term \emph{neighbourhood} temporal misalignment
+because the mechanism differs in kind. In a feed-forward network each layer's operand is a fixed
+tensor and the misalignment is a relation between two layers' spike trains. In a graph the operand
+of the aggregation is a \emph{set of neighbours}, each with an independent phase, so the misalignment
+is internal to one layer's sum and is a property of the graph---of its degree distribution, edge
+weights and activation statistics---rather than of network depth. The two analyses therefore make
+different predictions about stochasticity, and our experiment supports both: TPP helps in the regime
+where the rate code has too few levels (their small-$T$, deep feed-forward setting, and our $T=1$),
+and hurts once a deterministic rate already resolves the activation ($T \ge 2$ on our graphs,
+\secref{sec:ablate}). We do not claim the two effects are the same phenomenon, and we test their
+neuron explicitly rather than citing it as an assumption.
+
+\paragraph{Directly trained spiking networks.}
+Training SNNs with surrogate gradients is now standard \citep{neftci2019surrogate}, with learnable
+membrane dynamics \citep{fang2021incorporating}, time-dependent normalisation
+\citep{zheng2021going} and residual spiking architectures \citep{fang2021deep} extending it to
+deeper models. The recurring costs are well documented: the surrogate is a biased gradient, training
+time scales with the number of timesteps, and accuracy is sensitive to the chosen latency, so a model
+tuned at $T=16$ is not the model one wants at $T=4$. We use this family as our primary competitor,
+implemented with the same architecture, optimiser, seed budget and early-stopping protocol as the
+conversion arm and retrained separately at each $T$---exactly the cost conversion is meant to avoid.
+
+\paragraph{Spiking graph networks.}
+Spiking versions of graph convolution are, with few exceptions, \emph{trained} rather than
+converted. SpikingGCN rate-codes node features, injects them into spiking layers and decodes with
+spike counts or membrane maxima \citep{zhu2022spiking}; the line has since diversified along three
+axes. \emph{Architecture:} dynamic and continuous-time spiking message passing
+\citep{yin2024dgsnn,fan2024continuous}, spiking attention and graph transformers
+\citep{sun2024spikegraphormer}, spike-induced representations for dynamic graphs
+\citep{chen2024signn,jahin2026chronospike}, and non-Euclidean or geometry-aware variants
+\citep{sun2024riemannian,zhang2025geometry}. Within the architecture axis, heterogeneous graphs
+have their own spiking attention formulation \citep{cao2025hetgat}, which matters for our boundary
+discussion because it replaces the fixed operator our theory assumes. \emph{Representation learning:} spiking contrastive
+learning \citep{li2023bit1}, spiking variational graph auto-encoders \citep{yang2022svgae}, and
+hybrid continuous/spiking models for scientific machine learning \citep{jain2024hybrid}.
+\emph{Training and deployment:} spatial-temporal normalisation and coding strategies that make
+spiking graph training stable \citep{xu2024unveiling}, neuromorphic implementations
+\citep{snyder2024loihi,yu2025photonic}, spiking detection models \citep{fofanah2026anomaly}, and a
+recent large-scale benchmark of the whole family \citep{zhang2025sgnnbench}. In vision the analogous
+architecture question---how to keep a deep spiking network trainable without losing the event-driven
+advantage---has produced meta-architectures built from spike-driven attention
+\citep{yao2023spiking,yao2024spikingv2}; graphs have no counterpart of that maturity yet.
+
+All of the graph work above trains its spiking network end-to-end, so it pays the cost our method
+avoids (a backward pass unrolled over $T$ steps, repeated for each latency of interest) and, more
+importantly for this paper, it does not analyse what happens when a \emph{trained} graph network is
+converted. To our knowledge there is no published analysis of ANN$\rightarrow$SNN conversion error
+for message passing, and none reports the neighbourhood-misalignment phenomenon; the closest
+analyses remain the feed-forward ones above. Our comparison therefore has two arms
+(\secref{sec:baselines}): a re-implementation of the rate-coded direct-training formulation of
+\citet{zhu2022spiking}, and a constant-current direct-training baseline tuned as hard as the
+conversion arm. We are explicit that both are formulation-level, not codebase-level,
+comparisons, and that a stronger direct-training recipe---of the kind the works above
+develop---would narrow the gap we measure.
+
+\paragraph{Graph representation learning.}
+Our method assumes a fixed, non-negative message-passing operator: symmetric-normalised GCN
+\citep{kipf2017semi}, mean aggregation as in GraphSAGE \citep{hamilton2017inductive}, or sum
+aggregation as in GIN \citep{xu2019powerful}. This covers a substantial part of practice but excludes
+learned per-edge attention \citep{velickovic2018graph} unless the attention is frozen into a fixed
+operator first---a restriction we state as a boundary rather than work around. We use the standard
+citation-graph benchmarks \citep{kipf2017semi}, the Open Graph Benchmark's large-scale time split
+\citep{hu2020open}, and two heterophilic graphs from the Geom-GCN evaluation
+\citep{pei2020geom,rozemberczki2021multi}, because heterophily is where neighbourhood averaging is
+least helpful and therefore the sharpest stress test of a fidelity claim.

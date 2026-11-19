@@ -1,0 +1,76 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{Three failures with three different remedies.} The audit's value is that it separates
+things that are usually lumped together under "reproducibility".
+
+\emph{A number that reproduces on some datasets and misses on others} is harder to diagnose than one
+that never reproduces, because the environment is demonstrably working: the same SpikingGCN script
+reaches the published CiteSeer value and misses the Cora value by thirty points. The remedy is a
+per-dataset reporting convention and a released configuration, not a global environment fix.
+
+\emph{A number that reproduces on a split nobody else uses} is more insidious, because nothing is
+broken. The code is correct, the script is honest, the number is real; it simply measures a different
+task from the one the reader will compare it with, and the difference is ten points. The remedy is not
+more code but a reporting convention: a table entry should carry its split, its number of runs, and
+whether the split is the standard one, in the table rather than in a footnote.
+
+\emph{An unlabelled split choice} is the most damaging, because it corrupts a comparison table
+without anyone making a mistake. SpikingGCN's own paper prints $80.7$ on Split~I and $88.7$ on
+Split~II; the later tables cite $81.5$ and $87.7$ without saying which. Both numbers are correct.
+The remedy is a reporting convention: a baseline row should name its split, and re-running a baseline
+should be the default rather than the exception.
+
+\paragraph{What a reader should do.} Practically: do not assemble a baseline table from published
+numbers in this area. Pick the method you intend to compare against, run its code on your split, and
+report that. Each pipeline takes one working session to re-run once its environment is pinned,
+which is what makes the recommendation practical.
+
+\paragraph{Why the field is unusually exposed.} Two structural facts make spiking GNNs worse than the
+average subfield. The first is that the spiking encoder is a stochastic sampler reading its input as a
+probability, so a preprocessing choice that is cosmetic in a conventional GNN --- row-normalising the
+features --- silently disables learning rather than degrading it. The second is that a spiking
+network's accuracy depends on the number of timesteps, a hyper-parameter that is reported as part of
+the method's efficiency claim rather than as part of its accuracy claim, so two numbers can differ by
+ten points without either paper being wrong about what it measured.
+
+\paragraph{Division of evidence with the companion paper.} The conversion study \citep{companion}
+uses two numbers from this audit --- $74.0$ and $86.6$ on the public split --- as an external anchor
+for its cost comparison. It does not report the audit protocol, the reproduction grid or the
+split-mixing analysis, and none of its claims depends on them. This paper reports those results and
+does not use the conversion method's fidelity, cost or theory results. The overlap between the two
+manuscripts is therefore two measured numbers, explicitly cross-cited, rather than a shared result
+set.
+
+\paragraph{Threats to this audit.} Ours, not the audited papers'. \emph{Environment drift}: where a
+stated dependency no longer exists for our platform we installed the nearest available version, and
+recorded it; a reader with the original stack may get different numbers, and if they do, that is
+itself the point. \emph{Under-powered cells}: four of the seven rows are single-run, and we draw no
+conclusion from a difference smaller than the spread the multi-seed rows show. \emph{Cora-centred}:
+four of seven rows are Cora, chosen because it is the dataset all three papers report, not because it
+is representative; a dataset where all three methods agree might behave differently. \emph{Our own
+code is in the comparison}: the $80.5$ in \secref{sec:results} comes from a companion paper, and a
+reader should discount it accordingly; it is not load-bearing for any claim here.
+
+\paragraph{Evaluative claims and their scope.} The audit supports one claim: a published accuracy in
+this area is not transportable to a different split or codebase without being re-run. It does not
+support a ranking of the three methods, a judgement on the correctness of any audited paper, or a
+claim about spiking GNNs beyond the citation graphs measured here. That claim rests on three
+assumptions --- that the released repository is the artefact the paper describes, that the pinned
+environment reproduces the authors' execution conditions, and that the numbers in a comparison table
+belong to the methods they name. Each is stated because each is checkable, and \secref{sec:mixed} is
+what happens when the third fails.
+
+\paragraph{Broader impact and intended use.} An executable audit is easy to misread as a quality
+ranking, so every reproduced value here carries its split, its run count and the configuration that
+produced it, and no audited paper is described as wrong. The constructive use is prospective: a new
+method can be compared against a number produced on its own split by running the released code,
+instead of against a figure copied from a table. This study introduces no new dataset --- all three
+graphs are the public Planetoid splits used by the audited papers --- and the released artefact is a
+protocol with its logs rather than a data resource.
+
+\paragraph{What would falsify us.} Each of the three findings is a claim that a reader can check
+against shipped artefacts. If SpikingGCN's code produces $80.7$ on Cora for you, our environment is
+wrong and we would like to know. If SpikeGraphormer's public-split configuration produces $84.8$ for
+you, we have mis-set a flag. If a later table labels which split it is quoting, the split-mixing
+finding no longer applies to that table.

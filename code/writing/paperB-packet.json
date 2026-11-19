@@ -1,0 +1,563 @@
+{
+  "schema_version": 1,
+  "brief": {
+    "question": "When does ANN-to-SNN conversion of a trained graph network preserve its accuracy, and what latency/step decisions can a practitioner make from the trained weights alone?",
+    "answer": "Within a configuration, conversion error is an exact identity governed by spectral gain and quantisation mass, giving validated laws and an order-invariant readout; across graphs, weight-only latency decisions do not transfer (three routes fail with measured mechanisms), while a validation-searched per-layer window allocation preserves accuracy with 22.7-93.4% fewer layer-updates in the deep regime (L=4).",
+    "audience": "Neuromorphic / graph-learning researchers and practitioners deploying converted spiking GNNs.",
+    "domain_bridge": "The graph aggregation operator turns conversion error into an exactly characterisable object (identity), which the paper then uses to explain when latency can and cannot be reduced.",
+    "priorities": [
+      "identity and laws",
+      "deep-regime allocation capability with prior-art attribution",
+      "negative map of weight-only decisions",
+      "cost-accounting sensitivity",
+      "scope honesty"
+    ],
+    "terminology": {
+      "G_l": "downstream gain product of layer l",
+      "layer-updates": "total simulated per-layer timesteps incl. output",
+      "band": "within 1.5 pp of the staged-uniform comparator at T*",
+      "deep regime": "L=4 (3 hidden layers), where uniform T* explodes"
+    },
+    "section_jobs": {
+      "abstract": "question, design, main findings, meaning",
+      "introduction": "specific unresolved question and the comparison used to answer it",
+      "methods": "scientific operations, conditions, measurement scope",
+      "results": "principal comparison, effect, uncertainty, adverse findings first-class",
+      "discussion": "interpretation of the pattern/trade-off; supported use; hypotheses labelled",
+      "conclusion": "answer the opening question with supported main evidence",
+      "local-revision": "replace the defective passage; KEEP returns identical bytes"
+    },
+    "style": "formal journal register; no process narration; limitations as positive evidence boundaries",
+    "journal_requirements": "unresolved (author-managed); complete and proportionate; six numbered sections",
+    "author_constraints": "declaration_mode author-managed; no efficiency claims in title/abstract; no first-per-layer-allocation wording",
+    "study_type": "empirical",
+    "paragraph_plan": [
+      {
+        "id": "B-pp1",
+        "section": "results",
+        "point": "identity holds exactly",
+        "fact_ids": [
+          "B-identity"
+        ],
+        "adds": "opens results with the principal technical fact"
+      },
+      {
+        "id": "B-pp2",
+        "section": "results",
+        "point": "within-configuration laws and readout",
+        "fact_ids": [
+          "B-depth-law",
+          "B-width-law",
+          "B-margin",
+          "B-order",
+          "B-threshold"
+        ],
+        "adds": "law cluster with boundary framing"
+      },
+      {
+        "id": "B-pp3",
+        "section": "results",
+        "point": "deep-regime allocation capability",
+        "fact_ids": [
+          "B-search-arm",
+          "B-regime"
+        ],
+        "adds": "positive capability with prior-art attribution and regime boundary"
+      },
+      {
+        "id": "B-pp4",
+        "section": "results",
+        "point": "weight-only decisions fail to transfer",
+        "fact_ids": [
+          "B-jb1a",
+          "B-closed-form-alloc",
+          "B-predictor"
+        ],
+        "adds": "negative map with mechanisms"
+      },
+      {
+        "id": "B-pp5",
+        "section": "results",
+        "point": "cost accounting sensitivity and controls",
+        "fact_ids": [
+          "B-accounting",
+          "B-truewidth",
+          "B-biasprov",
+          "B-pareto-trained",
+          "B-spikecost"
+        ],
+        "adds": "methodological finding + integrity rows"
+      }
+    ],
+    "qualification_placement": [
+      {
+        "fact_id": "B-regime",
+        "home": "results",
+        "repeat_when": "abstract and discussion mention the capability"
+      },
+      {
+        "fact_id": "B-search-arm",
+        "home": "results",
+        "repeat_when": "abstract headline"
+      },
+      {
+        "fact_id": "B-jb1a",
+        "home": "results",
+        "repeat_when": "discussion of transfer limits"
+      },
+      {
+        "fact_id": "B-accounting",
+        "home": "results",
+        "repeat_when": "any cost claim"
+      },
+      {
+        "fact_id": "B-spikecost",
+        "home": "discussion",
+        "repeat_when": "efficiency wording"
+      }
+    ]
+  },
+  "facts": [
+    {
+      "id": "B-identity",
+      "kind": "result",
+      "statement": "The per-layer conversion error satisfies the exact identity B_hat_l - B_l = (1-alpha) A_hat (E_{l-1} M_l); the staged realisation gives max residual 0.0 (prior-run register ~2e-6).",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "max_abs_residual",
+      "value": "0.0",
+      "unit": "float",
+      "aggregation": "single check",
+      "uncertainty": "float-level exact",
+      "measurement_scope": "staged engine, this run",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "results/jB1_prototype.json",
+          "sha256": "31b0191bc094064265362e9709aeb95d9880b8351ac0f625c86f310925157443"
+        }
+      ]
+    },
+    {
+      "id": "B-depth-law",
+      "kind": "result",
+      "statement": "Error amplifies as G^0.95 (r=0.990) with depth; a four-layer model loses about 21 pp at T=8, reported as a boundary result.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "exponent_and_r",
+      "value": "0.95 / 0.990",
+      "unit": "dimensionless",
+      "aggregation": "fitted across L=2..4 cells",
+      "uncertainty": "prior-run registered",
+      "measurement_scope": "GCN family, L in {2,3,4}",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "inputs/paper-B-baseline.pdf",
+          "sha256": "09e2690b79ed24a17c4b67d4e65d8f16ce7aed77fe029d0a71f82712c97773c9"
+        }
+      ]
+    },
+    {
+      "id": "B-width-law",
+      "kind": "result",
+      "statement": "Layer-1 quantisation error scales with sqrt(H): width is the lever depth is not.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "norm_ratio_spread",
+      "value": "under 6% spread",
+      "unit": "ratio",
+      "aggregation": "7 seeds",
+      "uncertainty": "prior-run registered",
+      "measurement_scope": "widths 16..128",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "inputs/paper-B-baseline.pdf",
+          "sha256": "09e2690b79ed24a17c4b67d4e65d8f16ce7aed77fe029d0a71f82712c97773c9"
+        }
+      ]
+    },
+    {
+      "id": "B-margin",
+      "kind": "result",
+      "statement": "The margin criterion is 30/30 sound and 3.2-6.7x conservative (bound/actual median over T in {4,8}).",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "counterexamples_and_conservatism",
+      "value": "0 / 3.2-6.7x",
+      "unit": "count / ratio",
+      "aggregation": "30 checks",
+      "uncertainty": "subset stated",
+      "measurement_scope": "tested configurations",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "inputs/paper-B-baseline.pdf",
+          "sha256": "09e2690b79ed24a17c4b67d4e65d8f16ce7aed77fe029d0a71f82712c97773c9"
+        }
+      ]
+    },
+    {
+      "id": "B-order",
+      "kind": "result",
+      "statement": "Membrane readout is order-invariant (0.0 pp spread) while count readout spreads 0.39-1.61 pp in the same cells.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "spread_pp",
+      "value": "0.0 vs 0.39-1.61",
+      "unit": "pp",
+      "aggregation": "2x2 cells",
+      "uncertainty": "per-cell",
+      "measurement_scope": "Cora/CiteSeer, IF/TPP",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "inputs/registered/wp6a_misalignment.json",
+          "sha256": "6dc4d23b2f44bf131d4a2c84995305b35db4233571bf3bb646fe06ad7a004346"
+        }
+      ]
+    },
+    {
+      "id": "B-threshold",
+      "kind": "result",
+      "statement": "theta=1.0 lies within one seed s.d. of the accuracy plateau on all five scanned graphs including both completed heterophilic holdouts (chameleon optimum 0.75, 0.12 pp from theta=1; Squirrel plateau 0.75-1.25 with theta=1.0 inside one s.d.); the q999 adaptive control loses 22.9 pp on Squirrel.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "acc_vs_theta",
+      "value": "plateau 0.75-1.25; q999 delta -22.9",
+      "unit": "pp",
+      "aggregation": "7 seeds",
+      "uncertainty": "seed s.d.",
+      "measurement_scope": "chameleon and Squirrel held-out cells",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "results/jB3_squirrel_complete.json",
+          "sha256": "c3de094d77c495040eb6f6640aabea7e26783ab47692f7bf7f36e7d3402917c7"
+        },
+        {
+          "path": "inputs/paper-B-baseline.pdf",
+          "sha256": "09e2690b79ed24a17c4b67d4e65d8f16ce7aed77fe029d0a71f82712c97773c9"
+        }
+      ]
+    },
+    {
+      "id": "B-search-arm",
+      "kind": "result",
+      "statement": "Validation-searched per-layer windows (idea family LD-SNN; graph instantiation here) keep the band with 22.7-93.4% fewer total layer-updates than best uniform T* on 6/8 held-out L=4 cells (squirrel 4/4, chameleon 2/4); random-search falsifier passed; criterion inclusive at 20.0%.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "update_saving_fraction",
+      "value": "0.227-0.934",
+      "unit": "fraction",
+      "aggregation": "6/8 held-out cells",
+      "uncertainty": "per-seed rows",
+      "measurement_scope": "held-out chameleon/squirrel, L=4, seeds 0-3",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "results/jB1_search_heldout.json",
+          "sha256": "dbf20c04de4e4ca70007544b5b8213e49a0dbad60bb80e84930c76f9a588aa94"
+        },
+        {
+          "path": "results/jB1_search_pilot.json",
+          "sha256": "7d4d255116cd083aa0cc7aa4229cdedcabba8e2f835560f88b6044476859f0a6"
+        }
+      ],
+      "attribution": "LD-SNN (ISLPED 2022) idea family; PASCAL 2025 / MT-SNN 2026 prior art"
+    },
+    {
+      "id": "B-regime",
+      "kind": "result",
+      "statement": "The capability is a deep-regime re-scope: the pre-registered mixed L in {3,4} pilot criterion was not met (37.5%); L=3 has no headroom (1/8 inclusive).",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "fraction_band_and_20pct",
+      "value": "0.375 mixed; L=3 1/8",
+      "unit": "fraction",
+      "aggregation": "16 pilot cells",
+      "uncertainty": "inclusive 20.0% criterion",
+      "measurement_scope": "pilot configs",
+      "claim_strength": "boundary",
+      "evidence": [
+        {
+          "path": "results/jB1_search_pilot.json",
+          "sha256": "7d4d255116cd083aa0cc7aa4229cdedcabba8e2f835560f88b6044476859f0a6"
+        }
+      ]
+    },
+    {
+      "id": "B-jb1a",
+      "kind": "result",
+      "statement": "Weight-only sweep-free latency selection fails to transfer: in-distribution kappa=1.0 exact (shuffled-c falsifier passed); held-out band 1/3, kappa [1.2, 11.0, 2.5]; pre-registered failure signal fired.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "band_hits_and_kappa",
+      "value": "1/3; [1.2, 11.0, 2.5]",
+      "unit": "count / ratio",
+      "aggregation": "3 held-out graphs",
+      "uncertainty": "one-shot reporting",
+      "measurement_scope": "held-out chameleon/squirrel/arxiv",
+      "claim_strength": "negative-with-mechanism",
+      "evidence": [
+        {
+          "path": "results/jB1a_select.json",
+          "sha256": "6cfe23326cfd96c41f0f7d59a16457e7caaada726ee8135b4804b98209662d72"
+        },
+        {
+          "path": "audits/jB1a-shuffled-c.json",
+          "sha256": "df8c7546a2332e99aa683df587d63540d97376c77f640fc0b1b2577ea51fd5e8"
+        }
+      ]
+    },
+    {
+      "id": "B-closed-form-alloc",
+      "kind": "result",
+      "statement": "Closed-form weight-derived allocation rules fail their frozen pilots (R1 floor degenerates to uniform-64; R2 certificate clips at the 64 cap); windows >= 4 hold the band at 8-29% saving on 3/8 pilot cells, windows < 4 lose 2-5.6 pp.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "band_and_saving_by_window",
+      "value": "8-29% (>=4); -2.0..-5.6 pp (<4)",
+      "unit": "pp / fraction",
+      "aggregation": "4 frozen pilots",
+      "uncertainty": "pre-registered gates",
+      "measurement_scope": "cora/citeseer, L in {3,4}",
+      "claim_strength": "negative-with-mechanism",
+      "evidence": [
+        {
+          "path": "audits/correction-ledger.md",
+          "sha256": "e3709cf701cc0b878d89f0c98ee6ba1c30b8f6bdb02ab595a49fa2e585b5ea22"
+        }
+      ]
+    },
+    {
+      "id": "B-predictor",
+      "kind": "result",
+      "statement": "The gap predictor required-T transfers 2/12 (LOCO MAE 4.6 pp): a third failed cross-graph weight-only route.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "required_t_exact_and_mae",
+      "value": "2/12; 4.6",
+      "unit": "count / pp",
+      "aggregation": "12 cells",
+      "uncertainty": "prior-run registered",
+      "measurement_scope": "held-out cells",
+      "claim_strength": "negative-with-mechanism",
+      "evidence": [
+        {
+          "path": "inputs/paper-B-baseline.pdf",
+          "sha256": "09e2690b79ed24a17c4b67d4e65d8f16ce7aed77fe029d0a71f82712c97773c9"
+        }
+      ]
+    },
+    {
+      "id": "B-accounting",
+      "kind": "result",
+      "statement": "Cost rankings are accounting-dependent: under the pre-declared event-driven SynOps the F-to-C linear-readout arm dominates at T<=4 on Cora and CiteSeer (WP2 failure criterion fires), while static-update accounting has conversion cheapest on 3/3; non-domination by direct-trained arms holds under all conventions.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "verdict_per_convention",
+      "value": "event: 2 dominations; static: 3/3 cheapest",
+      "unit": "count",
+      "aggregation": "3 graphs",
+      "uncertainty": "conventions pre-declared",
+      "measurement_scope": "three accountings",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "results/jB2c_sop_verdict.json",
+          "sha256": "2e1d8344d19c36cd8e62f2e5efee32cbef59989f64f93389f605c4ef8354c519"
+        },
+        {
+          "path": "audits/sop-convention-predeclaration.md",
+          "sha256": "07e62d912dc16f3a60a957b54e8adc73a775cce7d504cf1e7730b1849a6288d7"
+        }
+      ]
+    },
+    {
+      "id": "B-truewidth",
+      "kind": "result",
+      "statement": "The published-architecture arm hidden-width parameter was inert (single F-to-C layer); true-width re-implementations show a working knob (10.4 pp spread) under three cost accountings.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "acc_spread_across_H",
+      "value": "0.104",
+      "unit": "pp",
+      "aggregation": "18 cells",
+      "uncertainty": "7 seeds",
+      "measurement_scope": "3 graphs x 3 widths",
+      "claim_strength": "secondary",
+      "evidence": [
+        {
+          "path": "results/jB2b_truewidth.json",
+          "sha256": "26d2cac73fe02fe728273254c352680cd0a5cce1fcba4e3e4debcfb844895369"
+        },
+        {
+          "path": "audits/p3-baseline-findings.md",
+          "sha256": "5f83e1f429b2fd76748565d39d3912ca5de82b0ee4695d00d67798a535bd1746"
+        }
+      ]
+    },
+    {
+      "id": "B-biasprov",
+      "kind": "result",
+      "statement": "Every ablation delta is attributed to the grid-bias default series (printed -3.68 vs computed -3.69); the default row is not bit-identical to the closed-form beta* row (max gap 0.56 pp).",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "delta_attribution",
+      "value": "6/6 printed deltas matched",
+      "unit": "count",
+      "aggregation": "6 checks",
+      "uncertainty": "rounding noted",
+      "measurement_scope": "ablation table",
+      "claim_strength": "integrity",
+      "evidence": [
+        {
+          "path": "results/jB5_bias_provenance.json",
+          "sha256": "342a697f07b29c5643839e23dcbc3070f0707a4581702b131a31ac0a5296cd11"
+        }
+      ]
+    },
+    {
+      "id": "B-pareto-trained",
+      "kind": "result",
+      "statement": "Conversion is never dominated by the direct-trained spiking arms at matched accuracy across the tested grid.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "dominated_graphs",
+      "value": "0",
+      "unit": "count",
+      "aggregation": "3 graphs",
+      "uncertainty": "registered + recheck",
+      "measurement_scope": "four-arm grid",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "results/jB2c_sop_verdict.json",
+          "sha256": "2e1d8344d19c36cd8e62f2e5efee32cbef59989f64f93389f605c4ef8354c519"
+        }
+      ]
+    },
+    {
+      "id": "B-spikecost",
+      "kind": "result",
+      "statement": "At matched accuracy conversion emits 17-83% more spikes than trained arms in some cells; no energy claims (static proxies and event counts only).",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "spike_delta",
+      "value": "+17% to +83%",
+      "unit": "fraction",
+      "aggregation": "matched cells",
+      "uncertainty": "registered",
+      "measurement_scope": "iso-accuracy pairs",
+      "claim_strength": "boundary",
+      "evidence": [
+        {
+          "path": "inputs/paper-B-baseline.pdf",
+          "sha256": "09e2690b79ed24a17c4b67d4e65d8f16ce7aed77fe029d0a71f82712c97773c9"
+        }
+      ]
+    },
+    {
+      "id": "B-closedform-scoring",
+      "kind": "result",
+      "statement": "The closed form scores the two-layer conversion against the T-step simulation with one sparse matmul: mean absolute discrepancy 0.08 pp (max 0.40) over 105 cells; at L=3 it fails by 3.5 points (33% of cells off by more), a boundary of the closed form.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "mae_pp",
+      "value": "0.08 (0.40 max); L=3 3.5",
+      "unit": "pp",
+      "aggregation": "105 cells",
+      "uncertainty": "prior-run registered",
+      "measurement_scope": "cora/citeseer/pubmed, T grid",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "inputs/paper-B-baseline.pdf",
+          "sha256": "09e2690b79ed24a17c4b67d4e65d8f16ce7aed77fe029d0a71f82712c97773c9"
+        }
+      ]
+    },
+    {
+      "id": "B-ranking",
+      "kind": "result",
+      "statement": "The predictor ranks candidate models almost perfectly but misses the level: Spearman rho=0.967 (LOCO), gap MAE 4.6 pp.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "rho_and_mae",
+      "value": "0.967 / 4.6",
+      "unit": "ratio / pp",
+      "aggregation": "12 cells",
+      "uncertainty": "prior-run registered",
+      "measurement_scope": "held-out cells",
+      "claim_strength": "main",
+      "evidence": [
+        {
+          "path": "inputs/paper-B-baseline.pdf",
+          "sha256": "09e2690b79ed24a17c4b67d4e65d8f16ce7aed77fe029d0a71f82712c97773c9"
+        }
+      ]
+    },
+    {
+      "id": "B-ensemble",
+      "kind": "result",
+      "statement": "Multi-view averaging over threshold and initial potential does not beat the ANN; a nine-ANN model ensemble does (+1.21/+1.06/+1.11 pp over controls) - the gain belongs to model ensembling, not to re-sampling discretisation error.",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "ensemble_delta_pp",
+      "value": "+1.21/+1.06/+1.11",
+      "unit": "pp",
+      "aggregation": "3 graphs",
+      "uncertainty": "prior-run registered",
+      "measurement_scope": "cora/citeseer/pubmed",
+      "claim_strength": "negative-with-mechanism",
+      "evidence": [
+        {
+          "path": "inputs/paper-B-baseline.pdf",
+          "sha256": "09e2690b79ed24a17c4b67d4e65d8f16ce7aed77fe029d0a71f82712c97773c9"
+        }
+      ]
+    },
+    {
+      "id": "B-anchor-external",
+      "kind": "result",
+      "statement": "External anchors on the public split, context only and not audited rows: SpikeGraphormer released script 74.0 (below the conversion at T=16); SpikeGCL self-supervised 86.6 (above every arm in the protocol).",
+      "status": "observed_verified",
+      "model": "GCN-family graph ANN-to-SNN conversion (Paper B)",
+      "condition": "as specified in the named artifact",
+      "metric": "external_anchor_pp",
+      "value": "74.0 / 86.6",
+      "unit": "pp",
+      "aggregation": "2 anchors",
+      "uncertainty": "external, labelled",
+      "measurement_scope": "Cora public split",
+      "claim_strength": "boundary",
+      "evidence": [
+        {
+          "path": "inputs/registered/wp10_audit.json",
+          "sha256": "ec2c13011e3b6a5e3850f3e3fda06589bc60cd2d256bef4be0da4a625f77b4eb"
+        }
+      ]
+    }
+  ]
+}

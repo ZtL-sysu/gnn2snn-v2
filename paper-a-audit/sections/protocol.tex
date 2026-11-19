@@ -1,0 +1,74 @@
+\section{Method}
+\label{sec:protocol}
+
+\input{tables/protocol}
+
+\paragraph{The surveyed population.} The census claim is bounded by construction. The survey is
+the seven spiking-GNN methods tabulated in \tabref{tab:census}: the methods that the field's own
+comparison tables put side by side with the audited pipelines, collected from the 2021--2026
+literature in our related work, with repository status checked against each arXiv record and paper
+in November 2026. Every code-releasing method \emph{in that survey} is audited; the survey is not
+a field-wide census, and methods outside it are not claimed.
+
+\paragraph{The rule.} Each pipeline is run by its own script, with its own configuration, in an
+environment matching its own requirements. We never re-implement a model and never substitute our
+data loader for theirs. When a number disagrees with the paper, the first hypothesis is our
+environment, the second is our invocation, and only the third is the paper.
+
+\paragraph{Independent verification.} Each cell can be replayed from the released entry point, its
+exact argument set, the pinned environment and the log it wrote; no checkpoint is read and no loader
+is substituted. The unit of comparison is the test accuracy the authors' own script prints on the
+split that script selects. The comparison scale is graded: a cell is a \emph{reproduction} when the
+reproduced value falls inside a published spread where one is reported; a \emph{reproduction with a
+stated deficit} when it falls outside the published spread by less than one point; and a
+\emph{disagreement} otherwise. By this scale SpikeGCL is a
+reproduction on CiteSeer ($-0.3$ inside $\pm 0.6$) and a reproduction with a $0.8$-point
+deficit on Cora ($-0.8$, outside the $\pm 0.6$ published spread); we state
+both rather than rounding the pair to one word. The split comparison in \secref{sec:split} changes
+one flag, so its $10.7$-point effect has a single attributable cause; the remaining comparisons are
+observational.
+
+\paragraph{What is held fixed.} For every pipeline: the authors' entry point (\texttt{run\_snn.py},
+\texttt{medium/main.py}, \texttt{main.py}), the arguments from their own configuration file or README,
+their data loader, their preprocessing, their seed handling, and their epoch count. \tabref{tab:protocol}
+lists the pinned environments and the number of lines of the authors' code we had to change; for two
+of the three pipelines the answer is zero.
+
+\paragraph{What is varied.} Exactly one thing in \secref{sec:split}: the split. Both configurations
+call the same binary with the same arguments apart from a single flag, so the difference between the
+two rows is attributable to the split and to nothing else. This is the only causal claim in the paper
+that rests on a controlled comparison, and we designed it to be as narrow as possible.
+
+\paragraph{How numbers are read.} The graded comparison scale is anchored in the tables' own units:
+the reproduction band is the published $\pm$ spread where reported, and the transportability band is
+three seed standard deviations of the matching pipeline, a rule fixed before the multi-seed runs.
+Every value in \tabref{tab:audit} is parsed from a log file the run
+itself wrote, by a script in the released repository. No number is transcribed by hand, and the
+parsing script fails loudly if a log is missing rather than substituting a default. The logs
+themselves are shipped, so a reader can check the parse as well as the run.
+
+\paragraph{What the data path controls.} For SpikingGCN, the data reaches
+the model through a third-party library, and the two choices that matter --- whether features are
+row-normalised, and whether the propagation graph has self-loops --- are not stated in the paper. We
+resolved them by asking the library for the array rather than by reading its source: it hands the
+encoder raw binary bag-of-words, with no self-loops, on the fixed $140/500/1000$ split. Both facts
+matter, because the spiking encoder is a Poisson sampler that reads its input as a firing probability,
+so a normalised feature matrix silently stops firing. We report the five input variants measured in
+\secref{sec:sgcn}, because a reader attempting the same reproduction will hit the same fork.
+
+\paragraph{What we deliberately did not do.} We did not search over input scalings, seeds,
+hyper-parameters or epochs until a pipeline produced its published number. For SpikingGCN that search
+would have had a natural stopping rule --- stop when the number matches --- and it is precisely the
+rule that makes a reproduction meaningless. We ran the configuration the authors ship, reported what
+it gave, and stopped.
+
+\paragraph{Sample size, stated per cell.} Five seeds for SpikingGCN's Cora row and three for its PubMed row, three runs for
+SpikeGraphormer,
+one run for each SpikeGCL cell, which is what its own command specifies. We do not attach confidence
+intervals to single-run cells and we do not draw conclusions from differences smaller than the
+seed-to-seed spread that the multi-seed cells reveal.
+
+\paragraph{What the audit cannot see.} A pipeline that fails to run at all is reported as such rather
+than as a failure to reproduce, and we distinguish the two in every row. We also cannot see whether a
+published number was produced by a later version of the code than the one released; if that is the
+explanation for any of our disagreements, it is not recoverable from the artefacts.

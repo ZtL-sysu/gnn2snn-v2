@@ -1,0 +1,723 @@
+\section{Experiments and Results}
+\label{sec:exp}
+
+\subsection{Protocol}
+\label{sec:protocol}
+
+\textbf{Graphs.} Six. Three citation graphs with the standard split (Cora: 2{,}708 nodes,
+1{,}433 features, 7 classes; CiteSeer: 3{,}327 / 3{,}703 / 6; PubMed: 19{,}717 / 500 / 3), two
+heterophilic graphs with the Geom-GCN 60/20/20 split (Chameleon: 2{,}277 nodes, edge homophily
+0.230; Squirrel: 5{,}201 nodes, 0.222), and one large graph with the official time-based split
+(ogbn-arxiv: 169{,}343 nodes, 128 features, 40 classes, homophily 0.654).
+
+\textbf{Seeds and statistics.} Every reported cell is the mean over \textbf{seven seeds} (0--6);
+standard deviations are stored alongside the accuracies and quoted where a difference is small
+enough to need them. All arms in a comparison use identical seeds, splits and initialisation
+distributions, which is what licenses the paired tests of \secref{sec:baselines}.
+
+\textbf{No test-set statistics anywhere.} The bias is closed-form ($\betastar = \theta/(2T)$), so
+no calibration step reads any held-out data. The one place where a search is involved---the grid
+comparison of \secref{sec:ablate}---selects on the training mask, as does the early stopping of
+every trained model.
+
+\textbf{Arms.} \emph{naive} (no bias, membrane readout), \emph{FTBC} (bias $\betastar$, membrane
+readout: our method), and \emph{rate-ideal} (a non-deployable ceiling in which layer~1 emits its
+exact real-valued rate, so $\sum_{t}\mathrm{inst}_{t} = T\Btwo$ and the decision must reproduce the
+ANN bit for bit). The ceiling has two jobs: it bounds what any conversion of this architecture can
+achieve, and it is a correctness test of the implementation---if it ever disagrees with the ANN, the
+conversion chain is wrong.
+
+\textbf{Implementation.} ANN training in PyTorch \citep{paszke2019pytorch} with Adam
+\citep{kingma2015adam}; conversion and spiking simulation in NumPy \citep{harris2020array} and SciPy
+\citep{virtanen2020scipy} with explicit sparse operators; a single CPU node, no GPU-specific
+kernels, and no approximation beyond those stated in \secref{sec:method}. Total spike counts are
+measured from the simulated trains, not modelled.
+
+\subsection{The free axes do not add up to an ensemble}
+\label{sec:ensemble}
+
+A conversion has perturbation axes that cost nothing to vary: the threshold $\theta$ and the initial
+membrane potential change which quantisation errors are drawn from the same trained weights, at the
+same spike budget. If those errors were independent across views, averaging $V$ of them would shrink
+the error by $\sqrt{V}$ and, at $V=9$, could carry a conversion past its own ANN---the one positive
+result this line of work has never produced.
+
+It does not. Over three thresholds and three initial-potential offsets, the best multi-view result on
+Cora is $-0.01$ points against the ANN at $V=3$ and $-0.23$ at $V=9$; on CiteSeer and PubMed the
+$V=9$ ensemble is *worse* than the single view ($-1.23$ and $-0.39$). No graph exceeds its ANN.
+
+The control is what makes this informative rather than disappointing. An ensemble of nine
+\emph{independently trained} ANNs, each converted once, beats the ANN by $+1.21$, $+1.06$ and $+1.11$
+points on the same three graphs. So ensembling does work here; it is conversion's free axes that do
+not behave like independent views. The reason is the one \secref{sec:closed} already established: the
+error is deterministic given the weights, and changing $\theta$ or the initial potential moves it
+around inside a set that is far smaller than the set spanned by retraining. Multi-view averaging
+samples that small set repeatedly; model ensembling samples the large one.
+
+We report this as a negative result with its control attached, because the alternative reading---that
+conversion can be pushed past its ANN by cheap averaging---is the version of this idea that would
+have been tempting to write up.
+
+\subsection{The two-layer conversion needs no simulation}
+\label{sec:closed}
+
+\eqnref{eq:recursion} is an identity, but it is usually read as a statement about errors. Read the
+other way it is a procedure: for a layer driven by a constant current the count over $T$ steps is
+exactly $\lfloor T(B+\beta)/\theta\rfloor$, so $E_{1}$ is not a random variable at all, and
+$\hat{B}_{2}$ follows from one sparse matmul. The converted network can therefore be scored without
+emitting a single spike, at a cost independent of $T$.
+
+\tabref{tab:closed} checks this against the $T$-step simulation over $105$ cells per depth. At
+$L=2$ the two agree to $0.08$ points on average and $0.40$ at worst, which is float32 accumulation
+drift: the simulator adds the input step by step and subtracts $\theta$ on each fire, so a unit
+sitting within one ulp of threshold occasionally fires a step earlier, and one or two test nodes out
+of a thousand change side. That is the whole discrepancy.
+
+At $L=3$ it is not. The closed form is wrong by $3.5$ points on average and $33.3$ at worst, and the
+reason is structural rather than numerical. Once the reset is applied, the \emph{second} spiking
+layer's count depends on the order in which its input arrives, because a unit that receives a large
+increment early in the window fires earlier and then has more of the window left to fire again. The
+sum $\sum_t \mathrm{inst}_t$ is order-free---that is \secref{sec:order}---but the \emph{count} that
+feeds the next layer is not. So depth does not merely amplify the error of \eqnref{eq:amp}; it
+destroys the closed form as well, and the two failures have the same root: the reset.
+
+\input{tables/tab12}
+
+\subsection{What the laws predict, and what they do not}
+\label{sec:ranking}
+
+If \eqnref{eq:sigma} were exact, \eqnref{eq:predacc} would give the converted accuracy from the
+weights alone. We tested that the way a prediction should be tested: fit the single constant $c$ on
+some cells, then score cells the fit has never seen, both holding out a whole (dataset, depth, width)
+configuration and holding out an entire dataset.
+
+The ordering is predicted almost perfectly and the level is not. \tabref{tab:predict}: the Spearman
+correlation between predicted and observed gap is $0.967$ under leave-one-configuration-out, so the
+law correctly says which of two candidate ANNs will convert better---which is the question a
+practitioner actually has. But the mean absolute error is $4.64$ points, far above the $1.0$ we
+pre-registered, and the smallest latency reaching a target is recovered on only $2$ of $12$ folds.
+Holding out a dataset is worse still ($5.41$ points, $\rho=0.780$).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig6_prediction.pdf}
+\caption{Predicted against observed conversion gap on held-out configurations, one panel per fold.
+The dashed line is $y=x$. The ordering is captured ($\rho=0.967$ over all folds) but the level is
+not: points in the lower-left corner are the saturated cells where the conversion has already
+destroyed most of the accuracy and the linearisation behind \eqnref{eq:predacc} no longer holds. We
+report this as a failure of the absolute predictor, not as a success of the ranking.}
+\label{fig:pred}
+\end{figure}
+
+The diagnosis is not mysterious: the model linearises around the margin, and in the cells where it
+fails the conversion has already destroyed most of the accuracy (gaps of $20$--$49$ points at $T=2$),
+so the linearisation is violated rather than merely imprecise. We also ran the ablation the mechanism
+implies---shuffle the per-node error scales before applying \eqnref{eq:predacc}, which destroys their
+spatial correspondence but keeps their distribution---and it does \emph{not} hurt ($4.89$ against
+$5.41$, i.e.\ slightly better). That is a negative result about our own model and we report it as
+such: the per-node term $\lVert a_{n}\rVert_{2}$ does not carry the information we thought, and the
+margin does most of the work.
+
+The resulting claim is narrower, and the title says ``when'' rather
+than ``how much''. The laws rank configurations correctly ($\rho=0.967$) and they explain the two
+design consequences that \secref{sec:depth} and \secref{sec:width} measure; they do not predict the
+absolute accuracy of a configuration to within a point, and the single constant cannot be made to do
+so by fitting harder, because the failure is a broken assumption rather than a bad fit.
+
+\paragraph{One decision made before the measurement.} A ranking that is only checked in hindsight is
+worth little, so we ran the workflow once, forwards. A 48-wide model appears nowhere else in this
+paper; the question a practitioner would ask is whether converting it is worth the trouble and at
+what latency. We fitted $c$ on widths $16$--$128$ ($0.89$ points of fit error over eight cells),
+computed the prediction from the trained 48-wide weights and nothing else, and \emph{committed the
+prediction to the repository at \texttt{36f8ac5} before a single conversion of that width was run}
+(the prediction was recorded before the measurement and is part of the released record). The law
+predicted gaps of $-0.94$ (Cora) and $-1.44$ (CiteSeer) points at $T=8$. The measured gaps are
+$-0.31$ and $-2.87$: the first is inside the one-point tolerance, the second is not. So the workflow
+works and the level does not, which is the same conclusion as \tabref{tab:predict}, arrived at
+forwards rather than backwards. We report it because a pre-registered miss is worth more than a
+post-hoc hit.
+
+\input{tables/tab13}
+
+\subsection{Four arms, one protocol, two cost axes}
+\label{sec:pareto}
+
+The predictive claim is only interesting if the thing being predicted is competitive. \tabref{tab:pareto}
+puts four arms on one protocol and asks, for each, the smallest latency that reaches ANN$-1.5$\,pp and
+what one inference costs there. Cost is synaptic operations, counted per arm according to the
+arithmetic it actually performs (\secref{sec:protocol}), and we never convert it into joules.
+
+Three things follow. First, \emph{no arm dominates the conversion anywhere on the grid}: the
+domination test in the code finds no (arm, $T$) pair that is both more accurate and cheaper. Second,
+at matched accuracy the conversion is the cheapest arm on two of three graphs, by $2\times$ against
+the directly trained network of the same architecture on Cora and by $23\times$ against the published
+architecture on CiteSeer. Third, on CiteSeer it is the \emph{only} arm that reaches the band at all
+within $T\le32$: the two trained formulations stall below the $0.688$ target (their bests $0.6837$ and $0.6511$),
+while the conversion reaches $0.693$ at $T=4$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig7_pareto.pdf}
+\caption{Four arms on one protocol. Top: accuracy against timesteps. Bottom: the same points against
+synaptic operations per inference, on a log axis. Dotted horizontals are each arm's own ANN. The
+conversion (blue) is never both less accurate and more expensive than another arm; the 512-wide
+published architecture (green) is the most accurate on Cora and the most expensive everywhere by an
+order of magnitude, which is the trade the table is about.}
+\label{fig:pareto}
+\end{figure}
+
+The honest counterweight is in the same table. The published-architecture formulation is more
+accurate than the conversion on Cora ($0.7966$ at $T=2$, $0.8169$ at $T=16$) and on CiteSeer
+($0.7073$ at $T=8$), and beats the matched ANN on Cora, so a reader choosing purely on accuracy
+should choose it on those graphs; what the conversion offers instead is that it reaches a given
+accuracy with $8$--$114\times$ fewer synaptic operations under the static-update accounting and one
+training run instead of five. (Under event-driven counting the ordering of the external arms
+changes; see \secref{sec:accounting}.) On PubMed the conversion and the same-architecture direct arm tie exactly, which is
+the expected result: identical arithmetic, and at $T=4$ both are close enough to their ANN that the
+distinction is below the noise floor of \secref{sec:protocol}.
+
+\input{tables/tab14}
+
+\subsection{A codebase-level anchor}
+\label{sec:audit}
+
+Our external arms are re-implementations, which invites the objection that published methods are
+stronger than the versions we wrote. Published code settles this better than argument, and it does
+not settle it in our favour uniformly.
+
+Run on the public Planetoid split with its own configuration, SpikeGraphormer's released script
+reaches $74.0$ on Cora, below the conversion at $T=16$ ($80.5$). SpikeGCL's released script reaches
+$86.6$, above it. The two are not the same kind of result --- SpikeGCL is self-supervised with a
+linear probe, SpikeGraphormer is supervised end to end --- so the pair brackets rather than ranks the
+conversion: on the public split it is better than one published spiking classifier and worse than one
+published spiking encoder, and its case rests on cost per inference and on one training run instead of
+five, which is what \secref{sec:pareto} measures.
+
+The third auditable pipeline, SpikingGCN, is the one that decides whether our re-implementations are
+straw men. Our version of its architecture reaches $81.7$; its own released code reaches $50.0$ under
+its own configuration. Our arm is the stronger of the two, so \tabref{tab:pareto} is generous to the
+competition rather than the reverse.
+
+We audited all three spiking-GNN pipelines that publish code, and the full audit is a companion
+paper \citep{companion}. Its central finding is that the audited papers cite baselines on two
+different splits without labelling them: SpikingGCN's own paper reports $80.7$ on a 20-per-class
+split and $88.7$ on an 8:2 random split, and the later tables quote one or the other. The division
+of evidence between the two papers is deliberate: the companion reports the audit protocol, the
+per-method reproduction grid and the split-mixing analysis, while this paper uses only two of the
+resulting numbers --- $74.0$ and $86.6$ on the public split --- as an external anchor for
+\tabref{tab:pareto}. Neither paper's main claim depends on the other's results. What the anchor
+establishes here is narrow: no external arm in \tabref{tab:pareto} is a straw man, and the published
+landscape around the conversion is $50.0$ to $86.6$, not a point.
+
+\subsection{Conversion fidelity at low latency}
+\label{sec:fidelity}
+
+\tabref{tab:fidelity} is the central result and \figref{fig:acc} plots the same numbers.
+At $T=8$ the converted network is within \textbf{0.34, 1.24 and 0.17 percentage points} of its ANN
+on Cora, CiteSeer and PubMed, and all three are already inside the strong band (ANN $-1.5$ pp) at
+$T=4$, where the gaps are 1.17, 1.02 and 0.18 points. Latency is therefore not a knob we had to
+trade accuracy for: on these graphs the converted network is a faithful surrogate at four
+timesteps.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig2_accuracy_vs_T.pdf}
+\caption{Accuracy against latency for the three citation graphs (mean over seven seeds, shaded
+band $\pm1$ s.d.). The converted network (FTBC) tracks its ANN from $T=4$ on; the bias-free
+conversion collapses at small $T$, and the gap between the two curves is the quantity
+$\betastar$ removes. The rate-ideal ceiling is flat at the ANN value by construction.}
+\label{fig:acc}
+\end{figure}
+
+The naive arm shows what the bias is worth and where. At $T=8$ it sits 2.96, 6.45 and 1.53 points
+below the ANN---roughly an order of magnitude worse than FTBC on the two graphs with the largest
+row sums (Cora $\max\rhon = 5.7$, CiteSeer $4.2$) and comparatively mild on PubMed, whose
+neighbourhoods are larger and more uniformly weighted. The ordering is what
+\eqnref{eq:betastar} and the degree-weighted margin shift of \secref{sec:bias} predict, since the
+uncorrected term is proportional to $\rhon/(2T)$. At $T=1$ the naive arm is close to useless
+(0.1277 on Cora) because the rate code then carries a single bit and the systematic error is $1/2$.
+
+The rate-ideal ceiling reproduces the ANN exactly at every $T$ on every graph---the same value
+repeated across each ceiling row of \tabref{tab:fidelity}. This is the correctness statement of
+\secref{sec:readout} made concrete: the conversion chain, the readout and the evaluation agree to
+the last digit, so the residual gap in the FTBC rows is attributable to the layer-1 integer rate
+code and to nothing else.
+
+\subsection{Comparison with trained spiking networks}
+\label{sec:baselines}
+
+\tabref{tab:baselines} puts the conversion next to two trained baselines under identical splits,
+seeds, width and latency: a constant-current spiking GCN, and the rate-coded (Poisson-input)
+formulation used by published spiking-GCN work. Both are retrained from scratch at every $T$, which
+is the cost conversion is meant to avoid.
+
+\textbf{At small $T$ the trained baselines are not classifiers.} On Cora at $T=1$ and $T=2$ both
+trained arms predict a \emph{single} class for every test node (verified: one distinct predicted
+class, modal share $1.000$); their accuracy is therefore the frequency of that class, 0.3190, which
+happens to be Cora's majority class. On PubMed at $T=1$ the same collapse occurs at 0.4070, against
+a majority frequency of 0.4130. With one or two unrolled steps the surrogate gradient carries too
+little credit to separate classes, and the cheapest loss minimum is a constant. The conversion is
+not degenerate there, but at $T=1$ it is close to chance (0.2176 on Cora, $1/7 = 0.143$), so the
+$T=1$ column measures which failure is less bad, not which method is better: the constant predictor
+beats it by 10.1 points on Cora and the conversion beats it by 18.2 on PubMed. We report these cells
+rather than hiding them, and we draw no conclusion from them.
+
+\textbf{From $T=2$ on, the conversion leads.} The margin is 41.6, 34.9 and 11.6 points at $T=2$ and
+narrows with latency, as \secref{sec:thm} predicts. At $T \ge 4$ the constant-current baseline
+catches up on Cora (gaps $+0.36$ to $+1.06$ points) and on PubMed ($+0.20$ to $+1.14$), and at
+$T=4$ every one of those gaps has a bootstrap interval containing zero. On CiteSeer the gap does not
+close: $+4.21$ points at $T=8$ and $+5.10$ at $T=16$, i.e.\ $10.5\times$ and $12.7\times$ the
+run-to-run floor. CiteSeer is also the graph on which the direct arm is least stable (its accuracy
+is non-monotone in $T$: 0.6837, 0.6486, 0.6511), which is consistent with the view that conversion
+is worth most where direct training is hardest to tune.
+
+\textbf{The rate-coded formulation is the weakest of the three arms.} The conversion is ahead of it
+in every cell except the two degenerate $T=1$ ones, with margins from 2.9 points (Cora, $T=16$) to
+15.96 (CiteSeer, $T=4$); all nine of the adjudicated cells are above $2\times$ the run-to-run floor.
+This is the
+comparison that matters for the literature, because rate-coded direct training is what published
+spiking-GCN work does; the constant-current arm is the harder baseline and we treat it as the
+primary one.
+
+\textbf{Every gap is reported against two uncertainties.} A seven-seed mean with a star is not enough
+here, because the same baseline code re-run on a different device moves its mean by up to 17 points
+at $T \le 2$ and by 0.40 points (median) at $T \ge 8$. \tabref{tab:baselines} therefore reports, for
+each cell, a paired percentile bootstrap interval over the seven seed-paired differences and the
+ratio of the gap to that measured run-to-run floor; we call a gap robust only above
+$2\times$ the floor, and we do not adjudicate $T \le 2$ at all. Under that rule 13 of 30 cells
+survive, and they are not the ones a raw accuracy table would suggest.
+
+\textbf{What survives.} Against the tuned constant-current baseline: Cora $T=8$ ($+1.06$ points,
+$2.6\times$ the floor), CiteSeer $T=8$ and $T=16$ ($+4.21$ and $+5.10$, $10.5\times$ and
+$12.7\times$), PubMed $T=16$ ($+1.14$, $2.9\times$). Every $T=4$ comparison against that baseline is
+a tie---its bootstrap interval contains zero. Against the rate-coded formulation the picture is
+sharper: nine of fifteen cells survive, from $2.5\times$ to $28.6\times$ the floor.
+
+\textbf{What does not.} The large $T \le 2$ gaps ($+41.6$ points on Cora, $+34.9$ on CiteSeer) are
+excluded by construction: in two of the five low-latency cells the two runs of the \emph{same} code
+differ by 6.5 and 17 points, because one run learns a classifier and the other collapses to a
+constant. A marginal gap at $T=4$ on Cora ($+0.36$) and at $T=8$ on PubMed ($+0.20$) also fails the
+rule. We report them with their ratios rather than as wins.
+
+\textbf{What this establishes.} Conversion is never worse than either trained baseline in any cell;
+it is clearly better than the rate-coded formulation used by published spiking-GCN work; and it is
+better than a tuned direct baseline in four of the fifteen cells, on two of three graphs, at one
+seventh of the training cost (7 runs against 35). It does not establish a general win over direct
+training: our baselines re-implement formulations rather than published codebases, and the $T=4$
+ties show how quickly a well-tuned direct model closes the gap.
+
+\subsection{Ablations: every component has a matched falsifier}
+\label{sec:ablate}
+
+\tabref{tab:ablate} removes one design decision at a time at $T=8$; \figref{fig:abl} shows the
+same matrix as a bar chart. Each removal has a strictly worse outcome, and the size of the drop
+identifies what the component was doing.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig4_ablation.pdf}
+\caption{Ablations at $T=8$ on the three citation graphs (seven seeds). Grey bars are the method
+as reported elsewhere in the paper; coloured bars are removals. The two large effects are the
+count readout and the removal of the bias; the neuron model and the threshold show the
+regime-dependence discussed in the text.}
+\label{fig:abl}
+\end{figure}
+
+\textbf{Readout.} Counting spikes instead of reading the membrane costs 3.68 points on Cora and
+6.24 on CiteSeer, and nothing on PubMed (0.01). The pattern is diagnostic rather than noisy: the
+count decoder is limited by the unit-clipping ceiling, which bites when the winning logit exceeds
+one, and PubMed's logits are the smallest of the three because its neighbourhoods are the largest
+and most heavily averaged. This is the clearest single piece of evidence that part of the gain is
+a \emph{decoding} effect and not a side effect of the bias.
+
+\textbf{Bias.} Removing it costs 2.57, 4.94 and 0.80 points respectively, again ordered by $\rhon$.
+The per-channel variant coincides with the scalar one at $T=8$ on all three graphs, and diverges
+elsewhere by small amounts ($-0.30$, $+0.66$, $+0.19$ points at $T=4$) and by $5.89$ points on
+PubMed at $T=1$. We report the full picture rather than dropping the variant: at the operating
+point used throughout the paper the extra freedom has nothing to buy, and at degenerate settings
+($T=1$) a vector bias amplifies the floor-quantisation problem instead of fixing it.
+
+\textbf{Neuron model.} Replacing IF with the probabilistic TPP neuron is worse at every $T \ge 2$
+(at $T=8$: 0.7756 vs 0.8021, 0.6457 vs 0.6880, 0.7427 vs 0.7684) but better at $T=1$ on Cora
+(0.3540 vs 0.2176) and CiteSeer (0.3326 vs 0.1787). This is the one place where a stochastic
+neuron helps, and it helps exactly where the deterministic rate code degenerates to one bit; from
+$T=2$ on, the stochasticity only adds variance to a code that already has enough resolution. We
+therefore report TPP as a regime-limited alternative rather than as a component of the method.
+
+\textbf{Threshold.} $\theta=1$ is the right operating point and the curve around it is asymmetric:
+halving the threshold costs 4.75 points on Cora while doubling it costs 32.45 (0.4776 vs 0.8021).
+The asymmetry is the saturation term of \secref{sec:lemma1}: with $\theta=2$ a large fraction of
+$\mathrm{relu}(\Bone)$ sits above the threshold, those units fire at a fixed rate of one, and their
+rate stops carrying information at all.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig3_spikes_vs_T.pdf}
+\caption{Measured spike counts against latency (log-log), with the first latency at which the
+converted network reaches ANN$-1$\,pp circled and the corresponding latency of each trained baseline
+annotated. The conversion does not emit fewer spikes per step; it needs fewer steps, which is why
+the efficiency claim is made in timesteps and not in joules.}
+\label{fig:spk}
+\end{figure}
+
+\subsection{Efficiency at matched accuracy}
+\label{sec:iso}
+
+Comparing two spiking methods at equal $T$ favours whichever tolerates small $T$; comparing them at
+equal \emph{accuracy} is the fair question. \tabref{tab:iso} reports the smallest latency at which
+each arm reaches the ANN, at two bands, and \figref{fig:spk} plots the conversion's spike counts
+with the operating points marked.
+
+\textbf{The conversion is never the later arm.} At the ANN$-1.5$ pp band it reaches the target at
+$T=4$ on all three graphs. The constant-current baseline needs $T=8$ on Cora, $T=4$ on PubMed, and
+never reaches the band on CiteSeer within $T \le 16$ (its best is 0.6837 against an ANN of 0.7031,
+1.94 points short). With the shared-mask dropout protocol the same baseline needs $T=16$ on Cora and
+$T=8$ on PubMed. At the tighter ANN$-1$ pp band the pattern is the same and the margins widen:
+conversion $8/16/4$, constant-current $16/>16/4$, and the rate-coded arm never reaches either band
+on any graph.
+
+\textbf{Where the claim is thin, we say so.} The two-fold advantage on Cora rests on a 1.06-point gap
+at $T=8$ (0.8026 against 0.7920), which is $2.6\times$ the run-to-run floor of
+\secref{sec:baselines}---above our tie threshold, but not by much. The threshold crossings
+themselves are also close: at ANN$-1$ pp the conversion clears the band at $T=8$ by 0.66 points and
+the baseline clears it at $T=16$ by 0.11. We therefore state the latency result as three claims of
+decreasing strength: conversion is never later than either trained baseline in any cell; it is
+two-fold earlier on Cora at both bands, flagged as threshold-adjacent; and on CiteSeer it is the only
+arm that reaches either band, which is the one that does not depend on a thin margin---the rate-coded arm's
+accuracy at $T=8$ and $T=16$ is 4.4 and 4.2 points below the band, about twelve times the floor.
+
+The comparison understates the difference in cost. Conversion trains seven ANN models once and is
+then evaluated at every $T$ from the same weights; each baseline arm is $5 \times 7 = 35$ separate
+training runs, each unrolled over its own $T$. Measured on one RTX 3060: the two baseline arms
+together (per-step and rate-coded, three graphs, five latencies, seven seeds) took seven minutes of
+wall-clock, and the shared-mask arm alone took thirteen, because each of its runs pays a full
+backward pass at its own latency. The conversion arm's training is seven ordinary GCN fits. On a
+device that cannot run backpropagation at all, that difference is categorical rather than
+quantitative. \figref{fig:spk} makes the same point in spikes:
+counts grow roughly linearly in $T$ for every arm, so the conversion does not emit fewer spikes per
+timestep---it needs fewer timesteps.
+
+\textbf{The saving is latency, not spikes, and at matched accuracy the sign reverses.} At equal
+$T$ the conversion emits about twice the spikes of the constant-current baseline (Cora $T=8$:
+83{,}392 against 40{,}754; PubMed $T=4$: 201{,}570 against 110{,}231), because a converted layer
+fires at the ANN's activation rate while a trained spiking network learns sparser weights and
+smaller layer-1 activations. Comparing at \emph{matched accuracy} does not rescue the energy
+story: on Cora the conversion needs 83{,}392 spikes at $T=8$ where the baseline needs 70{,}998
+at $T=16$, i.e.\ 17\,\% more, and on PubMed it is 201{,}570 against 110{,}231, 83\,\% more.
+We therefore make no energy claim at all. What conversion buys is latency---and training cost,
+since one trained model serves every $T$. A conversion method that also reduced spikes would
+need sparsity-aware conversion, which this work does not attempt; reporting the reversal is the
+honest alternative to quoting only the timestep column.
+
+\subsection{Generality: aggregation operator and homophily}
+\label{sec:generality}
+
+\tabref{tab:arch} varies the operator while holding everything else fixed. The three operators span
+row sums from 1 (mean) to 169 (sum), i.e.\ two orders of magnitude in $\rhon$, and at $T=8$ the
+converted accuracy tracks the ANN within 0.39 points for GCN on Cora, 0.13 points for mean on Cora
+and 0.59 points for sum on CiteSeer. The saturated mass behaves as \secref{sec:lemma1} predicts:
+0.00--0.01\,\% for GCN and mean, 0.61--0.67\,\% for sum, because sum aggregation scales activations
+by the degree rather than averaging them.
+
+This is the experiment that refuted our initial prediction. We expected sum aggregation to fail:
+its row sums reach 169, and \eqnref{eq:hoeffding} makes the systematic term proportional to $\rhon$.
+It does not fail, because the margin $\Deltan$ is formed from the same aggregated logits and grows
+with the same factor. The relative error is $\rho$-invariant, and the quantity that actually
+governs conversion is $\anorm\lVert DW\rVert_{2}/(T\Deltan)$. \tabref{tab:arch} shows why:
+$\anorm$ grows only from 0.469 (GCN) to 2.105 (sum) on Cora, a factor of 4.5, while $\rhon$ grows
+by a factor of 180.
+
+The heterophilic graphs (\tabref{tab:ext}) ask a different question: does the fidelity claim survive
+where neighbourhood averaging is unhelpful? Chameleon reaches 0.6331 against an ANN of 0.6322 and
+Squirrel 0.4706 against 0.4721 at $T=8$, i.e.\ within 0.15 points. We report these as
+\emph{fidelity} results, not as evidence of useful accuracy on heterophilic data: Squirrel's
+five-class problem is close to chance for this architecture, and the meaningful statement is that
+conversion neither helps nor harms it.
+
+\subsection{Does the theory hold, and how tight is it?}
+\label{sec:theory}
+
+\tabref{tab:theory} checks the theorem cell by cell and \figref{fig:thm} shows the same comparison
+graphically. The verification has three levels.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig5_theory.pdf}
+\caption{Left: the fraction of test nodes the theorem certifies (tall bars) against the fraction
+whose prediction is in fact preserved (short bars), per graph and $T$. Right: decomposition of the
+bound into its systematic, fluctuation and saturation parts at $T=8$; the fluctuation term is
+$73$--$99\,\%$ of the bound, which is where the conservatism lives.}
+\label{fig:thm}
+\end{figure}
+
+\textbf{Soundness.} In all 30 (dataset, $T$, arm) cells the certified fraction is at or below the
+measured preservation rate; the node-level overrun rate never exceeds 0.6\,\%, well inside the
+$\delta = 0.05$ budget of the statement. The theorem is therefore never contradicted.
+
+\textbf{Theory and implementation analyse the same object.} The theory module recomputes
+$\Btwohat$ from its own definition and compares the resulting accuracy with the accuracy the
+shipped conversion reports. The gap is exactly $0$ in every cell. This matters more than it looks:
+it means the object the theorem analyses and the object the experiments run are the same
+computation, so a future change that breaks one fails this check loudly rather than silently
+invalidating the paper's claims.
+
+\textbf{Tightness.} The guarantee is conservative and \secref{sec:tight} locates the slack:
+$73$--$99\,\%$ of the bound is the Hoeffding term, the bound exceeds the realised margin error by a
+median factor of $3.2$--$6.7$, and the Hoeffding half-width alone is $1.3$--$4.1$ times the
+realised 95th percentile of the fluctuation over all cells ($1.3$--$2.3$ over the FTBC-configuration
+subset), the largest values occurring at $T=1$ where the
+phase-randomisation approximation is weakest. The certificate is loosest at $T=1$, where it
+guarantees almost nothing (0.001 on Cora) while 22\,\% of predictions are in fact preserved---by
+then the decision is being carried by the few nodes with a large margin, which is exactly the
+regime the worst-case constant cannot see.
+
+\subsection{Scale is a fidelity test, not a leaderboard entry}
+\label{sec:scale}
+
+On ogbn-arxiv (169{,}343 nodes) the converted network reaches 0.6633 at $T=4$ against an ANN of
+0.6595, and stays within 0.4 points at every $T$ (\tabref{tab:ext}). Two readings of this row are
+possible and only one is intended. What it shows is that the conversion machinery---the sparse
+operator, the closed-form bias, the membrane readout---runs unchanged at 169k nodes and preserves
+the model it was given. What it does \emph{not} show is that our 169k-node GCN is competitive: at
+0.6595 it is below the best published GCN results on this dataset, and widening the hidden layer
+did not close that gap within our budget. We keep the row because conversion fidelity at scale is
+the claim, and we label it accordingly rather than inviting a comparison we would lose.
+
+One qualification about the cells in which conversion exceeds its own ANN (PubMed $T=16$, all
+three $T$ on ogbn-arxiv, Chameleon $T=8$ and $T=16$): the excess is 0.09--0.38 points, while the
+seed standard deviation on these graphs is 0.29--1.40 points, so the excess is between a tenth of
+and one-and-a-third standard deviations. We read these as ties, not as gains, and the strong
+criterion is evaluated as a band rather than as a strict inequality.
+
+\subsection{Robustness to model width}
+\label{sec:width}
+
+Every cell so far uses a 16-wide hidden layer, which invites the objection that the method was tuned
+to one model size. \tabref{tab:width} repeats the measurement at width 32 and 64, retraining seven
+ANNs at each width; the ANN column moves with the width, so each row is its own control.
+
+Two things change and one does not. Wider models are \emph{more accurate before conversion}
+(0.8060 to 0.8110 on Cora, 0.7031 to 0.7157 on CiteSeer), so conversion is tracking a harder target.
+The fidelity gap at $T=16$ stays under 0.5 points at every width, and at $T=8$ it stays under 0.3
+points on Cora. What changes is the intermediate-latency behaviour on CiteSeer, where the gap grows
+monotonically with width: $-1.24$, $-2.31$, $-2.71$ points at $T=8$. That is the quantisation
+variance of \eqnref{eq:hoeffding} accumulating over more units---the bound scales with
+$\anorm\lVert DW\rVert_{2}$, and both grow with the hidden layer---not clipping, since the saturated
+mass stays at or below 0.01\,\% at every width. The practical reading is that the strong band is met
+at width 16 and 32; at width 64 CiteSeer needs $T=16$ rather than $T=8$, and saying so is more useful
+than reporting only the width that flatters the method.
+
+\input{tables/tab17}
+
+\paragraph{The margin explanation is only partly right.} We had attributed the flat gap on Cora to
+the logit margin growing with width, which makes the same absolute quantisation error less likely to
+change an argmax. \tabref{tab:margin} measures that claim over seven seeds at each of four widths.
+The margin does grow --- by $1.18\times$ on Cora, $1.40\times$ on CiteSeer and $1.50\times$ on
+PubMed between widths 16 and 128 --- but a full $\sqrt{H}$ cancellation would need $\sqrt{8}=2.83$.
+The measured growth is roughly half of that, and the gap behaves accordingly: it stays within a point
+on Cora, but worsens from $-0.17$ to $-2.01$ points on PubMed and peaks at $-2.71$ on CiteSeer. The
+cancellation is therefore partial and dataset-dependent, not a general width law; what width reliably
+buys is a more accurate ANN, at the cost of a larger low-latency gap on two of the three graphs.
+
+\subsection{The threshold is pinned by the identity}
+\label{sec:threshold}
+
+\input{tables/tab18}
+\input{tables/tab19}
+
+\secref{sec:lemma1} assumes activations in $[0,\theta]$ and justifies $\theta=1$ by the fraction of
+units that exceed it. That assumption is a prediction, and \tabref{tab:threshold} tests it over
+seven seeds and five graphs: the three used to fit the laws and two heterophilic graphs held out
+(chameleon); a second held-out heterophilic graph (Squirrel) was completed with the same protocol.
+The identity gives two competing error sources. Quantisation of the integer count grows with
+$\theta$, while units whose per-step input exceeds $\theta$ saturate at one spike per step and lose
+information without bound. The optimum sits where saturation begins, which is the activation ceiling
+fixed during ANN training rather than a free gauge. On the three fitted graphs the measured optimum
+is $\theta\in\{0.9,1.0\}$; on the held-out graph it is $0.75$, differing by $0.12$ points of
+accuracy from $\theta=1$, well inside one seed standard deviation. Moving to $\theta=0.5$ or $1.5$
+costs accuracy in both directions. The pinned threshold is the configuration used in
+\secref{sec:pareto}, where at $T=8$ the conversion exceeds the directly trained spiking arm
+robustly on two of the three citation graphs and by less than the noise floor on the third
+(PubMed, $+0.20$ points, half the floor).
+
+A practitioner might instead match the threshold to the observed activation scale.
+\tabref{tab:negative} shows that this fails. Setting $\theta$ to the model's own $99.9$th percentile
+of $|B_l|$ loses accuracy on every graph (on Squirrel by $22.9$ points), because that percentile is
+several times the unit ceiling and most units then almost never reach the threshold within a step:
+the rate code collapses to a few coarse levels --- the quantisation side of the identity, not the
+saturation side. A second control applies the per-layer rule
+$\theta_l\propto\sqrt{a_l/w_l}$ derived from the error amplification weights
+$w_l=\prod_{j>l}\lVert M_j\rVert_{2}$ with a saturation floor; it does not rescue the three-layer
+conversion. Both controls were fixed before measurement and both are retained with their mechanisms:
+they close the two routes by which threshold tuning might otherwise be expected to trade accuracy
+against latency.
+
+\subsection{Depth: a measurable amplification law}
+\label{sec:depth}
+
+The analysis so far proves the layer-1 identity and stops there, which invites the obvious
+objection that the method is a two-layer method. \tabref{tab:depth} extends the recursion to $L$
+layers and answers the question directly.
+
+The recursion and the norm bound are \eqnref{eq:recursion} and \eqnref{eq:amp} of
+\secref{sec:predict}; here we only check that the implementation realises them. The residual
+of \eqnref{eq:recursion} is at most $2\times10^{-6}$ at every layer for $L\in\{2,3,4\}$, which
+is float32 round-off on pre-activations of order ten, so the identity is not being approximated.
+Measured across nine (dataset, $L$) cells, and using $G=\prod_{l}\lVert M_{l}\rVert_{2}$ from \eqnref{eq:amp}, the ratio $\lVert E_{L}\rVert/\lVert E_{1}\rVert$ follows $G^{0.95}$ with
+Pearson $r=0.990$ (\tabref{tab:depth}). At $L=4$ the gain is $\approx 420$--$710$ and the
+error is amplified $24$--$41\times$: a layer-1 quantisation error of $10^{-2}$ becomes a
+$0.25$--$0.41$ logit error, which is the size of the margin, and the converted accuracy falls $21$
+points behind its ANN at $T=8$ even though $T=16$ recovers most of it.
+
+Two repairs suggest themselves, and both fail. First, one can \emph{gauge-normalise} every layer to
+unit spectral norm: ReLU is positively homogeneous, so rescaling
+$B_{l}\to B_{l}/c_{l}$ together with $M_{l}\to c_{l-1}M_{l}/c_{l}$ and $b_{l}\to b_{l}/c_{l}$ leaves
+the ANN's predictions unchanged, and sets $G=1$ for free. It silences the spiking network instead:
+the threshold $\theta$ is an \emph{absolute} scale, not a homogeneous one, so after the rescaling
+the neurons see pre-activations $16\times$ below threshold and stop firing (Cora, $T=8$: $0.787\to
+0.144$). Renormalising $\theta$ as well restores the network bit for bit and the error with it.
+Second, rescaling the readout cannot help, because $\arg\max$ is scale-invariant: signal and error
+shrink together. Training with spectral normalisation does bound $G$, but it also removes the
+network's ability to grow its signal with depth (Cora ANN $0.334/0.171/0.130$ at
+$L=4/8/16$).
+
+\emph{Conversion does not survive depth, the amount by which it fails is predictable from the
+weights, and the failure cannot be reparametrised away.} Conversion favours shallow, sufficient-width models; the
+right question about a candidate backbone is not ``how deep is it'' but ``what is its $G$''.
+
+\subsection{What the membrane decoder actually removes}
+\label{sec:order}
+
+\secref{sec:readout} argues for the membrane readout on the grounds that it discards no
+sub-threshold remainder and is not clipped by $\theta$. There is a stronger reason, and it is a
+theorem rather than an argument: the accumulator is
+$\sum_{t}\mathrm{inst}_{t}=\Ahat(\mathrm{count}_{1}M_{2})+Tb_{2}$, which contains no $t$.
+The membrane decoder is therefore \emph{invariant to the order} of layer-1 spikes, whereas the
+integer-count decoder is not, because a count depends on the running sum crossing $\theta$ at
+particular steps.
+
+\tabref{tab:order} tests this as a two-sided prediction. Applying an independent random permutation
+of the $T$ steps to each layer-1 neuron (\emph{permute}), a per-node cyclic shift so that a node's
+spikes no longer line up with its neighbours' (\emph{shift}), or both, leaves the membrane accuracy
+unchanged to four decimals in every cell---the maximum spread over the four perturbations is
+$0.000$\,pp---while the count accuracy moves by up to $1.6$\,pp. The same holds for the stochastic
+TPP neuron, where order does change which spikes are drawn.
+
+This has two consequences. It gives the decoder a mechanism rather than a preference: it removes an
+entire class of error instead of shrinking the class that remains. And it settles a definitional
+dispute. The cross-layer temporal misalignment of \citet{bojkovic2025temporal} is a different object
+from ours, and this table shows why: with a stochastic, leaky neuron the order changes which spikes
+fire, so it has something to act on; with a deterministic integrate-and-fire neuron and a sum
+readout there is nothing there to change.
+
+\paragraph{Depth cannot be rescued by constraining the gain either.} The depth law names $G$ as the
+quantity to control, so the obvious objection is that $G$ is an artefact of unconstrained training:
+normalise every layer to unit spectral norm and $G=1$ by construction. \tabref{tab:specnorm} does
+that, over seven seeds, and it makes things worse: on Cora the three-layer gap goes from $-4.21$ to
+$-9.93$ points and the ANN itself loses $33.4$ points, and even the two-layer model stops converting
+on CiteSeer ($-1.24$ to $-19.30$). The reason is the gauge argument of \secref{sec:predict} in its
+quantitative form: with $G$ pinned, training compensates by shrinking activations, and the absolute
+quantisation error $1/(2T)$ then becomes large relative to them, so the \emph{relative} error rises
+while the gain falls. The two factors in \eqnref{eq:sigma} cannot be traded against each other, which
+is why depth is a boundary condition rather than a tuning problem.
+
+\input{tables/tab16}
+
+\input{tables/tab1}
+\input{tables/tab2}
+\input{tables/tab3}
+\input{tables/tab4}
+\input{tables/tab5}
+\input{tables/tab6}
+\input{tables/tab7}
+\input{tables/tab8}
+\input{tables/tab9}
+\input{tables/tab10}
+\input{tables/tab11}
+
+\subsection{Cost rankings depend on the accounting convention}
+\label{sec:accounting}
+
+Synaptic-operation counts are not a neutral unit. We pre-declared an event-driven convention ---
+each presynaptic spike crossing a synapse counts one operation, measured at evaluation from
+actual spike counts and fan-out --- as the headline metric, and re-derived the matched-accuracy
+comparison under it, under the static-update proxy used in \secref{sec:pareto}
+($T \times E \times H$), and under the legacy per-node accounting. The three disagree: under the
+static proxy the conversion is the cheapest arm at matched accuracy on all three graphs; under the
+event-driven count a linear-readout external arm (SGC propagation followed by a single spiking
+readout layer) is cheaper at $T=4$ on Cora ($74{,}671$ against $184{,}990$ events) and on CiteSeer,
+meeting the accuracy band at lower cost --- the failure criterion this paper's companion protocol
+pre-registered. Non-domination by the directly trained arms holds under every convention, and the
+cheapness claim is therefore stated with its convention attached rather than as a property of the
+conversion.
+
+The accounting also interacts with implementation. The reference implementation of the
+published-architecture arm accepts a hidden-width parameter that its training loop never uses: the
+model is a single feature-to-class spiking layer regardless. Re-implementing the arm with a real
+hidden layer (widths $16$/$32$/$512$) gives the expected width response (a $10.4$-point accuracy
+spread across widths) and is reported under all three cost accountings; the earlier per-node
+accounting charged this arm for a $512$-wide layer the code never trained, which is why both
+accounting rows for it are shown rather than one.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\columnwidth]{figures/fig8_allocation_regime.pdf}
+\caption{Validation-searched per-layer windows against the best uniform budget at band, pilot
+and held-out cells; blue marks $L=4$, red marks $L=3$. Points below the dashed line stay inside
+the accuracy band; points right of the dotted line save at least $20\%$ of total layer-updates.
+The deep regime carries the headroom; the $L=3$ cells cluster at the origin.}
+\label{fig:allocation}
+\end{figure}
+
+\subsection{Per-layer windows in the deep regime}
+\label{sec:allocation}
+
+Where uniform timesteps are held to the worst layer's budget, per-layer windows have room to
+work, and a validation search finds it. For each model we ran a coordinate descent over per-hidden-
+layer windows $\{1,2,3,4,6,8,12,16\}$, maximising \emph{validation} accuracy at fixed
+total-update budget (two rounds; the search never sees test labels), then evaluated the chosen
+allocation once. Against the best uniform budget at band, the search preserves accuracy with
+$22.7$--$93.4\%$ fewer total layer-updates on six of eight held-out $L=4$ configurations
+(chameleon $2/4$, squirrel $4/4$), and on six of eight pilot $L=4$ cells ($44$--$90\%$); a random
+allocation under the same search budget is worse or equal on the majority of cells. The mechanism
+is visible in the numbers: at $L=4$ the uniform requirement explodes (the smallest uniform $T$
+at band reaches the search cap on most cells) because the depth law holds every layer to the worst
+layer's budget, and the search releases the low-gain layers from it.
+
+The capability has a boundary, and the boundary is the result. On $L=3$ configurations the
+uniform budget is already compact ($T^{*} \le 16$) and the same search finds almost nothing to
+release ($1/8$ cells); the pre-registered mixed-$L$ screen (which required the effect on two thirds
+of $16$ mixed cells) was not met ($37.5\%$), and the validated claim is therefore the deep-regime
+one, confirmed at $L=4$ only. The idea family is prior art --- per-layer timesteps in conversion
+are established \citep{ramesh2025pascal,guo2026mixed}, and search-based per-layer budgets already
+save $1.67$--$3.84\times$ synaptic updates in \citet{nallathambi2022ldsnn}; what is measured here
+is where the headroom lives on graphs and that a validation-only search reaches it.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.92\columnwidth]{figures/fig9_transfer.pdf}
+\caption{One-shot latency selection from weights: $T_{\mathrm{cert}}$ against the empirical
+$T^{*}$, per graph. Green marks cells inside the accuracy band, red marks misses. The two
+calibration graphs sit on the identity line; the held-out graphs do not.}
+\label{fig:transfer}
+\end{figure}
+
+\subsection{What does not transfer across graphs}
+\label{sec:transfer}
+
+Three weight-derived routes were tried and each failed its pre-registered held-out gate, with a
+measured failure mode each. (i) \emph{Closed-form window certificates}: the gain-equalised rule
+starves low-gain layers to windows below four and loses $2$--$5.6$ points there; the two
+certificate-based repairs (a margin floor, a per-layer sufficiency bound) over-provision to the
+search cap on every cell --- the worst-case bound is $3.2$--$6.7\times$ conservative, exactly as
+\secref{sec:theory} measures. The regime map is the residue: windows of four or more hold the band
+at $8$--$29\%$ saving on $3/8$ pilot cells. (ii) \emph{Sweep-free latency selection}: a certificate
+$T_{\mathrm{cert}}$ calibrated on two graphs is exact on those two ($\kappa = 1.0$, and a shuffled
+calibration control is strictly worse) yet fails to transfer --- band hits on one of three held-out
+graphs and $\kappa \in \{1.2, 11.0, 2.5\}$ --- under-provision on chameleon, $11\times$
+over-provision on squirrel, and both failure modes together on arxiv. (iii) \emph{Gap prediction}
+ranks models almost perfectly yet misses
+the level by $4.6$ points. Within a configuration the identity is exact; the per-graph margin and
+activation scales that the certificates need are not transferable across the
+homophily/heterophily divide. The negative map is why the constructive result of
+\secref{sec:allocation} is stated as a procedure with a validation sweep and not as a formula.

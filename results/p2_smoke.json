@@ -1,0 +1,57 @@
+{
+  "stage": "P2-smoke",
+  "checks": {
+    "imports": {
+      "core": true,
+      "graph_data": true
+    },
+    "cora_load": {
+      "N": 2708,
+      "C": 7
+    },
+    "tiny_cycle": {
+      "snn_T4_acc": 0.789,
+      "identity_max_residual": {
+        "max_abs": "0.0",
+        "per_layer": "[{'layer': 1, 'max_abs': 0.0, 'got_max': 0.0, 'scale': 2.0148956775665283}]"
+      },
+      "identity_keys": [
+        "max_abs",
+        "per_layer"
+      ]
+    },
+    "heldout_loaders": {
+      "chameleon": {
+        "ok": true,
+        "N": 2277,
+        "keys": [
+          "adj",
+          "features",
+          "labels",
+          "row_normalize",
+          "test_mask",
+          "train_mask",
+          "val_mask"
+        ]
+      },
+      "squirrel": {
+        "ok": true,
+        "N": 5201,
+        "keys": [
+          "adj",
+          "features",
+          "labels",
+          "row_normalize",
+          "test_mask",
+          "train_mask",
+          "val_mask"
+        ]
+      },
+      "ogbn_arxiv": {
+        "raw_dir_exists": true,
+        "path": "C:\\code\\phd-snn\\auto-paper\\20261028-171500\\Spiking-GNN-Conversion\\f-research-v1-run-20261028-174053-gnn-snn-conv\\results\\.data\\ogb\\ogbn_arxiv"
+      }
+    }
+  },
+  "wall_seconds": 9.8
+}

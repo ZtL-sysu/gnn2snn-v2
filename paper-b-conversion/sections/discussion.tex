@@ -1,0 +1,136 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Misalignment is a variance phenomenon, not a bias phenomenon}
+\label{sec:variance}
+
+It is tempting to describe the graph conversion error as ``noise from asynchronous arrival'' and to
+expect more timesteps to wash it out. \eqnref{eq:split} says something sharper, and the measurements
+agree. The error splits into a systematic part, which is a \emph{bias} with a closed-form correction,
+and a zero-mean part whose magnitude is controlled not by the number of neighbours but by $\anorm$:
+the neighbourhood converts a sum of worst-case deviations into a variance sum, so adding neighbours
+helps rather than hurts. The diagnostic that separates the two is the share of the certificate each
+term consumes. Without the bias, the systematic term is $26.1\%$, $24.5\%$ and $21.3\%$ of the bound
+on Cora, CiteSeer and PubMed at $T=8$; with $\betastar$ it falls to $1.4\%$, $1.0\%$ and $0.7\%$. The
+bias does not shrink the fluctuation at all---its half-width is $1/(2T)$ either way---which is
+precisely why its benefit is concentrated at small $T$ and has vanished by $T=16$, and why an
+experiment that only reported accuracy at large $T$ would conclude, wrongly, that the bias does
+nothing.
+
+The same decomposition explains an asymmetry that would otherwise look like a quirk. Sum aggregation
+has row sums up to $169$ and, under a naive reading of \eqnref{eq:split}, should suffer a systematic
+error two orders of magnitude larger than mean aggregation. It does not: the margin $\Deltan$ is
+computed from the \emph{same} aggregated logits, so the relative error is $\rho$-invariant, and what
+actually governs the conversion is $\anorm\lVert DW\rVert_{2}/(T\Deltan)$. We originally predicted
+the opposite and were corrected by the experiment (\secref{sec:generality}); we report the
+prediction, the refutation and the corrected account because the episode is the clearest evidence we
+have that the identity, and not the intuition, is doing the work.
+
+\subsection{How tight is the guarantee, and where is the slack}
+\label{sec:tight}
+
+A sufficient condition that certifies $68\%$ of nodes when $96\%$ are in fact correct invites the
+question of whether the bound is merely loose or structurally loose. It is structurally loose, and
+the slack has one address. Decomposing the bound per node (\secref{sec:theory}) shows that
+$73$--$99\%$ of it is the Hoeffding term; the median ratio of bound to realised error is
+$3.2$--$6.7\times$ for $T \ge 4$ (up to $8.4\times$ at $T=1$), and the Hoeffding half-width alone is
+$1.3$--$2.3\times$ the realised 95th percentile of the fluctuation over the FTBC-configuration
+subset ($1.3$--$4.1\times$ over all cells). The reason is a mismatch of
+regimes: Hoeffding treats the $(m,h)$ sum as adversarial, using the worst-case half-width
+$w = 1/(2T)$ for every term, whereas the residuals are close to uniform and independent, so the
+realised sum concentrates like a variance sum. Replacing Hoeffding by a Bernstein bound---which uses
+the residual variance we already measure---should tighten the constant by roughly $\sqrt{12}$, a
+factor of $3.5$. We have not done this, because the theorem's job here is to identify \emph{which}
+quantity sets the required latency ($\anorm\lVert DW\rVert_{2}/\Deltan$) and to certify without free
+parameters; a tighter constant would raise the certificate's coverage without changing its message.
+What matters for soundness is the other direction, and there the evidence is clean: the node-level
+violation rate is $0.0$--$0.6\%$, comfortably inside the $\delta = 0.05$ budget, so the theorem is
+never contradicted.
+
+One honest limitation about the theorem's usefulness: it is not a recipe. $\Deltan$ is a property of
+the trained model, so the statement cannot tell a practitioner in advance how many timesteps to
+budget; it can only be evaluated after training. What it does give is the scaling and the ranking---why
+the bias roughly halves the required $T$, why a graph with larger $\anorm$ needs more latency, and
+why a conflict is decided by the margin rather than by the graph's size---and a diagnostic that a
+practitioner can compute post hoc to see which nodes are at risk.
+
+\subsection{Boundaries and threats to validity}
+\label{sec:boundaries}
+
+\paragraph{Operator.} The derivation needs a fixed, non-negative message-passing operator. Symmetric
+GCN, mean and sum aggregation are covered; learned per-edge attention is not, unless the attention is
+frozen into a fixed operator before conversion. This is a real restriction rather than a
+technicality: an attention weight that changes per forward pass would break the very $\Ahat$ that
+\eqnref{eq:identity} factorises.
+
+\paragraph{Depth.} The recursion extends exactly to $L$ layers (\eqnref{eq:recursion}), and the
+measured consequence is negative. The output error is amplified by the cumulative spectral gain $G=\prod_l\lVert M_l\rVert_{2}$, and the measured amplification follows $G^{0.95}$ with $r=0.990$ across nine cells (\secref{sec:depth}). At $L=4$ that is a $24$--$41\times$ amplification and a $21$-point deficit at $T=8$. Two natural repairs fail for a reason worth stating: gauge-normalising each layer is free for the ANN because ReLU is positively homogeneous, but the spike threshold is an absolute scale, so the renormalised network either falls silent or is bit-identical to the original once $\theta$ is rescaled with it. Computing $G$ before converting a backbone therefore tells the
+practitioner whether the conversion is worth attempting.
+
+\paragraph{The prediction that did not hold.} We set out to predict absolute accuracy from the weights and could not: the level is off by $4.6$ points even though the ordering is right. Two things are worth saying about that. The failure is not a tuning failure --- the model linearises around the margin, and in the cells where it errs the conversion has already destroyed most of the accuracy, so the linearisation is invalid rather than imprecise. And the ablation the mechanism implies does not fire: scrambling the per-node error scales, which should destroy the spatial correspondence that \eqnref{eq:sigma} predicts, leaves the error slightly \emph{better}. We therefore claim the ranking and not the level, and a reader who needs the absolute number should evaluate the closed form of \secref{sec:closed} instead, which is exact at two layers and costs one matmul.
+
+\paragraph{Comparison scope.} The external arms in \tabref{tab:pareto} are
+re-implementations of published formulations rather than reproductions of released
+checkpoints; no released checkpoints exist for the rate-coded formulation at our splits.
+\secref{sec:audit} reports the two codebase-level measurements that anchor the comparison,
+and a companion paper \citep{companion} reports the full audit of the three pipelines that
+publish code. We do not enter the large-scale benchmark of \citet{zhang2025sgnnbench},
+which compares trained spiking GNNs at sizes where our conversion has not been validated.
+
+\paragraph{Threshold regime.} \secref{sec:lemma1} assumes activations in $[0,\theta]$. With
+$\theta = 1$ and no global rescaling the violating mass is at most about $1\%$ on the graphs we test,
+and those units are carried by an explicit saturation term rather than ignored. At larger activation
+scales the standard per-layer rescaling becomes necessary, and the theory then acquires an extra
+factor of the inverse scale. We did not test that regime.
+
+\paragraph{Scale.} The $169$k-node experiment asks whether conversion preserves its own ANN, and the
+answer is yes. It does \emph{not} establish that our ANN is competitive on ogbn-arxiv; our
+$169$k-node GCN is weaker than the best published models there, and widening it did not close the gap
+within the budget we allowed. Any reading of that row as a state-of-the-art claim would be a
+misreading, and \secref{sec:scale} is worded to prevent it.
+
+\paragraph{Baselines.} Our strongest competitors are re-implementations of published
+\emph{formulations}---direct training with a constant analogue input, and rate-coded direct
+training---trained by us under our splits and seed budget. We did not reproduce any published
+codebase, so we claim nothing about beating a specific published number. The compensating strength is
+control: same architecture, same optimiser, same early stopping, same seeds. We also report two
+dropout protocols for the direct baseline because they differ measurably, and the stronger one is the
+one our claims are measured against.
+
+\paragraph{Efficiency.} Spike counts and timesteps are proxies. They ignore membrane-update cost, memory access patterns and event-routing overhead, all of which matter on real hardware, and we never convert them into joules. We also tested whether the count can be bought down: pruning half the hidden units by activation mass cuts spikes by $23$--$36\%$ for at most $0.5$ points, and reaching a $40\%$ cut needs three quarters of the units and costs about one point. We report this as a trade-off, not as an energy win, and the gate we set for ourselves (spikes down $40\%$ at no more than $0.3$ points) fails on all three graphs.
+
+\paragraph{One assumption is checked, not proven.} Uniformity of the sub-threshold residuals holds to
+within $1\%$ on our graphs, and we report the check per run. It is an assumption about the activation
+distribution of a trained network, and a network trained into strongly correlated activations could
+violate it.
+
+\subsection{Outlook}
+\label{sec:outlook}
+
+Two directions follow directly. The first is dynamic graphs: ``train once, deploy at any latency'' is
+worth most when the latency budget changes at inference time, which is the normal situation in
+streaming settings, and conversion is the only route offering it. The second is to freeze
+attention---convert a trained attention model by materialising its attention into a fixed operator
+and bounding the resulting perturbation---which would extend the formulation from fixed aggregators
+to the attention family without abandoning the exact identity. Beyond the method, the exercise
+suggests that the non-vision frontier of conversion needs its own analyses rather than transplanted
+recipes: the two things vision conversion takes for granted, a row-stochastic operator and a decoder
+that can afford to count, both fail here, and each failure produced a design change rather than a
+numerical nuisance.
+
+The negative map of \secref{sec:transfer} deserves its own reading. The identity and the laws are
+\emph{in-configuration} statements: they characterise a trained model and its conversion exactly.
+The moment a decision must be made for a \emph{new} graph from weights alone --- how many timesteps,
+how to split them across layers --- the certificates need per-graph margin and activation scales
+whose transfer we could not establish by any of three routes. We offer this as an open problem with
+measured failure modes rather than as a limitation paragraph: the practical guidance is to run a
+small validation search (\secref{sec:allocation}) and to treat weight-only certificates as
+hypotheses about a new graph until they are recalibrated there.
+
+The accounting sensitivity of \secref{sec:accounting} is a methodological hazard for the
+literature this paper sits in. A converted network and a linear-readout external arm exchange the
+``cheaper'' label when the unit changes from static synaptic updates to spike events, and a
+reference implementation can carry a cost model for a layer its code never trains. Comparisons of
+SNN efficiency on graphs should therefore state the counting convention, ship the accounting, and
+treat the ranking as convention-conditional --- the same discipline the identity enforces on the
+accuracy side.

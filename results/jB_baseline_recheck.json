@@ -1,0 +1,41 @@
+{
+  "stage": "P3-baseline-recheck",
+  "applicability": {
+    "wp2_pareto.json": "976d5d0c533eab3a2abb2d8c927508b0c95d15e66b6c21229b69ed947deb00dc",
+    "baselines_s7.json": "11344c2dfa6f376b35a0b4f229d9ff2461683783302add6a225258143c72161b",
+    "wp6a_misalignment.json": "6dc4d23b2f44bf131d4a2c84995305b35db4233571bf3bb646fe06ad7a004346"
+  },
+  "cells": [
+    {
+      "dataset": "cora",
+      "T": 4,
+      "seeds": 3,
+      "rerun_mean": 0.7973333333333334,
+      "registered_mean": 0.7942857142857144,
+      "delta_pp": 0.3047619047619077,
+      "registered_std": 0.0052837834311162705,
+      "within_2x_std": true
+    },
+    {
+      "dataset": "cora",
+      "T": 8,
+      "seeds": 3,
+      "rerun_mean": 0.801,
+      "registered_mean": 0.8025714285714286,
+      "delta_pp": -0.1571428571428557,
+      "registered_std": 0.007816779440173956,
+      "within_2x_std": true
+    },
+    {
+      "dataset": "citeseer",
+      "T": 4,
+      "seeds": 3,
+      "rerun_mean": 0.6913333333333332,
+      "registered_mean": 0.6928571428571428,
+      "delta_pp": -0.1523809523809594,
+      "registered_std": 0.010575288870469532,
+      "within_2x_std": true
+    }
+  ],
+  "verdict": "pass"
+}

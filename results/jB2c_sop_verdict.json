@@ -1,0 +1,215 @@
+{
+  "stage": "E-B2c-sop-verdict",
+  "headline_convention": "event-driven SynOps (pre-declared)",
+  "cells": [
+    {
+      "dataset": "cora",
+      "target": 0.791,
+      "conv_T": 4,
+      "conversion": {
+        "acc": 0.7942857142857144,
+        "synops_event": 184990.81885129213,
+        "synops_static_TEH": 337792.0
+      },
+      "externals": [
+        {
+          "label": "external F->C single spiking layer (registered impl, T=4)",
+          "T": 4,
+          "acc": 0.8111428571428573,
+          "synops_event": 74671.1943359375,
+          "synops_dense": 108655792,
+          "node_h_legacy": 5545984
+        },
+        {
+          "label": "external F->C single spiking layer (registered impl, T=8)",
+          "T": 8,
+          "acc": 0.8124285714285714,
+          "synops_event": 149342.388671875,
+          "synops_dense": 217311584,
+          "node_h_legacy": 11091968
+        },
+        {
+          "label": "external F->C single spiking layer (registered impl, T=16)",
+          "T": 16,
+          "acc": 0.8168571428571427,
+          "synops_event": 298684.77734375,
+          "synops_dense": 434623168,
+          "node_h_legacy": 22183936
+        },
+        {
+          "label": "truewidth H=16 T=8",
+          "T": 8,
+          "acc": 0.8004285714285715,
+          "synops_event": 3684237.5,
+          "synops_dense": 499138560.0,
+          "node_h_legacy": 346624.0
+        },
+        {
+          "label": "truewidth H=16 T=16",
+          "T": 16,
+          "acc": 0.8037142857142856,
+          "synops_event": 14659990.0,
+          "synops_dense": 998277120.0,
+          "node_h_legacy": 693248.0
+        },
+        {
+          "label": "truewidth H=32 T=8",
+          "T": 8,
+          "acc": 0.8182857142857143,
+          "synops_event": 6756099.0,
+          "synops_dense": 998277120.0,
+          "node_h_legacy": 693248.0
+        },
+        {
+          "label": "truewidth H=32 T=16",
+          "T": 16,
+          "acc": 0.8001428571428573,
+          "synops_event": 27136492.0,
+          "synops_dense": 1996554240.0,
+          "node_h_legacy": 1386496.0
+        },
+        {
+          "label": "truewidth H=512 T=8",
+          "T": 8,
+          "acc": 0.7940000000000002,
+          "synops_event": 86572880.0,
+          "synops_dense": 15972433920.0,
+          "node_h_legacy": 11091968.0
+        },
+        {
+          "label": "truewidth H=512 T=16",
+          "T": 16,
+          "acc": 0.8068571428571428,
+          "synops_event": 358390400.0,
+          "synops_dense": 31944867840.0,
+          "node_h_legacy": 22183936.0
+        }
+      ]
+    },
+    {
+      "dataset": "citeseer",
+      "target": 0.6881428571428571,
+      "conv_T": 4,
+      "conversion": {
+        "acc": 0.6928571428571428,
+        "synops_event": 130680.7152147804,
+        "synops_static_TEH": 291328.0
+      },
+      "externals": [
+        {
+          "label": "external F->C single spiking layer (registered impl, T=4)",
+          "T": 4,
+          "acc": 0.6934285714285714,
+          "synops_event": 78829.669921875,
+          "synops_dense": 295677144,
+          "node_h_legacy": 6813696
+        },
+        {
+          "label": "external F->C single spiking layer (registered impl, T=8)",
+          "T": 8,
+          "acc": 0.7072857142857144,
+          "synops_event": 157659.33984375,
+          "synops_dense": 591354288,
+          "node_h_legacy": 13627392
+        },
+        {
+          "label": "external F->C single spiking layer (registered impl, T=16)",
+          "T": 16,
+          "acc": 0.6965714285714286,
+          "synops_event": 315318.6796875,
+          "synops_dense": 1182708576,
+          "node_h_legacy": 27254784
+        },
+        {
+          "label": "truewidth H=32 T=8",
+          "T": 8,
+          "acc": 0.6884285714285713,
+          "synops_event": 7623343.714285715,
+          "synops_dense": 3158999808.0,
+          "node_h_legacy": 851712.0
+        }
+      ]
+    },
+    {
+      "dataset": "pubmed",
+      "target": 0.7607142857142857,
+      "conv_T": 4,
+      "conversion": {
+        "acc": 0.7738571428571428,
+        "synops_event": 405607.48266620294,
+        "synops_static_TEH": 2836736.0
+      },
+      "externals": [
+        {
+          "label": "external F->C single spiking layer (registered impl, T=4)",
+          "T": 4,
+          "acc": 0.7344285714285714,
+          "synops_event": 228416.203125,
+          "synops_dense": 118302000,
+          "node_h_legacy": 40380416
+        },
+        {
+          "label": "external F->C single spiking layer (registered impl, T=8)",
+          "T": 8,
+          "acc": 0.7524285714285713,
+          "synops_event": 456832.40625,
+          "synops_dense": 236604000,
+          "node_h_legacy": 80760832
+        },
+        {
+          "label": "external F->C single spiking layer (registered impl, T=16)",
+          "T": 16,
+          "acc": 0.7602857142857143,
+          "synops_event": 913664.8125,
+          "synops_dense": 473208000,
+          "node_h_legacy": 161521664
+        },
+        {
+          "label": "truewidth H=16 T=16",
+          "T": 16,
+          "acc": 0.7655714285714286,
+          "synops_event": 78245122.28571428,
+          "synops_dense": 2538918656.0,
+          "node_h_legacy": 5047552.0
+        },
+        {
+          "label": "truewidth H=32 T=16",
+          "T": 16,
+          "acc": 0.7655714285714286,
+          "synops_event": 152703284.57142857,
+          "synops_dense": 5077837312.0,
+          "node_h_legacy": 10095104.0
+        },
+        {
+          "label": "truewidth H=512 T=16",
+          "T": 16,
+          "acc": 0.7711428571428571,
+          "synops_event": 2269138004.571429,
+          "synops_dense": 81245396992.0,
+          "node_h_legacy": 161521664.0
+        }
+      ]
+    }
+  ],
+  "knob_check": {
+    "max_acc_spread_across_H": 0.10414285714285726,
+    "pass": true,
+    "note": "H=16/32/512 must not be bit-identical (contrast the p3 defect)"
+  },
+  "verdicts": {
+    "event_driven_headline": {
+      "graphs_conversion_cheaper_than_all_external": 0,
+      "external_dominations_T_le_4": 2,
+      "wp2_failure_criterion_fires": true
+    },
+    "static_dense_secondary": {
+      "graphs_conversion_cheaper_than_all_external": 3,
+      "external_dominations_T_le_4": 0,
+      "wp2_failure_criterion_fires": false
+    },
+    "legacy_node_h_reference": {
+      "graphs_conversion_cheaper": 3,
+      "note": "legacy accounting mis-described the F->C arm; continuity only"
+    }
+  }
+}

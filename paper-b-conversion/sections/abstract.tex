@@ -1,0 +1,22 @@
+\begin{abstract}
+The error of a graph-to-spiking conversion is a deterministic, closed-form function of the trained
+weights. Because neighbours fire at different times, the following layer integrates a locally
+time-scrambled, per-node-quantised rate; writing that down yields an exact per-layer error identity,
+which lets the two-layer conversion be scored with one sparse matmul instead of $T$ simulation steps
+(closed form and simulator agree to $0.08$ points over $105$ cells). The identity yields a
+parameter-free bias, an order-invariant membrane readout, a depth law under which a four-layer model
+loses $21$ points at $T=8$, and a firing threshold pinned to the activation ceiling fixed during
+training. Its boundary is equally concrete: the closed form fails at three layers by $3.5$ points
+because reset makes an intermediate count depend on arrival order. The identity also enables a
+constructive decision: in the deep regime, where uniform timesteps follow the worst layer's budget,
+a validation search over per-layer simulation windows preserves accuracy with $22.7$--$93.4\%$
+fewer layer-updates than the best uniform budget on six of eight held-out four-layer graphs --- a
+deep-regime result whose idea family is prior art and whose mixed-depth screen was not met. Across
+graphs, weight-only decisions fail to transfer: gap ranking works but the level misses, closed-form
+window certificates over-provision, and a sweep-free latency selector calibrated on two graphs
+misses the band on two of three holdouts. Cost rankings flip with the accounting convention, which
+we report as a measurement. External anchors frame the protocol without entering it: released
+spiking-graph pipelines reach $74.0$ on Cora, below the conversion at $T=16$, and $86.6$, above
+every arm here; a companion paper reports the audit of every code-releasing method in its survey.
+
+\end{abstract}

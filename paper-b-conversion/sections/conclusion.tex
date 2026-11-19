@@ -1,0 +1,52 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We formulated ANN-to-SNN conversion for graph node classification and found that the graph-specific
+obstruction has a name and an algebra. Neighbours fire at different times, so the second layer
+integrates a locally reordered pre-activation; writing that down yields an exact error identity, and
+the identity yields four things in turn: a closed-form forward bias $\betastar = \theta/(2T)$ that
+removes the systematic part of the error and makes the method parameter-free; a membrane readout
+that removes the output quantisation and clipping that counting imposes, and that we prove---and
+verify to four decimals---is exactly invariant to the order of upstream spikes, which the count
+decoder is not; a margin-recovery theorem whose required latency depends on neighbourhood geometry
+rather than on graph size; and, once the identity is extended to $L$ layers, a depth law: the error
+is amplified by the cumulative spectral gain $G=\prod_l\lVert M_l\rVert_2$ of the trained ANN, and
+the amplification follows $G^{0.95}$ with $r=0.990$ over nine cells, so what a deep model will cost
+in latency is computable from its weights before any simulation.
+
+At seven seeds across six graphs, converted networks reach their ANN to within $1.5$ points at
+$T \le 8$, and on a protocol shared by four arms they are never dominated: at matched accuracy they
+cost $2$--$23\times$ fewer synaptic operations than a trained spiking network on two of three graphs
+under the static-update accounting --- the ordering is convention-conditional
+(\secref{sec:accounting}), which is itself one of the paper's findings --- and on CiteSeer they are
+the only arm that reaches the band at all. The identity also buys a concrete decision: in the deep
+regime, where uniform budgets explode with the depth law, a validation-only per-layer window search
+keeps the accuracy band with $22.7$--$93.4\%$ fewer layer-updates on six of eight held-out
+four-layer cells (\secref{sec:allocation}), while the weight-only routes fail to transfer
+(\secref{sec:transfer}). External anchors frame, and do not enter, this protocol: SpikeGraphormer's
+released pipeline reaches $74.0$ on Cora below the conversion at $T=16$, and SpikeGCL's
+self-supervised pipeline reaches $86.6$ above every arm here. The converted networks train one
+model instead of five, and they degrade in the way the theory predicts when the aggregation
+operator, the threshold, the width or the decoder is changed.
+
+The limits are as informative as the results. Conversion does not
+buy energy: at matched accuracy it emits more spikes than a trained spiking network, and pruning
+half the hidden units recovers only a third of the excess at a fraction of a point of accuracy.
+Depth is not bought either: the amplification cannot be reparametrised away, because the spike
+threshold is an absolute scale while the ReLU that would let one rescale it is homogeneous---and at
+$L\ge3$ the closed form that makes the two-layer case free of simulation breaks too, for the same
+reason, the reset. The count decoder does not free the computation from temporal ordering, since
+only the membrane decoder has that. And averaging over the threshold and the initial
+potential---axes that cost no spikes---never beats the ANN, whereas nine independently trained ANNs
+beat it by about a point on every graph, so what helps is ensembling models and not re-sampling one
+model's discretisation error. The published numbers cannot be used as baselines without checking:
+the two anchors we could place beside our own, measured from their authors' code on the public
+split, bracket the conversion rather than rank it.
+
+A prediction that failed is reported alongside them. The laws rank candidate models almost
+perfectly ($\rho=0.967$) but miss the absolute conversion gap by $4.6$ points, and the ablation that
+would have confirmed the mechanism does not. What survives is narrower and more useful
+than a transferable predictor: conversion is a statement about how a computation is discretised,
+on a graph the discretisation happens along the neighbourhood as well as along time, and the two
+quantities that decide whether a given model converts well---its activation mass and its cumulative
+spectral gain---can both be read off the trained weights before a single spike is simulated.

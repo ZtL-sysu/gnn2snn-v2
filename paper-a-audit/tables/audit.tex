@@ -1,0 +1,18 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{The audit. Every row is the \emph{published} code, run with the authors' own script and configuration in an environment pinned to their own requirements; no method is re-implemented. \emph{Pub.\ I} and \emph{II} are the two splits the SpikingGCN paper itself reports, I being 20/500/1000 and II an 8:2 random split; where a paper reports one split, only that column is filled. \emph{Reproduced} is what the released code gives, averaged over $n$ seeds (multi-seed extensions of the single-run cells are reported in the text). The fourth row is SpikeGraphormer with one flag changed to the public split and everything else fixed.}\label{tab:audit}
+\begin{tabular}{llrrrrr}
+\toprule
+method & dataset & pub.\ I & pub.\ II & reproduced & $\Delta$ & $n$ \\
+\midrule
+SpikingGCN & Cora & 80.7 & 88.7 & 50.0 & $-30.7$ & 5 \\
+ & PubMed & 77.6 & 89.3 & 64.3 & $-13.3$ & 3 \\
+ & CiteSeer & 72.5 & 77.6 & 70.6 & $-1.9$ & 1 \\
+SpikeGraphormer & Cora & $84.8{\pm}0.7$ & --- & 84.7 & $-0.1$ & 3 \\
+ & Cora, public split & --- & --- & 74.0 & $-10.8$ & 1 \\
+SpikeGCL & Cora & $87.4{\pm}0.6$ & --- & 86.6 & $-0.8$ & 1 \\
+ & CiteSeer & $77.6{\pm}0.6$ & --- & 77.3 & $-0.3$ & 1 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,28 @@
+\begin{table*}[t]
+\centering
+\footnotesize
+\caption{Does the conversion survive depth? $G=\prod_l\|M_l\|_2$ is the cumulative spectral
+gain of the trained ANN, computed from the weights \emph{before} any spiking simulation.
+$\|E_1\|$ and $\|E_L\|$ are the measured layer-1 and output error norms at $T=8$; the last three
+columns are converted accuracies. The error amplification tracks $G^{0.95}$ across all nine
+cells (Pearson $r=0.990$), so the required latency
+of a deep conversion can be predicted from the weights alone. Depth hurts the ANN as well here
+(oversmoothing at $L\ge3$ with a plain GCN), but the conversion degrades faster than the ANN in
+every cell: at $L=4$, $\|E_L\|/\|E_1\|\approx24$--$41$.}
+\label{tab:depth}
+\begin{tabular}{lrrrrrrrrr}
+\toprule
+dataset & $L$ & $G$ & $\|E_1\|$ & $\|E_L\|$ & $\|E_L\|/\|E_1\|$ & ANN & $T{=}4$ & $T{=}8$ & $T{=}16$ \\
+\midrule
+cora & 2 & 16.5 & 6.895 & 6.895 & 1.00 & 0.8060 & 0.7943 & 0.8026 & 0.8046 \\
+cora & 3 & 78.9 & 5.783 & 37.150 & 6.42 & 0.6247 & 0.4864 & 0.5826 & 0.6193 \\
+cora & 4 & 708.5 & 7.836 & 317.954 & 40.58 & 0.6319 & 0.2601 & 0.4206 & 0.5389 \\
+citeseer & 2 & 17.8 & 6.688 & 6.688 & 1.00 & 0.7031 & 0.6929 & 0.6907 & 0.7021 \\
+citeseer & 3 & 127.2 & 6.433 & 33.446 & 5.20 & 0.5749 & 0.3496 & 0.5191 & 0.5574 \\
+citeseer & 4 & 663.4 & 8.201 & 209.436 & 25.54 & 0.4821 & 0.2173 & 0.2539 & 0.3907 \\
+pubmed & 2 & 17.2 & 16.389 & 16.389 & 1.00 & 0.7757 & 0.7739 & 0.7740 & 0.7771 \\
+pubmed & 3 & 99.7 & 15.692 & 82.916 & 5.28 & 0.7609 & 0.7197 & 0.7454 & 0.7587 \\
+pubmed & 4 & 417.7 & 20.610 & 500.873 & 24.30 & 0.6887 & 0.5014 & 0.6013 & 0.6749 \\
+\bottomrule
+\end{tabular}
+\end{table*}

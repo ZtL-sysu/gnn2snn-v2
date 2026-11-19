@@ -1,0 +1,76 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Spiking graph neural networks.} The field is young enough to enumerate, and its methods
+differ mainly in what they spike. \citet{zhu2022spiking} propagate features with a two-hop polynomial
+and classify with a single spiking layer, an architecture we audit in \secref{sec:results} because it
+is the most-cited of the family. \citet{li2023bit1} learn binarised representations by contrastive
+pre-training and probing; \citet{yang2022svgae} use a spiking variational auto-encoder. Graph
+structure enters through attention in \citet{sun2024spikegraphormer} and through heterogeneous
+attention in \citet{cao2025hetgat}, through spatial-temporal normalisation in
+\citet{xu2024unveiling}, and through variable spiking neurons in \citet{jain2024hybrid}. Dynamic
+graphs are the target of \citet{chen2024signn}, \citet{yin2024dgsnn} and \citet{jahin2026chronospike};
+\citet{fan2024continuous} recast propagation as an ODE, \citet{sun2024riemannian} and
+\citet{zhang2025geometry} move the neuron onto Riemannian manifolds, and \citet{snyder2024loihi}
+target a neuromorphic implementation directly. Photonic hardware \citep{yu2025photonic} and
+STDP-based anomaly detection \citep{fofanah2026anomaly} extend the same idea to other substrates and
+tasks. The surrounding toolchain --- surrogate gradients \citep{neftci2019surrogate}, residual
+spiking architectures \citep{fang2021deep,zheng2021going}, learnable membrane time constants
+\citep{fang2021incorporating}, spike-driven transformers \citep{yao2023spiking,yao2024spikingv2}, and
+the SpikingJelly framework \citep{fang2023spikingjelly} --- is shared by most of these.
+
+\paragraph{Why the numbers are protocol-sensitive.} Recent conversion work gives a technical reason
+why a spiking accuracy cannot be transported between papers: the residual conversion error depends
+on quantisation, coding, calibration and the number of timesteps, not only on the trained weights.
+Polarity multi-spike mapping \citep{zhang2025quantization} and scale-and-fire neurons
+\citep{chen2025onetimestep} attack the error at the first timestep; differential coding
+\citep{huang2025differential} and error-compensation learning \citep{liu2025errorcomp} reduce it
+without retraining the source network; adaptive calibration \citep{wang2024adaptivecal} and low-bit
+noise injection \citep{li2024noiseadaptor} target the low-latency regime specifically. Phase coding
+\citep{hwang2024onespike}, sign-gradient dynamics beyond ReLU \citep{oh2024signgd} and
+activation-flexible finite-state neurons \citep{jia2026activation} change the encoding itself. The
+same machinery now reaches transformers \citep{huang2025spiketrans,wang2025trainingfree}, and
+\citet{xu2026erroramp} show that conversion error amplifies with depth in continuous control. Each
+of these changes the accuracy a fixed architecture reports, which is why a comparison table must
+carry its split and its protocol rather than only its method name.
+
+\paragraph{Benchmarks and split conventions.} The underlying graph-learning results rest on a small
+set of shared datasets \citep{kipf2017semi,velickovic2018graph,hamilton2017inductive} whose
+expressive limits \citep{xu2019powerful} and geometric structure \citep{pei2020geom} are well
+studied, and whose standardised evaluation was later extended by \citet{hu2020open} and multi-scale
+node-embedding benchmarks \citep{rozemberczki2021multi}. The split itself is a first-order
+experimental choice: a 20-per-class semi-supervised split and an 8:2 random split produce different
+accuracy distributions on the same graph. Classical conversion work
+\citep{diehl2015fast,rueckauer2017conversion,sengupta2019going,bu2022optimal,deng2021optimal,
+hao2023offset,wu2024ftbc,bojkovic2025temporal} similarly shows that a rate-coded result depends on
+threshold calibration and bias handling. Our audit measures what happens when that choice is left
+unlabelled.
+
+\paragraph{Reproducibility as a measured quantity.} Machine learning has an established literature
+on what happens when you re-run things. \citet{henderson2018deep} showed that seed and implementation
+choice can dominate reported differences in reinforcement learning; \citet{raff2019step} attempted a
+large-scale independent replication and found the rate low enough to be a research problem in itself;
+\citet{recht2019imagenet} isolated a distribution shift that had been invisible in aggregate;
+\citet{bouthillier2021accounting} formalised the variance decomposition that makes a single-seed
+comparison uninformative, and \citet{pineau2021improving} turned the resulting checklist into
+community practice. Variance decomposition and seed studies are the standard tools here; the two
+cases we report are not variance failures, because every individual number is internally consistent.
+
+Our contribution to that line is a specific instance: a number can be correct for the experiment it
+measures and unusable for the comparison a reader wants to make with it. The usual story is that a
+result fails to replicate because of seed variance or hyper-parameter search; here the failure is an
+unlabelled protocol choice that propagates through a table.
+
+\paragraph{Closest prior work.} \citet{zhang2025sgnnbench} evaluate nine spiking GNNs under one
+harness and are the only work in this list that addresses comparability directly. The difference is
+worth stating precisely: that benchmark \textbf{re-runs} methods inside one framework, so every
+number it reports is produced by its own implementation and it tells a reader which method is better
+under that implementation. We \textbf{audit} the released code, so every number we report is
+produced by the authors' own script in the authors' own environment and tells a reader whether the
+published number is what the published code produces. The two questions are complementary, and the
+second has to be answered first: a re-implementation is only as good as the published number it is
+checked against.
+
+The scope of this study is the auditable population: methods whose released code can be executed in a
+pinned environment. It proposes no new model, and its claims are falsifiable by re-running the
+scripts and logs we ship.

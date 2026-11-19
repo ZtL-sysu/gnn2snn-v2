@@ -1,0 +1,182 @@
+[
+  {
+    "path": "sources\\figures\\citeseer_accuracy_energy.png",
+    "sha256": "0090d26f9663ad6f1b1ed6de8f8726f8ce429d630c9f798949b3b9127eabf2e3"
+  },
+  {
+    "path": "sources\\figures\\cora_accuracy_energy.png",
+    "sha256": "e0527565277ab6d2d5e096c6785155f38b2fbba2ae69d4ca5500c502284ccc77"
+  },
+  {
+    "path": "sources\\figures\\fig1_framework.pdf",
+    "sha256": "beb6b9b7fb8ec972eaf6b4915a3fd31fcc55faf531ff598e6f2acd6f16298b1a"
+  },
+  {
+    "path": "sources\\figures\\fig1_framework.png",
+    "sha256": "90cef09e5f8e08d03c5d0d3e4e289e094761594b0e7c9d141669957ef4177766"
+  },
+  {
+    "path": "sources\\figures\\fig2_accuracy_vs_T.pdf",
+    "sha256": "65060ad1e24a3f0e906cbb5e73ae74d24cd0728388d08acce8954212cc30a58a"
+  },
+  {
+    "path": "sources\\figures\\fig2_accuracy_vs_T.png",
+    "sha256": "3e66a9efe9788cfa2d49b49947a516e448fad2c88db87954a53f2be70dfb7b9e"
+  },
+  {
+    "path": "sources\\figures\\fig3_spikes_vs_T.pdf",
+    "sha256": "37a4ad1a6a3e7fb6aa7d2dca6821c6992478b6ec013f1a74b83854c079138033"
+  },
+  {
+    "path": "sources\\figures\\fig3_spikes_vs_T.png",
+    "sha256": "4d152ab96be537f6d67380d74a5d2a550bbf22bd504c1d0e9fe348d3ae569d33"
+  },
+  {
+    "path": "sources\\figures\\fig4_ablation.pdf",
+    "sha256": "c85b6336118780aa15397a56b7649ada3583eeec44d031dcced947f734cf0d87"
+  },
+  {
+    "path": "sources\\figures\\fig4_ablation.png",
+    "sha256": "b09ab3c89ea659cd840574a86a7901fe8bb504a4e9b70fdf774ed9ea85a2edbe"
+  },
+  {
+    "path": "sources\\figures\\fig5_theory.pdf",
+    "sha256": "4adcb585857147f1107a979c75e087696d3fa3e4e86c6cefac97b2c98a47bf62"
+  },
+  {
+    "path": "sources\\figures\\fig5_theory.png",
+    "sha256": "f9f27f94b9fff37f922aab708975ca040e68ababa7d113133f221322a83ac3bf"
+  },
+  {
+    "path": "sources\\figures\\fig6_prediction.pdf",
+    "sha256": "6928a87bf6a26f1a05d1213deedc74adaf0bc1673f06014d5e5282465ab59911"
+  },
+  {
+    "path": "sources\\figures\\fig7_pareto.pdf",
+    "sha256": "599e3f7a05a8b10540031759b64b4d78c06529c9660e1d77543bcf81f5115982"
+  },
+  {
+    "path": "sources\\figures\\fig8_allocation_regime.pdf",
+    "sha256": "75a55c62ac847652f48f887710ef140c78413e9076fe771e39b0deb80f5a39f1"
+  },
+  {
+    "path": "sources\\figures\\fig9_transfer.pdf",
+    "sha256": "cf805549898f20fb633a45bc33ece3ebecb1cd98bb0bf01f9e580b759e5aa375"
+  },
+  {
+    "path": "sources\\figures\\pubmed_accuracy_energy.png",
+    "sha256": "7db5fc2be399dd2ac62a2c451dd362a5bc05172cde98644841f5fdad35595ace"
+  },
+  {
+    "path": "sources\\main.pdf",
+    "sha256": "5c6fa1750a93164906f0a4e18cee270061cdd92e808e82a063a6f0057b9f1feb"
+  },
+  {
+    "path": "sources\\main.tex",
+    "sha256": "284b803632e4b372638a3c631b97664e295877673c2d253c7d204b3ba03d030f"
+  },
+  {
+    "path": "sources\\refs.bib",
+    "sha256": "3136249396d2aabd86d251eae89436ba526544357337746b7d0f34ff50eb87e0"
+  },
+  {
+    "path": "sources\\sections\\abstract.tex",
+    "sha256": "84bed58cf398cbfc96da653d88e3939536ea2ebee33a45fdc62c4ace93b50f40"
+  },
+  {
+    "path": "sources\\sections\\conclusion.tex",
+    "sha256": "23221165ae9f19d76eb95dcc70ff6dfefafe3d5b46ccb071e07d5b02c995e9cd"
+  },
+  {
+    "path": "sources\\sections\\discussion.tex",
+    "sha256": "95806c9a38c53a36819f67c4afdb651a70bbbc4fdc03744fe12217b43c8e28fd"
+  },
+  {
+    "path": "sources\\sections\\experiments.tex",
+    "sha256": "fdf3f4593ef5f8a74bb56ed9374ef104165428aae4c0da934c6eb2817c075789"
+  },
+  {
+    "path": "sources\\sections\\intro.tex",
+    "sha256": "d40384c276615864ff402354afa5918ae7dd3494bc981a5bc8b60f1581f91e08"
+  },
+  {
+    "path": "sources\\sections\\method.tex",
+    "sha256": "e24ba7a0980092ab481b64e696b04e7cc8f0a09f8ce306910106194dcb9ec376"
+  },
+  {
+    "path": "sources\\sections\\related.tex",
+    "sha256": "de4b25364251828fdb53f8a3fa15b499979b117c8d456ec812ece86c11a1825c"
+  },
+  {
+    "path": "sources\\tables\\tab1.tex",
+    "sha256": "816177b0c83fd79c9bb5136ba96cfd5b13e18708ea12907b90b2ac26ec1a3932"
+  },
+  {
+    "path": "sources\\tables\\tab10.tex",
+    "sha256": "79f26860bfae9fcc46a96c6d35ce470f0c667816ba0ec3ed92421a7a1b0944d1"
+  },
+  {
+    "path": "sources\\tables\\tab11.tex",
+    "sha256": "c7c009928084ea47b7422ed8ce9f106652b90cbec6f64329b474ccfe57535a0a"
+  },
+  {
+    "path": "sources\\tables\\tab12.tex",
+    "sha256": "6ede4c32d288334d78b6a4bf7bf19d9a5159d7077d886201ac0cbea2306f0e7d"
+  },
+  {
+    "path": "sources\\tables\\tab13.tex",
+    "sha256": "b466776b5cc4c748e32489438fa3f26180026ed58972ead6324390b356d75492"
+  },
+  {
+    "path": "sources\\tables\\tab14.tex",
+    "sha256": "05d0435f087cc038c5fdafd1abc957bbf1ad76c3b8c2354ce3c9c081a26c575d"
+  },
+  {
+    "path": "sources\\tables\\tab16.tex",
+    "sha256": "cb11e56bcadc62440daa2403f1146e020c7c54545c3953b8ebd64af5abaab6e7"
+  },
+  {
+    "path": "sources\\tables\\tab17.tex",
+    "sha256": "0e99fee8ca68575e5eaa4fa0638beaf2e83224d7a224bb04569311d8deba66e1"
+  },
+  {
+    "path": "sources\\tables\\tab18.tex",
+    "sha256": "367b5df1a68bd5f2d887def2ac7b8e25da0251daa3d610de74b0a84e773ef02c"
+  },
+  {
+    "path": "sources\\tables\\tab19.tex",
+    "sha256": "07660ab4d1bb0fc7f5e9bddf7c6905b8c759bccbe21f14829103f27eef4ba402"
+  },
+  {
+    "path": "sources\\tables\\tab2.tex",
+    "sha256": "5a8ed831679d26c22233d06d68a1886e1d64a8051265ecc9996c929468413087"
+  },
+  {
+    "path": "sources\\tables\\tab3.tex",
+    "sha256": "c88a73c42ae8792a1401751cb064230ea53ac97b87bd90e28f65a6064583a50f"
+  },
+  {
+    "path": "sources\\tables\\tab4.tex",
+    "sha256": "b1b81f15f376030516edc940d37e38689baaf39cea1ca48b16a0e13be4856fc4"
+  },
+  {
+    "path": "sources\\tables\\tab5.tex",
+    "sha256": "572b78a9cc278aede2930316681471cd2d633589309a924728a3ed0b19b390a3"
+  },
+  {
+    "path": "sources\\tables\\tab6.tex",
+    "sha256": "fe6cb62c6a21f19fbfaed7c5d067dde4b194b891980907eb3dc7ada4d5a504ff"
+  },
+  {
+    "path": "sources\\tables\\tab7.tex",
+    "sha256": "a032aa31666996a4c0342365f83f0b9de0f49eda72ad617068475385c6477eaf"
+  },
+  {
+    "path": "sources\\tables\\tab8.tex",
+    "sha256": "bcf9f2733692a4a9178f73d4bb5b6fe6cd3175764f0afa0f7e166a0a9cad65fc"
+  },
+  {
+    "path": "sources\\tables\\tab9.tex",
+    "sha256": "ec2013a74492a3a8da3969f7eb5f9e7e5584c9160cbfd9859fb041f1cdfc100a"
+  }
+]

@@ -1,0 +1,75 @@
+\section{Introduction}
+\label{sec:intro}
+
+A reader who wants to know which spiking graph neural network to use has, at present, only one tool:
+a table of published accuracies. On Cora, that table tells them that SpikingGCN reaches $80.7$,
+SpikeGraphormer $84.8$ and SpikeGCL $87.4$. The ordering is clear, the margins are small, and every
+entry was produced by a different codebase, on a split the paper describes in one clause, with a
+number of seeds it may or may not state. The reader has no way to know whether those three numbers
+were measured on the same task.
+
+This paper is a reproducibility and stress-testing audit of those published evaluations. Its
+contribution is an executable protocol and the measurements it yields, not a new dataset or a new
+model. The question is narrow: do published numbers reproduce from the released code? We took every
+spiking-GNN method in our related work that declares a code repository --- three of seven; the other
+four have no code to run --- executed each one's own training script in an environment pinned to its
+own requirements, and changed one variable at a time.
+
+\paragraph{What we found.} The three disagreements differ in kind, and that difference determines
+what would fix each of them.
+
+\emph{One reproduces on some datasets and not others.} SpikingGCN's released code reaches $50.0$ on
+Cora over five seeds against the $80.7$ its paper reports, $64.3$ on PubMed against $77.6$, and
+$70.6$ on CiteSeer against $72.5$. The CiteSeer cell reproduces to within two points, so the Cora
+gap cannot be explained by a broken environment or a misconfigured loader. We re-measured five input
+variants on Cora through the audited pipeline and none closes it; the ones a reader is likely to
+guess make the number \emph{worse} by collapsing it to chance. We report the gap and
+stop there, rather than search over input scalings until one of them produced $80.7$.
+
+\emph{One reproduces exactly, on a split nobody else uses.} SpikeGraphormer's script, run with the
+arguments in its own \texttt{run.sh}, reaches $84.7$ over three runs against a published
+$84.8 \pm 0.7$: a reproduction by any standard. But the configuration uses a random class-balanced
+split, and the paper's footnote defers the split to the code. Switching to the public Planetoid split
+--- one flag --- gives $74.0$. Ten points of the published number are a property of the split, not of
+the method, and a reader comparing it to a public-split baseline is comparing two different tasks.
+
+\emph{One reproduces, and exposes a labelling failure underneath the field.} SpikeGCL reaches $86.6$
+on Cora against $87.4 \pm 0.6$ and $77.3$ on Citeseer against $77.6$: it reproduces. But its table
+cites SpikingGCN at $87.7$, and that number should not be taken at face value, because SpikingGCN's
+own paper prints two values for it --- $80.7$ on its Split~I and $88.7$ on Split~II. The two later
+papers we audit quote $81.5$ and $87.7$ for baseline rows from the same comparison source without saying which split they mean,
+and the splits differ by five to twelve points. This is not a citation error; both numbers are
+correct. It is an unlabelled choice, which is why it has survived.
+
+\paragraph{Three independent checks on the same conclusion.} A single failed reproduction admits an
+implementation explanation. Here one pipeline reproduces on CiteSeer while missing on Cora, one
+reproduces exactly under a different split, and one reproduces while its own baseline table mixes
+splits. No single environment, variance or citation mistake explains all three, and each can be
+checked against the released scripts.
+
+The audit also has a constructive half. Once all three methods are measured on the public split,
+four accuracies become commensurable on Cora: $50.0$ (SpikingGCN), $74.0$ (SpikeGraphormer), $80.5$
+(a conversion method from our companion work \citep{companion}) and $86.6$ (SpikeGCL). That ordering
+differs from the published one, and it is the ordering a reader can use.
+
+\paragraph{Contributions.}
+\begin{enumerate}\itemsep2pt
+\item \textbf{A pinned-environment audit of every auditable spiking-GNN method.} Three pipelines, each
+run with its authors' own script and configuration; every reported value comes from the run's own
+log.
+\item \textbf{A taxonomy of the ways a spiking-GNN number can fail to transfer.} Dataset-dependent
+non-reproduction (SpikingGCN), split-dependence within one pipeline (SpikeGraphormer), and
+split-mixing across the literature (baseline rows cited at $81.5$ and $87.7$ from the two splits of
+one comparison source, with no label). The
+three have different remedies, and conflating them is why the problem has been invisible.
+\item \textbf{A measurement of the split effect.} On Cora, changing only the split moves
+SpikeGraphormer by $10.7$ points --- larger than the margin between most methods the field compares.
+\item \textbf{A census, not a sample.} Three of the seven methods in our related work declare a
+repository; we audited all three. The remaining four are unauditable by anyone, which is a fact about
+the field rather than a limitation of this study.
+\end{enumerate}
+
+The scope is the auditable population: methods whose released code can be executed in a pinned
+environment. A number can be correct for the experiment it measures and unusable for the comparison a
+reader wants to make with it; the SpikeGraphormer case is exactly that, and it is the most instructive
+of the three.

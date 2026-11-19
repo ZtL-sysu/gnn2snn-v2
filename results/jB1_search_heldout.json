@@ -1,0 +1,207 @@
+{
+  "stage": "jB1-search-arm",
+  "prereg": "audits/jB1-search-arm-prereg.md",
+  "tag": "heldout",
+  "cells": [
+    {
+      "dataset": "chameleon",
+      "L": 4,
+      "seed": 0,
+      "T_star": 64,
+      "T_l_search": [
+        64,
+        64,
+        6
+      ],
+      "T_l_random": [
+        12,
+        8,
+        16
+      ],
+      "acc_search": 0.42543859649122806,
+      "acc_unif": 0.4232456140350877,
+      "acc_random": 0.4232456140350877,
+      "updates_search": 198.0,
+      "updates_unif": 256.0,
+      "saving": 0.2265625,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "chameleon",
+      "L": 4,
+      "seed": 1,
+      "T_star": 64,
+      "T_l_search": [
+        2,
+        3,
+        6
+      ],
+      "T_l_random": [
+        12,
+        16,
+        2
+      ],
+      "acc_search": 0.3925438596491228,
+      "acc_unif": 0.3991228070175439,
+      "acc_random": 0.4100877192982456,
+      "updates_search": 17.0,
+      "updates_unif": 256.0,
+      "saving": 0.93359375,
+      "band_ok": true,
+      "beats_random": false
+    },
+    {
+      "dataset": "chameleon",
+      "L": 4,
+      "seed": 2,
+      "T_star": 4,
+      "T_l_search": [
+        4,
+        4,
+        4
+      ],
+      "T_l_random": [
+        6,
+        12,
+        8
+      ],
+      "acc_search": 0.5372807017543859,
+      "acc_unif": 0.5372807017543859,
+      "acc_random": 0.5241228070175439,
+      "updates_search": 16.0,
+      "updates_unif": 16.0,
+      "saving": 0.0,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "chameleon",
+      "L": 4,
+      "seed": 3,
+      "T_star": 2,
+      "T_l_search": [
+        2,
+        1,
+        2
+      ],
+      "T_l_random": [
+        4,
+        16,
+        6
+      ],
+      "acc_search": 0.5241228070175439,
+      "acc_unif": 0.5197368421052632,
+      "acc_random": 0.5307017543859649,
+      "updates_search": 7.0,
+      "updates_unif": 8.0,
+      "saving": 0.125,
+      "band_ok": true,
+      "beats_random": false
+    },
+    {
+      "dataset": "squirrel",
+      "L": 4,
+      "seed": 0,
+      "T_star": 64,
+      "T_l_search": [
+        6,
+        3,
+        6
+      ],
+      "T_l_random": [
+        12,
+        8,
+        16
+      ],
+      "acc_search": 0.3804034582132565,
+      "acc_unif": 0.37367915465898177,
+      "acc_random": 0.3746397694524496,
+      "updates_search": 21.0,
+      "updates_unif": 256.0,
+      "saving": 0.91796875,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "squirrel",
+      "L": 4,
+      "seed": 1,
+      "T_star": 64,
+      "T_l_search": [
+        2,
+        2,
+        64
+      ],
+      "T_l_random": [
+        3,
+        12,
+        4
+      ],
+      "acc_search": 0.35830931796349663,
+      "acc_unif": 0.3554274735830932,
+      "acc_random": 0.3506243996157541,
+      "updates_search": 132.0,
+      "updates_unif": 256.0,
+      "saving": 0.484375,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "squirrel",
+      "L": 4,
+      "seed": 2,
+      "T_star": 64,
+      "T_l_search": [
+        6,
+        6,
+        8
+      ],
+      "T_l_random": [
+        6,
+        12,
+        8
+      ],
+      "acc_search": 0.38424591738712777,
+      "acc_unif": 0.38232468780019213,
+      "acc_random": 0.3804034582132565,
+      "updates_search": 28.0,
+      "updates_unif": 256.0,
+      "saving": 0.890625,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "squirrel",
+      "L": 4,
+      "seed": 3,
+      "T_star": 64,
+      "T_l_search": [
+        12,
+        3,
+        3
+      ],
+      "T_l_random": [
+        6,
+        4,
+        3
+      ],
+      "acc_search": 0.3554274735830932,
+      "acc_unif": 0.3506243996157541,
+      "acc_random": 0.34870317002881845,
+      "updates_search": 30.0,
+      "updates_unif": 256.0,
+      "saving": 0.8828125,
+      "band_ok": true,
+      "beats_random": true
+    }
+  ],
+  "verdict": {
+    "n": 8,
+    "band_and_20pct": 6,
+    "fraction": 0.75,
+    "arm_success": true,
+    "arm_partial": true,
+    "random_falsifier_ok": true
+  }
+}

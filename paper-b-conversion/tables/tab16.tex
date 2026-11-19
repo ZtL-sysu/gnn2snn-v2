@@ -1,0 +1,19 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Constraining the spectral gain during training does not rescue depth, and it costs accuracy in the ANN itself. \emph{Spec.\ norm.} normalises every layer to unit spectral norm, so $G=1$ by construction. The gap is conversion minus ANN at $T=8$, in points, over seven seeds. The mechanism is the one \secref{sec:predict} describes: with $G$ pinned, the network compensates by shrinking its activations, and the absolute quantisation error $1/(2T)$ becomes large relative to them, so the relative error rises even as the gain falls.}\label{tab:specnorm}
+\begin{tabular}{llrrrr}
+\toprule
+dataset & $L$ & spec.\ norm. & $G$ & ANN & gap (pp) \\
+\midrule
+cora & 2 & no & 121.5 & 0.8060 & -0.34 \\
+cora & 2 & yes & 1.0 & 0.4847 & -29.33 \\
+cora & 3 & no & 496.8 & 0.6247 & -4.21 \\
+cora & 3 & yes & 1.0 & 0.2909 & -9.93 \\
+citeseer & 2 & no & 115.7 & 0.7031 & -1.24 \\
+citeseer & 2 & yes & 1.0 & 0.4173 & -19.30 \\
+citeseer & 3 & no & 787.1 & 0.5749 & -5.57 \\
+citeseer & 3 & yes & 1.0 & 0.2753 & -8.37 \\
+\bottomrule
+\end{tabular}
+\end{table}

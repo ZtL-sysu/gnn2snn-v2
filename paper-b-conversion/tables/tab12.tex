@@ -1,0 +1,14 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Is a spiking simulation needed? The closed form evaluates \eqnref{eq:recursion} with one sparse matmul per layer, using the fact that a layer driven by a constant current emits exactly $\lfloor T(B+\beta)/\theta\rfloor$ spikes. Applied to the whole grid it agrees with the $T$-step simulation to 1.80\,pp on average, and the split by depth shows why that average is not the story: at $L=2$ the discrepancy is float32 accumulation drift (mean 0.076\,pp, max 0.40\,pp, i.e. one or two test nodes out of a thousand), while at $L=3$ it fails outright, because once the reset is applied the second spiking layer's count depends on the \emph{order} in which its input arrives. Depth does not merely amplify the error; it destroys the closed form.}
+\label{tab:closed}
+\begin{tabular}{rrrrr}
+\toprule
+$L$ & cells & mean $|\Delta|$ (pp) & max $|\Delta|$ (pp) & within $0.1$\,pp (\%) \\
+\midrule
+2 & 105 & 0.076 & 0.400 & 50 \\
+3 & 105 & 3.530 & 33.300 & 8 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,182 @@
+\section{Experiments and Results}
+\label{sec:results}
+
+\input{tables/audit}
+
+\tabref{tab:audit} is the audit: three pipelines, seven rows, and three kinds of disagreement with the
+literature. We take them in turn, because the remedy differs in each case.
+
+\subsection{SpikingGCN: a dataset-dependent gap}
+\label{sec:sgcn}
+
+Run on the configurations its \texttt{models\_conf.json} ships, the released training script gives
+$50.0$ on Cora over five seeds against a reported $80.7$, $64.3$ on PubMed over three seeds against
+$77.6$, and $70.6$ on CiteSeer on one seed against $72.5$. The CiteSeer cell reproduces to within two
+points; the Cora cell is thirty points short.
+
+That one dataset reproduces and another does not is the most informative part of the result. It rules
+out the mundane explanations --- that we could not execute the code, that the pinned environment is
+wrong, or that the loader is misconfigured --- because the same script, in the same environment, with
+the same loader reaches the published number on CiteSeer. The failure is specific to Cora and, to a
+lesser degree, PubMed. A reader who took the Cora result alone could reasonably have concluded that
+our reproduction was broken; with all three cells in \tabref{tab:audit}, that conclusion is not
+available.
+
+We therefore concentrated the diagnosis on Cora. The model is a two-hop polynomial propagation
+followed by one spiking layer, and its input reaches the encoder through a Poisson sampler that
+reads each entry as a firing probability. Several input conventions are plausible, and we
+re-measured five of them through the audited pipeline, one seed each, with the transform inserted at
+the loader's feature stage:
+
+\begin{itemize}\itemsep2pt
+\item \emph{Raw binary bag-of-words, self-loops} (faithful; what the library actually returns,
+verified by dumping the array rather than by reading its source): $51.5$.
+\item \emph{Raw binary bag-of-words, no self-loops}: $51.5$ --- the self-loop choice is not
+decisive.
+\item \emph{Row-normalised features} --- what a reader might reasonably assume: $13.0$, i.e.\ no
+learning at all, because the entries are then of order $10^{-4}$ and the encoder never fires.
+\item \emph{Row-normalised features, then encoder input rescaled to $[0,1]$ by its maximum} --- the
+conventional fix for a Poisson encoder: also $13.0$. The rescaling restores the range but not the
+per-node scale the sampler needs.
+\item \emph{Row-normalised, no self-loops}: $13.0$ --- the cause is the normalisation, not the
+self-loops.
+\end{itemize}
+
+Row-normalisation is the decisive cause; every variant that carries it collapses to $13.0$ and
+every variant without it holds $51.5$. We list the failures because they are what a reader will
+produce if they guess.
+
+What we cannot exclude is that the published Cora number came from a state of the code, or a
+per-dataset configuration, that was never released. The repository carries no commit tag
+corresponding to the paper, no checkpoint and no container image, so the gap is unexplained rather
+than attributed. The dataset dependence constrains any explanation: it has to account for why the
+same script reproduces on CiteSeer while missing by thirty points on Cora. Our claim is the narrow
+one --- the released code, in the pinned environment, does not reach the published Cora number under
+any of the five measured input variants --- not that the authors made an error. A container image or
+a commit hash would settle the question.
+
+\subsection{SpikeGraphormer: a reproduction, and a split worth ten points}
+\label{sec:split}
+
+\input{tables/split}
+
+The second pipeline behaves in the opposite way. Run with the arguments in its own \texttt{run.sh}, it
+reaches $84.7$ over three runs against a published $84.8\pm0.7$: a difference of one tenth of a
+point, well inside the reported standard deviation. If the audit stopped here it would report a
+clean reproduction.
+
+It does not stop here, because that configuration uses a random class-balanced split, and the paper's
+footnote defers the split to the code. \tabref{tab:split} changes one flag --- from a random
+class-balanced split to the fixed-split path --- and everything else stays identical: same code, same
+hyper-parameters, same seed, same epochs. The result is $74.0$ instead of $84.7$.
+
+Ten points is larger than the margin between most of the methods the field compares. A reader who
+takes $84.8$ from the paper and sets it beside a public-split baseline is not comparing two methods;
+they are comparing two tasks. Nothing in the paper says so, and nothing in the code says so either
+--- the flag is buried in a shell script among many.
+
+\subsection{SpikeGCL: two reproductions}
+\label{sec:gcl}
+
+The third pipeline reproduces on both datasets we ran, and that is what makes the audit
+interpretable: the disagreements above are not our inability to run code.
+
+On Cora, with the command in its README, the released code reaches $86.6$ against a published
+$87.4\pm0.6$; on Citeseer it reaches $77.3$ against $77.6\pm0.6$. The Citeseer difference
+($-0.3$ points) sits inside the published $\pm 0.6$ spread; the Cora difference ($-0.8$ points)
+does not. Re-running the pipeline at four seeds gives a measured spread of $0.13$ points on Cora
+and $1.24$ points on Citeseer, and a same-nominal-seed re-run of the Citeseer cell differed by
+$1.0$ points from the originally audited run --- recorded as part of the sensitivity evidence.
+The comparison against the published $\pm 0.6$ is the only spread
+basis used here; a spread measured on SpikingGCN's Cora seeds ($0.48$--$0.53$) belongs to that
+pipeline and not to SpikeGCL, and no PubMed range exists for SpikeGCL because its paper reports no
+PubMed cell.
+
+\subsection{One comparison source, two splits, no label}
+\label{sec:mixed}
+
+The last finding is not about a pipeline we ran but about the tables we read while choosing what to
+run, and it explains the discrepancy that motivated the audit.
+
+SpikingGCN's paper prints \emph{both} of its splits for every method it compares, and defines them
+in its own words: ``In this split method (i.e., Split I), 20 instances from each class are sampled
+as the training datasets'' and ``For the second data split (i.e., Split II), the ratio of training
+to testing is 8:2, and 20\% of training samples is further used for validation''
+\citep{zhu2022spiking}. The 500 validation and 1000 test nodes of Split~I are the standard
+Planetoid sizes their loader leaves untouched, and the sampling is visible in their own
+\texttt{sample\_per\_class(20, $\cdot$)} call. The two splits are not close. For SpikingGCN itself
+the difference is $8.0$ points on Cora, $5.1$ on Citeseer and $11.7$ on PubMed --- larger than the
+spread between the top methods in any of the field's comparison tables.
+
+Against that, the two later papers we audited draw baseline rows from the two different splits of
+the same comparison source, and the
+inference is anchored on the quoted definitions rather than on paraphrase. SpikeGraphormer's split
+is defined in code (their \texttt{run.sh} sets \texttt{-{-}rand\_split\_class -{-}valid\_num 500
+-{-}test\_num 1000} for the published setting and \texttt{-{-}protocol semi} for the public split);
+its table lists GCN at $81.5$ on Cora, which is consistent with the Split~I family.
+SpikeGCL's table lists SpikingGCN at $87.7$ on Cora, $77.7$ on Citeseer and $87.5$ on PubMed ---
+consistent, to within two points, with SpikingGCN's \emph{Split~II} numbers ($88.7$, $77.6$, $89.3$),
+not its Split~I numbers ($80.7$, $72.5$, $77.6$). We phrase both readings as ``consistent with'':
+the tables do not label the split, and the point is the missing label.
+
+Neither table says which split it is quoting. A reader assembling a baseline table from these two
+papers therefore mixes the splits without being told, and the resulting table carries a systematic
+error of five to twelve points on some rows and not others. This is not a citation mistake in the
+ordinary sense --- both numbers are correct and both papers report what they measured --- and that is
+precisely why it has survived: there is no error to find, only an unlabelled choice.
+
+
+\subsection{Split gaps against measured seed noise}
+\label{sec:transport}
+
+The split gaps are large in points, but a gap matters only against the noise a single pipeline
+actually exhibits. We therefore measured seed spreads for the pipelines themselves: four seeds of
+SpikeGCL give $0.13$ points on Cora and $1.24$ on CiteSeer; SpikingGCN's five Cora seeds give a
+s.d.\ of $1.97$ points (per-seed $48.1$--$52.6$), and its three PubMed runs a s.d.\ of $5.37$
+points; one same-nominal-seed CiteSeer re-run of SpikeGCL differed by $1.0$ points from the
+audited cell, which the sensitivity analysis retains.
+
+Matching each split gap to the noise of the pipeline it belongs to, the picture is consistent but
+modest. Cora's $8.0$-point gap is $4.06$ times SpikingGCN's own seed s.d.; CiteSeer's $5.1$ is
+$4.11$ times a proxied noise (the matching SpikingGCN cell is single-seed, so the SpikeGCL spread
+is used and labelled as such); PubMed's $11.7$ is $2.18$ times its s.d. Against our three-sigma
+bar --- fixed in the audit protocol before the multi-seed runs, as the pre-registration rule for
+this comparison --- the verdicts are marginal ($1.35\times$, $1.37\times$) on Cora and CiteSeer and
+fail on PubMed ($0.73\times$), where split choice and seed noise are the same order and cannot be
+separated at the measured seed count. There is no dataset where the split gap dwarfs noise by an
+order of magnitude; there is also none where the gap is inside noise except PubMed's confounded
+cell. The transportability claim is therefore made per dataset at these magnitudes, not as a
+blanket effect.
+
+\subsection{The population, not a sample}
+\label{sec:census}
+
+\input{tables/census}
+
+A three-method audit would be a sample if more methods were available. They are not.
+\tabref{tab:census} lists the seven spiking-GNN methods in our related work and whether each declares
+a code repository. Three do; we audited all three. The remaining four publish no code in their arXiv
+record or their paper, so they cannot be audited by us or by anyone else, and any number attributed
+to them in a comparison table is unverifiable in principle.
+
+This changes what the audit is. It is not "three methods out of many"; within the seven-method
+survey that frames this paper --- the spiking-GNN methods collected in our related work from the
+2021--2026 literature, with repository status checked against each arXiv record and paper in
+November 2026 --- the three auditable methods are the complete auditable set of that survey at the
+time of writing. The claim is deliberately bounded: it does not assert a field-wide census, and the
+reason the auditable set is small is itself part of the finding.
+
+\subsection{What can now be placed side by side}
+
+With three pipelines measured on the public split, four numbers become commensurable on Cora:
+$50.0$ (SpikingGCN, its own code), $74.0$ (SpikeGraphormer, its own code with the split changed),
+$86.6$ (SpikeGCL, self-supervised, its own code) --- and, shown for context and not counted as an
+audited row, $80.5$ from the conversion study of our companion manuscript \citep{companion}, whose
+own registered result files carry the value and whose authors' scripts are not part of this audit.
+The published ordering --- SpikingGCN $80.7$, then SpikeGraphormer
+$84.8$, then SpikeGCL $87.4$ --- is not the measured ordering, and the largest single move belongs to
+the method that reproduces most exactly.
+
+The four numbers measure three training paradigms on one dataset, so a ranking across paradigms
+would be a category error. What they establish is narrower: a baseline table assembled from the
+literature would have been wrong about all four.

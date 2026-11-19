@@ -1,0 +1,822 @@
+{
+  "stage": "E-B1-prototype",
+  "claim": "planned",
+  "cells": [
+    {
+      "dataset": "cora",
+      "L": 3,
+      "seed": 0,
+      "G": [
+        1.888247300146304,
+        1.347203016281128
+      ],
+      "Gmax": 1.888247300146304,
+      "Gbar": 1.617725158213716,
+      "headroom": 1.1672237960564928,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.0004314761608839035,
+        "H_active": 7.887001477104874,
+        "per_layer": [
+          {
+            "G_l": 1.888247300146304,
+            "d_l": 7.887001477104874,
+            "T_l": 64
+          },
+          {
+            "G_l": 1.347203016281128,
+            "d_l": 7.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 192,
+      "updates_unif": 48,
+      "acc_alloc_staged": 0.429,
+      "acc_floor_only": 0.429,
+      "acc_unif_staged": 0.42,
+      "acc_unif_lockstep": 0.424,
+      "acc_band_ok": true,
+      "floor_control_updates": 192.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "cora",
+      "L": 3,
+      "seed": 1,
+      "G": [
+        13.838595596107552,
+        3.2741594314575195
+      ],
+      "Gmax": 13.838595596107552,
+      "Gbar": 8.556377513782536,
+      "headroom": 1.6173428035189503,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.014016763307154179,
+        "H_active": 5.030649926144756,
+        "per_layer": [
+          {
+            "G_l": 13.838595596107552,
+            "d_l": 5.030649926144756,
+            "T_l": 64
+          },
+          {
+            "G_l": 3.2741594314575195,
+            "d_l": 5.030649926144756,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 192,
+      "updates_unif": 48,
+      "acc_alloc_staged": 0.739,
+      "acc_floor_only": 0.739,
+      "acc_unif_staged": 0.733,
+      "acc_unif_lockstep": 0.743,
+      "acc_band_ok": true,
+      "floor_control_updates": 192.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "cora",
+      "L": 3,
+      "seed": 2,
+      "G": [
+        42.00734343621093,
+        6.048634052276611
+      ],
+      "Gmax": 42.00734343621093,
+      "Gbar": 24.02798874424377,
+      "headroom": 1.7482671514183374,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.4546271860599518,
+        "H_active": 11.076070901033974,
+        "per_layer": [
+          {
+            "G_l": 42.00734343621093,
+            "d_l": 11.076070901033974,
+            "T_l": 64
+          },
+          {
+            "G_l": 6.048634052276611,
+            "d_l": 7.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 192,
+      "updates_unif": 48,
+      "acc_alloc_staged": 0.75,
+      "acc_floor_only": 0.75,
+      "acc_unif_staged": 0.741,
+      "acc_unif_lockstep": 0.734,
+      "acc_band_ok": true,
+      "floor_control_updates": 192.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "cora",
+      "L": 3,
+      "seed": 3,
+      "G": [
+        79.37242360491564,
+        8.54369831085205
+      ],
+      "Gmax": 79.37242360491564,
+      "Gbar": 43.958060957883845,
+      "headroom": 1.8056397819949848,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 1.3872815370559692,
+        "H_active": 9.591211225997046,
+        "per_layer": [
+          {
+            "G_l": 79.37242360491564,
+            "d_l": 9.591211225997046,
+            "T_l": 64
+          },
+          {
+            "G_l": 8.54369831085205,
+            "d_l": 7.0,
+            "T_l": 51
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        51
+      ],
+      "S_formula": 0.06770833333333348,
+      "S_measured": -2.7291666666666665,
+      "updates_alloc": 179,
+      "updates_unif": 48,
+      "acc_alloc_staged": 0.772,
+      "acc_floor_only": 0.772,
+      "acc_unif_staged": 0.767,
+      "acc_unif_lockstep": 0.765,
+      "acc_band_ok": true,
+      "floor_control_updates": 192.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -272.91666666666663
+    },
+    {
+      "dataset": "cora",
+      "L": 4,
+      "seed": 0,
+      "G": [
+        302.3333682061856,
+        41.08327649418834,
+        5.847495079040527
+      ],
+      "Gmax": 302.3333682061856,
+      "Gbar": 116.42137992647149,
+      "headroom": 2.596888719212321,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.3610813319683075,
+        "H_active": 12.687961595273265,
+        "per_layer": [
+          {
+            "G_l": 302.3333682061856,
+            "d_l": 12.687961595273265,
+            "T_l": 64
+          },
+          {
+            "G_l": 41.08327649418834,
+            "d_l": 12.687961595273265,
+            "T_l": 64
+          },
+          {
+            "G_l": 5.847495079040527,
+            "d_l": 7.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 256,
+      "updates_unif": 64,
+      "acc_alloc_staged": 0.607,
+      "acc_floor_only": 0.607,
+      "acc_unif_staged": 0.6,
+      "acc_unif_lockstep": 0.421,
+      "acc_band_ok": true,
+      "floor_control_updates": 256.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "cora",
+      "L": 4,
+      "seed": 1,
+      "G": [
+        328.36967889851206,
+        40.581668579028246,
+        5.944134712219238
+      ],
+      "Gmax": 328.36967889851206,
+      "Gbar": 124.96516072991984,
+      "headroom": 2.627689805546675,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.11376404762268066,
+        "H_active": 7.569054652880355,
+        "per_layer": [
+          {
+            "G_l": 328.36967889851206,
+            "d_l": 7.569054652880355,
+            "T_l": 64
+          },
+          {
+            "G_l": 40.581668579028246,
+            "d_l": 7.569054652880355,
+            "T_l": 64
+          },
+          {
+            "G_l": 5.944134712219238,
+            "d_l": 7.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 256,
+      "updates_unif": 64,
+      "acc_alloc_staged": 0.48,
+      "acc_floor_only": 0.48,
+      "acc_unif_staged": 0.469,
+      "acc_unif_lockstep": 0.316,
+      "acc_band_ok": true,
+      "floor_control_updates": 256.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "cora",
+      "L": 4,
+      "seed": 2,
+      "G": [
+        260.708475107433,
+        36.9673178371836,
+        5.728336811065674
+      ],
+      "Gmax": 260.708475107433,
+      "Gbar": 101.13470991856076,
+      "headroom": 2.577833815090485,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.5915639400482178,
+        "H_active": 8.903249630723781,
+        "per_layer": [
+          {
+            "G_l": 260.708475107433,
+            "d_l": 8.903249630723781,
+            "T_l": 64
+          },
+          {
+            "G_l": 36.9673178371836,
+            "d_l": 8.903249630723781,
+            "T_l": 64
+          },
+          {
+            "G_l": 5.728336811065674,
+            "d_l": 7.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 256,
+      "updates_unif": 64,
+      "acc_alloc_staged": 0.602,
+      "acc_floor_only": 0.602,
+      "acc_unif_staged": 0.62,
+      "acc_unif_lockstep": 0.536,
+      "acc_band_ok": false,
+      "floor_control_updates": 256.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "cora",
+      "L": 4,
+      "seed": 3,
+      "G": [
+        197.4208138585709,
+        32.677524247410474,
+        5.136594772338867
+      ],
+      "Gmax": 197.4208138585709,
+      "Gbar": 78.41164429277342,
+      "headroom": 2.5177486792834114,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.010795545764267445,
+        "H_active": 9.30096011816839,
+        "per_layer": [
+          {
+            "G_l": 197.4208138585709,
+            "d_l": 9.30096011816839,
+            "T_l": 64
+          },
+          {
+            "G_l": 32.677524247410474,
+            "d_l": 9.30096011816839,
+            "T_l": 64
+          },
+          {
+            "G_l": 5.136594772338867,
+            "d_l": 7.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 256,
+      "updates_unif": 64,
+      "acc_alloc_staged": 0.475,
+      "acc_floor_only": 0.475,
+      "acc_unif_staged": 0.459,
+      "acc_unif_lockstep": 0.422,
+      "acc_band_ok": true,
+      "floor_control_updates": 256.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "citeseer",
+      "L": 3,
+      "seed": 0,
+      "G": [
+        74.19382509908246,
+        7.244710922241211
+      ],
+      "Gmax": 74.19382509908246,
+      "Gbar": 40.719268010661835,
+      "headroom": 1.8220815040107234,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.17207451164722443,
+        "H_active": 9.846107604448452,
+        "per_layer": [
+          {
+            "G_l": 74.19382509908246,
+            "d_l": 9.846107604448452,
+            "T_l": 64
+          },
+          {
+            "G_l": 7.244710922241211,
+            "d_l": 6.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 192,
+      "updates_unif": 48,
+      "acc_alloc_staged": 0.609,
+      "acc_floor_only": 0.609,
+      "acc_unif_staged": 0.595,
+      "acc_unif_lockstep": 0.599,
+      "acc_band_ok": true,
+      "floor_control_updates": 192.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "citeseer",
+      "L": 3,
+      "seed": 1,
+      "G": [
+        8.012770904141064,
+        2.6147024631500244
+      ],
+      "Gmax": 8.012770904141064,
+      "Gbar": 5.313736683645544,
+      "headroom": 1.5079352593444317,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.00042883382411673665,
+        "H_active": 8.649534114818154,
+        "per_layer": [
+          {
+            "G_l": 8.012770904141064,
+            "d_l": 8.649534114818154,
+            "T_l": 64
+          },
+          {
+            "G_l": 2.6147024631500244,
+            "d_l": 6.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 192,
+      "updates_unif": 48,
+      "acc_alloc_staged": 0.387,
+      "acc_floor_only": 0.387,
+      "acc_unif_staged": 0.379,
+      "acc_unif_lockstep": 0.375,
+      "acc_band_ok": true,
+      "floor_control_updates": 192.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "citeseer",
+      "L": 3,
+      "seed": 2,
+      "G": [
+        62.95687086275302,
+        6.822146892547607
+      ],
+      "Gmax": 62.95687086275302,
+      "Gbar": 34.889508877650314,
+      "headroom": 1.804464232601515,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.071112722158432,
+        "H_active": 9.483618875864142,
+        "per_layer": [
+          {
+            "G_l": 62.95687086275302,
+            "d_l": 9.483618875864142,
+            "T_l": 64
+          },
+          {
+            "G_l": 6.822146892547607,
+            "d_l": 6.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 192,
+      "updates_unif": 48,
+      "acc_alloc_staged": 0.608,
+      "acc_floor_only": 0.608,
+      "acc_unif_staged": 0.6,
+      "acc_unif_lockstep": 0.583,
+      "acc_band_ok": true,
+      "floor_control_updates": 192.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "citeseer",
+      "L": 3,
+      "seed": 3,
+      "G": [
+        46.07991536402551,
+        5.786012172698975
+      ],
+      "Gmax": 46.07991536402551,
+      "Gbar": 25.932963768362242,
+      "headroom": 1.776885811263971,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.09345373511314392,
+        "H_active": 10.477908025247972,
+        "per_layer": [
+          {
+            "G_l": 46.07991536402551,
+            "d_l": 10.477908025247972,
+            "T_l": 64
+          },
+          {
+            "G_l": 5.786012172698975,
+            "d_l": 6.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 192,
+      "updates_unif": 48,
+      "acc_alloc_staged": 0.576,
+      "acc_floor_only": 0.576,
+      "acc_unif_staged": 0.575,
+      "acc_unif_lockstep": 0.572,
+      "acc_band_ok": true,
+      "floor_control_updates": 192.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "citeseer",
+      "L": 4,
+      "seed": 0,
+      "G": [
+        72.98646648018173,
+        13.576583042690345,
+        3.1133840084075928
+      ],
+      "Gmax": 72.98646648018173,
+      "Gbar": 29.892144510426558,
+      "headroom": 2.441660432048414,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.001939939334988594,
+        "H_active": 5.150886684700931,
+        "per_layer": [
+          {
+            "G_l": 72.98646648018173,
+            "d_l": 5.150886684700931,
+            "T_l": 64
+          },
+          {
+            "G_l": 13.576583042690345,
+            "d_l": 5.150886684700931,
+            "T_l": 64
+          },
+          {
+            "G_l": 3.1133840084075928,
+            "d_l": 5.150886684700931,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 256,
+      "updates_unif": 64,
+      "acc_alloc_staged": 0.402,
+      "acc_floor_only": 0.402,
+      "acc_unif_staged": 0.371,
+      "acc_unif_lockstep": 0.301,
+      "acc_band_ok": true,
+      "floor_control_updates": 256.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "citeseer",
+      "L": 4,
+      "seed": 1,
+      "G": [
+        316.5210558679498,
+        39.311677208856054,
+        5.298915863037109
+      ],
+      "Gmax": 316.5210558679498,
+      "Gbar": 120.377216313281,
+      "headroom": 2.6294099960262054,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.07424556463956833,
+        "H_active": 8.697625488428013,
+        "per_layer": [
+          {
+            "G_l": 316.5210558679498,
+            "d_l": 8.697625488428013,
+            "T_l": 64
+          },
+          {
+            "G_l": 39.311677208856054,
+            "d_l": 8.697625488428013,
+            "T_l": 64
+          },
+          {
+            "G_l": 5.298915863037109,
+            "d_l": 6.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 256,
+      "updates_unif": 64,
+      "acc_alloc_staged": 0.469,
+      "acc_floor_only": 0.469,
+      "acc_unif_staged": 0.491,
+      "acc_unif_lockstep": 0.287,
+      "acc_band_ok": false,
+      "floor_control_updates": 256.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "citeseer",
+      "L": 4,
+      "seed": 2,
+      "G": [
+        95.31665039893717,
+        17.132530128171766,
+        3.655961751937866
+      ],
+      "Gmax": 95.31665039893717,
+      "Gbar": 38.7017140930156,
+      "headroom": 2.4628534583727575,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.0030585359781980515,
+        "H_active": 7.576495341148181,
+        "per_layer": [
+          {
+            "G_l": 95.31665039893717,
+            "d_l": 7.576495341148181,
+            "T_l": 64
+          },
+          {
+            "G_l": 17.132530128171766,
+            "d_l": 7.576495341148181,
+            "T_l": 64
+          },
+          {
+            "G_l": 3.655961751937866,
+            "d_l": 6.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 256,
+      "updates_unif": 64,
+      "acc_alloc_staged": 0.42,
+      "acc_floor_only": 0.42,
+      "acc_unif_staged": 0.42,
+      "acc_unif_lockstep": 0.376,
+      "acc_band_ok": true,
+      "floor_control_updates": 256.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    },
+    {
+      "dataset": "citeseer",
+      "L": 4,
+      "seed": 3,
+      "G": [
+        24.755323597675545,
+        6.457355996682054,
+        2.2062273025512695
+      ],
+      "Gmax": 24.755323597675545,
+      "Gbar": 11.139635632302955,
+      "headroom": 2.2222740864063386,
+      "rule": "R2",
+      "T_star": 16,
+      "T_min_v2clip": 64,
+      "r2_info": {
+        "delta_p01_train": 0.023837927728891373,
+        "H_active": 7.346859032161106,
+        "per_layer": [
+          {
+            "G_l": 24.755323597675545,
+            "d_l": 7.346859032161106,
+            "T_l": 64
+          },
+          {
+            "G_l": 6.457355996682054,
+            "d_l": 7.346859032161106,
+            "T_l": 64
+          },
+          {
+            "G_l": 2.2062273025512695,
+            "d_l": 6.0,
+            "T_l": 64
+          }
+        ]
+      },
+      "T_l": [
+        64,
+        64,
+        64
+      ],
+      "S_formula": 0.0,
+      "S_measured": -3.0,
+      "updates_alloc": 256,
+      "updates_unif": 64,
+      "acc_alloc_staged": 0.353,
+      "acc_floor_only": 0.353,
+      "acc_unif_staged": 0.369,
+      "acc_unif_lockstep": 0.381,
+      "acc_band_ok": false,
+      "floor_control_updates": 256.0,
+      "output_identity_max": 0.0,
+      "updates_delta_pct": -300.0
+    }
+  ],
+  "prototype_gate": {
+    "identity_ok": true,
+    "headroom_ok": true,
+    "half_cells_band_at_15pct": false,
+    "gain_term_beats_floor_only": false,
+    "engine_fix": "staged semantics (cycle-1); rule v2 floor (cycle-2)",
+    "verdict": "escalate-R2-or-pivot"
+  }
+}

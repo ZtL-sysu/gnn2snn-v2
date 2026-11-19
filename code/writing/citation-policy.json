@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "min_unique": 36,
+  "projectquota": 36,
+  "as_of": "2026-11-18",
+  "recent_window_years": 3,
+  "window_rationale": "Frozen 3-year window 2024-2026 for a fast-moving topic; carried from the accepted policy with as_of advanced to the journal revision date.",
+  "require_recent_majority": true
+}

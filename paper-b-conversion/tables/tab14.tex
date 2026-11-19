@@ -1,0 +1,32 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Latency and cost at matched accuracy (ANN$-1.5$\,pp). \emph{T} is the smallest timestep
+count reaching the band, \emph{SOPs} the synaptic operations of one inference at that latency
+(millions), and \emph{trains} the number of training runs needed to cover the whole timestep grid.
+The last three rows are re-implementations of published formulations, not codebase reproductions
+--- no released checkpoints exist for any of them --- and the 512-wide row is a different
+architecture, included because it is the strongest arm and the one that wins on two graphs.}
+\label{tab:pareto}
+\begin{tabular}{llrrrr}
+\toprule
+dataset & arm & acc. at $T$ & $T$ & SOPs (M) & trains \\
+\midrule
+cora & ANN & 0.8060 & --- & --- & 1 \\
+cora & conversion (ours) & 0.7943 & 4 & 0.34 & 1 \\
+cora & direct & 0.7920 & 8 & 0.68 & 5 \\
+cora & poisson & --- & $>32$ & --- & 5 \\
+cora & sgc512 & 0.7966 & 2 & 2.77 & 5 \\
+citeseer & ANN & 0.7031 & --- & --- & 1 \\
+citeseer & conversion (ours) & 0.6929 & 4 & 0.29 & 1 \\
+citeseer & direct & --- & $>32$ & --- & 5 \\
+citeseer & poisson & --- & $>32$ & --- & 5 \\
+citeseer & sgc512 & 0.6934 & 4 & 6.81 & 5 \\
+pubmed & ANN & 0.7757 & --- & --- & 1 \\
+pubmed & conversion (ours) & 0.7739 & 4 & 2.84 & 1 \\
+pubmed & direct & 0.7666 & 4 & 2.84 & 5 \\
+pubmed & poisson & --- & $>32$ & --- & 5 \\
+pubmed & sgc512 & 0.7684 & 32 & 323.04 & 5 \\
+\bottomrule
+\end{tabular}
+\end{table}

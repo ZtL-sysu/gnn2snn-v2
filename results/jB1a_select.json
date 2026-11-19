@@ -1,0 +1,93 @@
+{
+  "stage": "JB1a-select",
+  "prereg": "audits/jb1a-primary-prereg.md",
+  "calibration": {
+    "cora": {
+      "delta_med_train": 2.2222909927368164,
+      "G": 7.6331353187561035,
+      "H_active": 12.410635155096012,
+      "t_emp_exposed": 3,
+      "c": 0.2479260806724043,
+      "ann_test_exposed": 0.79
+    },
+    "citeseer": {
+      "delta_med_train": 1.5656383037567139,
+      "G": 7.024458885192871,
+      "H_active": 11.583107905019537,
+      "t_emp_exposed": 3,
+      "c": 0.1964659382849203,
+      "ann_test_exposed": 0.709
+    }
+  },
+  "one_shot": [
+    {
+      "dataset": "chameleon",
+      "heldout": true,
+      "T_cert": 6,
+      "acc_mean": 0.6043233082706767,
+      "ann_mean": 0.6337719298245614,
+      "band_hit": false,
+      "T_star_report": 5,
+      "kappa": 1.2,
+      "seeds": 7
+    },
+    {
+      "dataset": "squirrel",
+      "heldout": true,
+      "T_cert": 11,
+      "acc_mean": 0.463016330451489,
+      "ann_mean": 0.46356525319061337,
+      "band_hit": true,
+      "T_star_report": 1,
+      "kappa": 11.0,
+      "seeds": 7
+    },
+    {
+      "dataset": "cora",
+      "heldout": false,
+      "T_cert": 3,
+      "acc_mean": 0.7937142857142857,
+      "ann_mean": 0.806,
+      "band_hit": true,
+      "T_star_report": 3,
+      "kappa": 1.0,
+      "seeds": 7
+    },
+    {
+      "dataset": "citeseer",
+      "heldout": false,
+      "T_cert": 4,
+      "acc_mean": 0.6928571428571428,
+      "ann_mean": 0.7031428571428571,
+      "band_hit": true,
+      "T_star_report": 4,
+      "kappa": 1.0,
+      "seeds": 7
+    },
+    {
+      "dataset": "ogbn-arxiv",
+      "heldout": true,
+      "T_cert": 5,
+      "acc_mean": 0.5970325170991797,
+      "ann_mean": 0.6218046505065825,
+      "band_hit": false,
+      "T_star_report": 2,
+      "kappa": 2.5,
+      "seeds": 7
+    }
+  ],
+  "report_sweep": [],
+  "c_frozen": 0.2221960094786623,
+  "verdict": {
+    "heldout_reachable": 3,
+    "band_hits": 1,
+    "kappas": [
+      1.2,
+      11.0,
+      2.5
+    ],
+    "strong_pass": false,
+    "minimum_pass": false,
+    "status": "planned-claim-result; reported once after rule freeze (incl. arxiv phase)"
+  }
+}

@@ -1,0 +1,118 @@
+[
+  {
+    "path": "sources\\figures\\citeseer_accuracy_energy.png",
+    "sha256": "0090d26f9663ad6f1b1ed6de8f8726f8ce429d630c9f798949b3b9127eabf2e3"
+  },
+  {
+    "path": "sources\\figures\\cora_accuracy_energy.png",
+    "sha256": "e0527565277ab6d2d5e096c6785155f38b2fbba2ae69d4ca5500c502284ccc77"
+  },
+  {
+    "path": "sources\\figures\\fig1_framework.pdf",
+    "sha256": "beb6b9b7fb8ec972eaf6b4915a3fd31fcc55faf531ff598e6f2acd6f16298b1a"
+  },
+  {
+    "path": "sources\\figures\\fig1_framework.png",
+    "sha256": "90cef09e5f8e08d03c5d0d3e4e289e094761594b0e7c9d141669957ef4177766"
+  },
+  {
+    "path": "sources\\figures\\fig2_accuracy_vs_T.pdf",
+    "sha256": "65060ad1e24a3f0e906cbb5e73ae74d24cd0728388d08acce8954212cc30a58a"
+  },
+  {
+    "path": "sources\\figures\\fig2_accuracy_vs_T.png",
+    "sha256": "3e66a9efe9788cfa2d49b49947a516e448fad2c88db87954a53f2be70dfb7b9e"
+  },
+  {
+    "path": "sources\\figures\\fig3_spikes_vs_T.pdf",
+    "sha256": "37a4ad1a6a3e7fb6aa7d2dca6821c6992478b6ec013f1a74b83854c079138033"
+  },
+  {
+    "path": "sources\\figures\\fig3_spikes_vs_T.png",
+    "sha256": "4d152ab96be537f6d67380d74a5d2a550bbf22bd504c1d0e9fe348d3ae569d33"
+  },
+  {
+    "path": "sources\\figures\\fig4_ablation.pdf",
+    "sha256": "c85b6336118780aa15397a56b7649ada3583eeec44d031dcced947f734cf0d87"
+  },
+  {
+    "path": "sources\\figures\\fig4_ablation.png",
+    "sha256": "b09ab3c89ea659cd840574a86a7901fe8bb504a4e9b70fdf774ed9ea85a2edbe"
+  },
+  {
+    "path": "sources\\figures\\fig5_theory.pdf",
+    "sha256": "4adcb585857147f1107a979c75e087696d3fa3e4e86c6cefac97b2c98a47bf62"
+  },
+  {
+    "path": "sources\\figures\\fig5_theory.png",
+    "sha256": "f9f27f94b9fff37f922aab708975ca040e68ababa7d113133f221322a83ac3bf"
+  },
+  {
+    "path": "sources\\figures\\fig6_prediction.pdf",
+    "sha256": "6928a87bf6a26f1a05d1213deedc74adaf0bc1673f06014d5e5282465ab59911"
+  },
+  {
+    "path": "sources\\figures\\fig7_pareto.pdf",
+    "sha256": "599e3f7a05a8b10540031759b64b4d78c06529c9660e1d77543bcf81f5115982"
+  },
+  {
+    "path": "sources\\figures\\pubmed_accuracy_energy.png",
+    "sha256": "7db5fc2be399dd2ac62a2c451dd362a5bc05172cde98644841f5fdad35595ace"
+  },
+  {
+    "path": "sources\\main.pdf",
+    "sha256": "317411a48f9121a420b12015283b227fd44d0dec7272ea48646c704e1cffe9f1"
+  },
+  {
+    "path": "sources\\main.tex",
+    "sha256": "264c5aff10ff7d1c7a12f8bead2251fc3fd7daf6efda004bb6d5c4ae6a2dd422"
+  },
+  {
+    "path": "sources\\refs.bib",
+    "sha256": "e7c2642744b20644c3e212deb53c837d86fcff1dbd45782dcc7a9a008bc5893e"
+  },
+  {
+    "path": "sources\\sections\\abstract.tex",
+    "sha256": "ce5db31c14ede503b550ed02a1b2f8b83a927f48443c65cbb7b296cf72ab6aaf"
+  },
+  {
+    "path": "sources\\sections\\conclusion.tex",
+    "sha256": "4ee6c12ce98606723ce72a2fc817808748d16d3ef1acde3dec490dc8642379ed"
+  },
+  {
+    "path": "sources\\sections\\discussion.tex",
+    "sha256": "5b7672bab1408e11b565dbaa38ce2aca8bb08ac011d0503fcace19479fc07ebe"
+  },
+  {
+    "path": "sources\\sections\\intro.tex",
+    "sha256": "f9b54f6195fa34c59d7d97171b1cc904d64d7bdacdd849450867391942a1dc29"
+  },
+  {
+    "path": "sources\\sections\\protocol.tex",
+    "sha256": "27d6f00541afcfcfee16f9c259c676d9d5ea20752e9e89466c27c1d35141a93e"
+  },
+  {
+    "path": "sources\\sections\\related.tex",
+    "sha256": "1b9e14d14dd14235a67e3b53e559e7b2de107e62f36bfc34fed9bd1928e16652"
+  },
+  {
+    "path": "sources\\sections\\results.tex",
+    "sha256": "c157ff29b59144951caa2e39c62c6a1b55e097b15e09def0de1ba48705a8b1d4"
+  },
+  {
+    "path": "sources\\tables\\audit.tex",
+    "sha256": "829a6c88dd4f9f310cbc95815fa9e0c68c4f28f412eb75c6d0c36896e59fcac2"
+  },
+  {
+    "path": "sources\\tables\\census.tex",
+    "sha256": "2af44b013ba77f71c60e7f76a5217841a1e12a22d96e530c4d0da8a2f8f87a7d"
+  },
+  {
+    "path": "sources\\tables\\protocol.tex",
+    "sha256": "173f046d3d2ca39a51a099a3f0fc26c472ecac4bc4c00a8ae33f19dee27c0a7a"
+  },
+  {
+    "path": "sources\\tables\\split.tex",
+    "sha256": "d48da0d752788757946d91591ca9451adc5eca4fb7a3cf745c214f2328cb8d6b"
+  }
+]

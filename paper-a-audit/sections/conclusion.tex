@@ -1,0 +1,37 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We ran every spiking graph neural network in our related work that publishes code --- three of the
+seven surveyed methods --- using each pipeline's own entry point with its configuration and
+environment (disclosing the compatibility patches the one non-zero-change pipeline required), and reported what came
+out.
+
+One reproduces on some datasets and not others: SpikingGCN's code gives $50.0$ on Cora where its
+paper reports $80.7$, $64.3$ on PubMed against $77.6$, and $70.6$ on CiteSeer against $72.5$. The
+CiteSeer result rules out a broken environment as the explanation for the Cora gap; the input
+diagnosis localises what is not the cause (self-loops are not decisive at $51.5$ either way) and
+what is (row-normalisation collapses every variant to $13.0$, unrescued by the conventional
+rescaling fix). One reproduces exactly and is still unusable as a baseline:
+SpikeGraphormer's $84.8$ is a random-split number, and the same code on the public split gives
+$74.0$. One reproduces on two datasets --- and the tables we read to choose it silently mix the
+two splits across their baseline rows (a GCN row consistent with Split~I, a SpikingGCN row
+consistent with Split~II), without labelling them, although those splits differ by
+five to twelve points.
+
+These are three different failures, and the fact that they are different is the finding. A field that
+worries about variance and seed sensitivity would not catch any of them: every number involved is
+internally consistent and was produced by the code that claims to produce it. The transportability
+verdict that replaces the variance question is per dataset: measured against each pipeline's own
+seed noise, the split gaps exceed run noise by two to four standard deviations everywhere, but only
+marginally clear our pre-registered $3\sigma$ bar on Cora ($1.35\times$) and CiteSeer
+($1.37\times$, noise proxied from a second pipeline because the matching cell is single-seed),
+and not at all on PubMed ($0.73\times$), where the two effects cannot be separated at the measured
+seed count.
+
+The practical recommendation is a single sentence: in this area, do not assemble a baseline table from
+published numbers. Run the code. We have made that cheap by shipping the environments, the commands
+and the logs, and by writing down which of our own deviations a reader should discount.
+
+The audit covers the complete auditable set of our seven-method survey: three methods. The other four
+publish no code that could be checked; the census claim is bounded to that survey and its November
+2026 record checks, not to the field.

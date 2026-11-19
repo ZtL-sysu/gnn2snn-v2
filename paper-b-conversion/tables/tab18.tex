@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{The threshold predicted by the identity is the measured optimum. Seven seeds at
+$T=8$, hidden width 16, frozen public splits; $\pm$ is one standard deviation across
+seeds. The last two columns are mean accuracies at $\theta=0.5$ and $\theta=1.5$, and
+$q_{999}$ is the $99.9$th percentile of $|B_l|$ in the trained ANN. Moving $\theta$ away
+from the optimum costs accuracy in both directions, and the activation percentile is not
+the right threshold.}\label{tab:threshold}
+\begin{tabular}{lrrrrrr}
+\toprule
+dataset & $\theta^*$ & acc$(\theta^*)$ & s.d. & acc$(0.5)$ & acc$(1.5)$ & $q_{999}$ \\
+\midrule
+cora & 1.00 & 80.26 & 0.78 & 76.84 & 72.86 & 3.86 \\
+citeseer & 1.00 & 69.07 & 1.08 & 64.34 & 57.21 & 2.10 \\
+pubmed & 0.90 & 77.53 & 1.40 & 75.36 & 73.31 & 2.56 \\
+chameleon & 0.75 & 60.46 & 1.28 & 59.40 & 58.58 & 5.48 \\
+\bottomrule
+\end{tabular}
+\end{table}

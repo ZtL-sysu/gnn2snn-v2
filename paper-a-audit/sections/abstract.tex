@@ -1,0 +1,35 @@
+\begin{abstract}
+Spiking graph neural networks report accuracies that are quoted across papers as if they were
+commensurable, and no evaluation makes them so. We audit the three spiking-GNN methods among the
+seven in our survey that publish a code repository --- all of them, since the other four declare no
+code at all --- by running each pipeline's own script in an environment pinned to its own
+requirements.
+
+The three disagree with the published record in ways that require different remedies. SpikingGCN's
+released code reaches $50.0$ on Cora against the $80.7$ its paper reports, $64.3$ on PubMed against $77.6$,
+and $70.6$ on CiteSeer against $72.5$. The gap is dataset-dependent: the same script in the same
+pinned environment reproduces on one graph and misses by thirty points on another, which rules out a
+global environment error. A five-variant input-convention re-measurement through the audited
+pipeline shows raw bag-of-words features hold $51.5$ with or without self-loops, while every
+row-normalised variant collapses to $13.0$ including the conventional rescaling fix --- the
+collapse is caused by the normalisation, not by the sampler's range.
+SpikeGraphormer reproduces almost exactly, $84.7$ against $84.8 \pm 0.7$, but on a random
+class-balanced split; on the public split the same code gives $74.0$, so one flag is worth ten
+points. SpikeGCL reproduces closely on both datasets it reports ($86.6$ against $87.4$, outside the
+published spread by $0.8$; $77.3$ against $77.6$, inside it) --- and the comparison tables in this
+literature silently mix the two splits across their baseline rows: one paper's GCN row ($81.5$) is
+consistent with the Split~I family while another's SpikingGCN row ($87.7$) is consistent with
+Split~II, and neither table says which split it quotes. The two splits differ by five to
+twelve points, so a baseline table assembled from the literature carries an error on some rows and
+not others, and no reader can see it.
+
+Each finding can be checked against the pinned environments and the execution logs that carry every
+number reported here. A variance analysis or a reproducibility checklist would catch none of them,
+because each individual number is internally consistent. The conclusion is about transportability,
+and it is per dataset: measured against each pipeline's own seed noise, the split gaps exceed run
+noise by two to four standard deviations on all three graphs, but only marginally clear our
+pre-registered three-sigma bar on Cora ($1.35\times$) and CiteSeer ($1.37\times$, noise proxied
+from a second pipeline), and not at all on PubMed ($0.73\times$), where split choice and seed
+noise are confounded. An accuracy measured under one split is not a baseline
+for another, and four of the seven surveyed methods publish no code that could be re-run at all.
+\end{abstract}

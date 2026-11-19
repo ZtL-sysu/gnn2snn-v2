@@ -1,0 +1,25 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Does the logit margin explain the flat width gap? Mean top-1 minus top-2 logit margin of the trained ANN, and the conversion gap at $T=8$, over seven seeds at each width. The margin does grow, but only by a factor of 1.18, 1.40, 1.50 from width 16 to 128 on Cora, CiteSeer and PubMed, against the $\sqrt{8}=2.83$ that a pure $\sqrt{H}$ cancellation would require. The gap stays within a point on Cora but worsens by $1.84$ points on PubMed, so the cancellation is partial and dataset-dependent.}\label{tab:margin}
+\begin{tabular}{lrrr}
+\toprule
+dataset & $H$ & mean margin & gap at $T=8$ (pp) \\
+\midrule
+cora & 16 & 1.247 & -0.34 \\
+cora & 32 & 1.294 & -0.26 \\
+cora & 64 & 1.452 & -0.06 \\
+cora & 128 & 1.468 & -0.80 \\
+\midrule
+citeseer & 16 & 0.644 & -1.24 \\
+citeseer & 32 & 0.863 & -2.31 \\
+citeseer & 64 & 0.838 & -2.71 \\
+citeseer & 128 & 0.904 & -1.57 \\
+\midrule
+pubmed & 16 & 0.875 & -0.17 \\
+pubmed & 32 & 1.197 & -0.47 \\
+pubmed & 64 & 1.175 & -1.00 \\
+pubmed & 128 & 1.313 & -2.01 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,631 @@
+[
+  {
+    "key": "bojkovic2025temporal",
+    "title": "Temporal Misalignment in {ANN-SNN} Conversion and its Mitigation via Probabilistic Spiking Neurons",
+    "year": 2025,
+    "source_url": "https://dblp.org/search?q=Temporal+Misalignment+in+ANN+SNN+Conversion+and+its+Mitigation+via+Pro",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "bouthillier2021accounting",
+    "title": "Accounting for Variance in Machine Learning Benchmarks",
+    "year": 2021,
+    "source_url": "https://dblp.org/search?q=Accounting+for+Variance+in+Machine+Learning+Benchmarks",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 27"
+    ]
+  },
+  {
+    "key": "bu2022optimal",
+    "title": "Optimal {ANN-SNN} Conversion for High-Accuracy and Ultra-Low-Latency Spiking Neural Networks",
+    "year": 2022,
+    "source_url": "https://dblp.org/search?q=Optimal+ANN+SNN+Conversion+for+High+Accuracy+and+Ultra+Low+Latency+Spi",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "cao2025hetgat",
+    "title": "Spiking Heterogeneous Graph Attention Networks",
+    "year": 2025,
+    "source_url": "https://dblp.org/search?q=Spiking+Heterogeneous+Graph+Attention+Networks",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "chen2024signn",
+    "title": "{SiGNN}: A Spike-Induced Graph Neural Network for Dynamic Graph Representation Learning",
+    "year": 2024,
+    "source_url": "https://dblp.org/search?q=+SiGNN+A+Spike+Induced+Graph+Neural+Network+for+Dynamic+Graph+Represen",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "chen2025onetimestep",
+    "title": "One-Timestep is Enough: Achieving High-performance {ANN-to-SNN} Conversion via Scale-and-Fire Neurons",
+    "year": 2025,
+    "source_url": "https://arxiv.org/abs/2510.23383",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "companion",
+    "title": "When Does Graph-to-Spiking Conversion Work? Spectral Gain, Activation Mass, and an Order-Invariant Readout",
+    "year": 2026,
+    "source_url": "https://dblp.org/search?q=When+Does+Graph+to+Spiking+Conversion+Work+Spectral+Gain+Activation+Ma",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 20",
+      "paragraph 70",
+      "paragraph 79"
+    ]
+  },
+  {
+    "key": "deng2021optimal",
+    "title": "Optimal Conversion of Conventional Artificial Neural Networks to Spiking Neural Networks",
+    "year": 2021,
+    "source_url": "https://dblp.org/search?q=Optimal+Conversion+of+Conventional+Artificial+Neural+Networks+to+Spiki",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "diehl2015fast",
+    "title": "Fast-Classifying, High-Accuracy Spiking Deep Networks Through Weight and Threshold Balancing",
+    "year": 2015,
+    "source_url": "https://dblp.org/search?q=Fast+Classifying+High+Accuracy+Spiking+Deep+Networks+Through+Weight+an",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "fan2024continuous",
+    "title": "Continuous Spiking Graph Neural Networks",
+    "year": 2024,
+    "source_url": "https://dblp.org/search?q=Continuous+Spiking+Graph+Neural+Networks",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "fang2021deep",
+    "title": "Deep Residual Learning in Spiking Neural Networks",
+    "year": 2021,
+    "source_url": "https://dblp.org/search?q=Deep+Residual+Learning+in+Spiking+Neural+Networks",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "fang2021incorporating",
+    "title": "Incorporating Learnable Membrane Time Constant to Enhance Learning of Spiking Neural Networks",
+    "year": 2021,
+    "source_url": "https://dblp.org/search?q=Incorporating+Learnable+Membrane+Time+Constant+to+Enhance+Learning+of+",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "fang2023spikingjelly",
+    "title": "{SpikingJelly}: An Open-Source Machine Learning Infrastructure Platform for Spike-Based Intelligence",
+    "year": 2023,
+    "source_url": "https://dblp.org/search?q=+SpikingJelly+An+Open+Source+Machine+Learning+Infrastructure+Platform+",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "fofanah2026anomaly",
+    "title": "Neuromorphic Graph Anomaly Detection via Adaptive {STDP} and Spiking Graph Neural Networks",
+    "year": 2026,
+    "source_url": "https://dblp.org/search?q=Neuromorphic+Graph+Anomaly+Detection+via+Adaptive+STDP+and+Spiking+Gra",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "hamilton2017inductive",
+    "title": "Inductive Representation Learning on Large Graphs",
+    "year": 2017,
+    "source_url": "https://dblp.org/search?q=Inductive+Representation+Learning+on+Large+Graphs",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "hao2023offset",
+    "title": "Bridging the Gap between {ANNs} and {SNNs} by Calibrating Offset Spikes",
+    "year": 2023,
+    "source_url": "https://dblp.org/search?q=Bridging+the+Gap+between+ANNs+and+SNNs+by+Calibrating+Offset+Spikes",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "henderson2018deep",
+    "title": "Deep Reinforcement Learning That Matters",
+    "year": 2018,
+    "source_url": "https://dblp.org/search?q=Deep+Reinforcement+Learning+That+Matters",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 27"
+    ]
+  },
+  {
+    "key": "hu2020open",
+    "title": "Open Graph Benchmark: Datasets for Machine Learning on Graphs",
+    "year": 2020,
+    "source_url": "https://dblp.org/search?q=Open+Graph+Benchmark+Datasets+for+Machine+Learning+on+Graphs",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "huang2025differential",
+    "title": "Differential Coding for Training-Free {ANN-to-SNN} Conversion",
+    "year": 2025,
+    "source_url": "https://arxiv.org/abs/2503.00301",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "huang2025spiketrans",
+    "title": "Towards High-performance Spiking Transformers from {ANN} to {SNN} Conversion",
+    "year": 2025,
+    "source_url": "https://arxiv.org/abs/2502.21193",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "hwang2024onespike",
+    "title": "One-Spike {SNN}: Single-Spike Phase Coding with Base Manipulation for {ANN-to-SNN} Conversion Loss Minimization",
+    "year": 2024,
+    "source_url": "https://arxiv.org/abs/2403.08786",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "jahin2026chronospike",
+    "title": "{ChronoSpike}: An Adaptive Spiking Graph Neural Network for Dynamic Graphs",
+    "year": 2026,
+    "source_url": "https://dblp.org/search?q=+ChronoSpike+An+Adaptive+Spiking+Graph+Neural+Network+for+Dynamic+Grap",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "jain2024hybrid",
+    "title": "Hybrid Variable Spiking Graph Neural Networks for Energy-Efficient Scientific Machine Learning",
+    "year": 2024,
+    "source_url": "https://dblp.org/search?q=Hybrid+Variable+Spiking+Graph+Neural+Networks+for+Energy+Efficient+Sci",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "jia2026activation",
+    "title": "Activation-Flexible {ANN-to-SNN} Conversion with Finite-State Markov Neurons",
+    "year": 2026,
+    "source_url": "https://arxiv.org/abs/2609.30102",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "kipf2017semi",
+    "title": "Semi-Supervised Classification with Graph Convolutional Networks",
+    "year": 2017,
+    "source_url": "https://dblp.org/search?q=Semi+Supervised+Classification+with+Graph+Convolutional+Networks",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "li2023bit1",
+    "title": "A Graph is Worth 1-Bit Spikes: When Graph Contrastive Learning Meets Spiking Neural Networks",
+    "year": 2024,
+    "source_url": "https://dblp.org/search?q=A+Graph+is+Worth+1+Bit+Spikes+When+Graph+Contrastive+Learning+Meets+Sp",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "li2024noiseadaptor",
+    "title": "Noise Adaptor: Enhancing Low-Latency Spiking Neural Networks through Noise-Injected Low-Bit {ANN} Conversion",
+    "year": 2024,
+    "source_url": "https://arxiv.org/abs/2411.17431",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "liu2025errorcomp",
+    "title": "Efficient {ANN-SNN} Conversion with Error Compensation Learning",
+    "year": 2025,
+    "source_url": "https://arxiv.org/abs/2506.01968",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "neftci2019surrogate",
+    "title": "Surrogate Gradient Learning in Spiking Neural Networks: Bringing the Power of Gradient-Based Optimization to Spiking Neural Networks",
+    "year": 2019,
+    "source_url": "https://dblp.org/search?q=Surrogate+Gradient+Learning+in+Spiking+Neural+Networks+Bringing+the+Po",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "oh2024signgd",
+    "title": "Sign Gradient Descent-based Neuronal Dynamics: {ANN-to-SNN} Conversion Beyond {ReLU} Network",
+    "year": 2024,
+    "source_url": "https://arxiv.org/abs/2407.01645",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "pei2020geom",
+    "title": "Geom-{GCN}: Geometric Graph Convolutional Networks",
+    "year": 2020,
+    "source_url": "https://dblp.org/search?q=Geom+GCN+Geometric+Graph+Convolutional+Networks",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "pineau2021improving",
+    "title": "Improving Reproducibility in Machine Learning Research: A Report from the {NeurIPS} 2019 Reproducibility Program",
+    "year": 2021,
+    "source_url": "https://dblp.org/search?q=Improving+Reproducibility+in+Machine+Learning+Research+A+Report+from+t",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 27"
+    ]
+  },
+  {
+    "key": "raff2019step",
+    "title": "A Step Toward Quantifying Independently Reproducible Machine Learning Research",
+    "year": 2019,
+    "source_url": "https://dblp.org/search?q=A+Step+Toward+Quantifying+Independently+Reproducible+Machine+Learning+",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 27"
+    ]
+  },
+  {
+    "key": "recht2019imagenet",
+    "title": "Do {ImageNet} Classifiers Generalize to {ImageNet}?",
+    "year": 2019,
+    "source_url": "https://dblp.org/search?q=Do+ImageNet+Classifiers+Generalize+to+ImageNet+",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 27"
+    ]
+  },
+  {
+    "key": "rozemberczki2021multi",
+    "title": "Multi-Scale Attributed Node Embedding",
+    "year": 2021,
+    "source_url": "https://dblp.org/search?q=Multi+Scale+Attributed+Node+Embedding",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "rueckauer2017conversion",
+    "title": "Conversion of Continuous-Valued Deep Networks to Efficient Event-Driven Networks for Image Classification",
+    "year": 2017,
+    "source_url": "https://dblp.org/search?q=Conversion+of+Continuous+Valued+Deep+Networks+to+Efficient+Event+Drive",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "sengupta2019going",
+    "title": "Going Deeper in Spiking Neural Networks: {VGG} and Residual Architectures",
+    "year": 2019,
+    "source_url": "https://dblp.org/search?q=Going+Deeper+in+Spiking+Neural+Networks+VGG+and+Residual+Architectures",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "snyder2024loihi",
+    "title": "Transductive Spiking Graph Neural Networks for {Loihi}",
+    "year": 2024,
+    "source_url": "https://dblp.org/search?q=Transductive+Spiking+Graph+Neural+Networks+for+Loihi+",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "sun2024riemannian",
+    "title": "Spiking Graph Neural Network on {Riemannian} Manifolds",
+    "year": 2024,
+    "source_url": "https://dblp.org/search?q=Spiking+Graph+Neural+Network+on+Riemannian+Manifolds",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "sun2024spikegraphormer",
+    "title": "{SpikeGraphormer}: A High-Performance Graph Transformer with Spiking Graph Attention",
+    "year": 2024,
+    "source_url": "https://dblp.org/search?q=+SpikeGraphormer+A+High+Performance+Graph+Transformer+with+Spiking+Gra",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "velickovic2018graph",
+    "title": "Graph Attention Networks",
+    "year": 2018,
+    "source_url": "https://dblp.org/search?q=Graph+Attention+Networks",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "wang2024adaptivecal",
+    "title": "Adaptive Calibration: A Unified Conversion Framework of Spiking Neural Network",
+    "year": 2024,
+    "source_url": "https://arxiv.org/abs/2412.16219",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "wang2025trainingfree",
+    "title": "Training-Free {ANN-to-SNN} Conversion for High-Performance Spiking Transformer",
+    "year": 2025,
+    "source_url": "https://arxiv.org/abs/2508.07710",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "wu2024ftbc",
+    "title": "{FTBC}: Forward Temporal Bias Correction for Optimizing {ANN-SNN} Conversion",
+    "year": 2024,
+    "source_url": "https://dblp.org/search?q=+FTBC+Forward+Temporal+Bias+Correction+for+Optimizing+ANN+SNN+Conversi",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "xu2019powerful",
+    "title": "How Powerful are Graph Neural Networks?",
+    "year": 2019,
+    "source_url": "https://dblp.org/search?q=How+Powerful+are+Graph+Neural+Networks+",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 26"
+    ]
+  },
+  {
+    "key": "xu2024unveiling",
+    "title": "Unveiling the Potential of Spiking Dynamics in Graph Representation Learning through Spatial-Temporal Normalization and Coding Strategies",
+    "year": 2024,
+    "source_url": "https://dblp.org/search?q=Unveiling+the+Potential+of+Spiking+Dynamics+in+Graph+Representation+Le",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "xu2026erroramp",
+    "title": "Error Amplification Limits {ANN-to-SNN} Conversion in Continuous Control",
+    "year": 2026,
+    "source_url": "https://arxiv.org/abs/2601.21778",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "yang2022svgae",
+    "title": "Spiking Variational Graph Auto-Encoders for Efficient Graph Representation Learning",
+    "year": 2022,
+    "source_url": "https://dblp.org/search?q=Spiking+Variational+Graph+Auto+Encoders+for+Efficient+Graph+Representa",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "yao2023spiking",
+    "title": "Spike-Driven Transformer",
+    "year": 2023,
+    "source_url": "https://dblp.org/search?q=Spike+Driven+Transformer",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "yao2024spikingv2",
+    "title": "Spike-Driven Transformer {V2}: Meta Spiking Neural Network Architecture Inspiring the Design of Next-Generation Neuromorphic Chips",
+    "year": 2024,
+    "source_url": "https://dblp.org/search?q=Spike+Driven+Transformer+V2+Meta+Spiking+Neural+Network+Architecture+I",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "yin2024dgsnn",
+    "title": "Dynamic Spiking Graph Neural Networks",
+    "year": 2024,
+    "source_url": "https://dblp.org/search?q=Dynamic+Spiking+Graph+Neural+Networks",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "yu2025photonic",
+    "title": "Photonic Spiking Graph Neural Network for Energy-Efficient Structured Data Processing",
+    "year": 2025,
+    "source_url": "https://dblp.org/search?q=Photonic+Spiking+Graph+Neural+Network+for+Energy+Efficient+Structured+",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "zhang2025geometry",
+    "title": "Geometry-Aware Spiking Graph Neural Network",
+    "year": 2025,
+    "source_url": "https://dblp.org/search?q=Geometry+Aware+Spiking+Graph+Neural+Network",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "zhang2025quantization",
+    "title": "Quantization Meets Spikes: Nearly Lossless Conversion at the First Timestep via Polarity Multi-Spike Mapping",
+    "year": 2025,
+    "source_url": "https://arxiv.org/abs/2508.14520",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 25"
+    ]
+  },
+  {
+    "key": "zhang2025sgnnbench",
+    "title": "{SGNNBench}: A Holistic Evaluation of Spiking Graph Neural Network on Large-Scale Graph",
+    "year": 2025,
+    "source_url": "https://dblp.org/search?q=+SGNNBench+A+Holistic+Evaluation+of+Spiking+Graph+Neural+Network+on+La",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 29"
+    ]
+  },
+  {
+    "key": "zheng2021going",
+    "title": "Going Deeper With Directly-Trained Larger Spiking Neural Networks",
+    "year": 2021,
+    "source_url": "https://dblp.org/search?q=Going+Deeper+With+Directly+Trained+Larger+Spiking+Neural+Networks",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  },
+  {
+    "key": "zhu2022spiking",
+    "title": "Spiking Graph Convolutional Networks",
+    "year": 2022,
+    "source_url": "https://dblp.org/search?q=Spiking+Graph+Convolutional+Networks",
+    "verification_status": "verified",
+    "relevance_status": "relevant",
+    "support_locations": [
+      "paragraph 24"
+    ]
+  }
+]

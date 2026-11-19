@@ -1,0 +1,383 @@
+{
+  "stage": "jB1-search-arm",
+  "prereg": "audits/jB1-search-arm-prereg.md",
+  "tag": "pilot",
+  "cells": [
+    {
+      "dataset": "cora",
+      "L": 3,
+      "seed": 0,
+      "T_star": 16,
+      "T_l_search": [
+        16,
+        16
+      ],
+      "T_l_random": [
+        12,
+        8
+      ],
+      "acc_search": 0.42,
+      "acc_unif": 0.42,
+      "acc_random": 0.383,
+      "updates_search": 48.0,
+      "updates_unif": 48.0,
+      "saving": 0.0,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "cora",
+      "L": 3,
+      "seed": 1,
+      "T_star": 5,
+      "T_l_search": [
+        5,
+        2
+      ],
+      "T_l_random": [
+        12,
+        16
+      ],
+      "acc_search": 0.713,
+      "acc_unif": 0.72,
+      "acc_random": 0.743,
+      "updates_search": 12.0,
+      "updates_unif": 15.0,
+      "saving": 0.19999999999999996,
+      "band_ok": true,
+      "beats_random": false
+    },
+    {
+      "dataset": "cora",
+      "L": 3,
+      "seed": 2,
+      "T_star": 7,
+      "T_l_search": [
+        7,
+        7
+      ],
+      "T_l_random": [
+        16,
+        1
+      ],
+      "acc_search": 0.741,
+      "acc_unif": 0.741,
+      "acc_random": 0.742,
+      "updates_search": 21.0,
+      "updates_unif": 21.0,
+      "saving": 0.0,
+      "band_ok": true,
+      "beats_random": false
+    },
+    {
+      "dataset": "cora",
+      "L": 3,
+      "seed": 3,
+      "T_star": 10,
+      "T_l_search": [
+        10,
+        10
+      ],
+      "T_l_random": [
+        12,
+        6
+      ],
+      "acc_search": 0.769,
+      "acc_unif": 0.769,
+      "acc_random": 0.757,
+      "updates_search": 30.0,
+      "updates_unif": 30.0,
+      "saving": 0.0,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "cora",
+      "L": 4,
+      "seed": 0,
+      "T_star": 64,
+      "T_l_search": [
+        8,
+        8,
+        2
+      ],
+      "T_l_random": [
+        8,
+        8,
+        6
+      ],
+      "acc_search": 0.597,
+      "acc_unif": 0.607,
+      "acc_random": 0.599,
+      "updates_search": 26.0,
+      "updates_unif": 256.0,
+      "saving": 0.8984375,
+      "band_ok": true,
+      "beats_random": false
+    },
+    {
+      "dataset": "cora",
+      "L": 4,
+      "seed": 1,
+      "T_star": 64,
+      "T_l_search": [
+        6,
+        8,
+        8
+      ],
+      "T_l_random": [
+        12,
+        12,
+        6
+      ],
+      "acc_search": 0.393,
+      "acc_unif": 0.48,
+      "acc_random": 0.475,
+      "updates_search": 30.0,
+      "updates_unif": 256.0,
+      "saving": 0.8828125,
+      "band_ok": false,
+      "beats_random": false
+    },
+    {
+      "dataset": "cora",
+      "L": 4,
+      "seed": 2,
+      "T_star": 64,
+      "T_l_search": [
+        6,
+        4,
+        64
+      ],
+      "T_l_random": [
+        6,
+        12,
+        8
+      ],
+      "acc_search": 0.634,
+      "acc_unif": 0.602,
+      "acc_random": 0.644,
+      "updates_search": 138.0,
+      "updates_unif": 256.0,
+      "saving": 0.4609375,
+      "band_ok": true,
+      "beats_random": false
+    },
+    {
+      "dataset": "cora",
+      "L": 4,
+      "seed": 3,
+      "T_star": 64,
+      "T_l_search": [
+        16,
+        6,
+        3
+      ],
+      "T_l_random": [
+        6,
+        4,
+        3
+      ],
+      "acc_search": 0.464,
+      "acc_unif": 0.475,
+      "acc_random": 0.475,
+      "updates_search": 41.0,
+      "updates_unif": 256.0,
+      "saving": 0.83984375,
+      "band_ok": true,
+      "beats_random": false
+    },
+    {
+      "dataset": "citeseer",
+      "L": 3,
+      "seed": 0,
+      "T_star": 5,
+      "T_l_search": [
+        5,
+        4
+      ],
+      "T_l_random": [
+        6,
+        3
+      ],
+      "acc_search": 0.632,
+      "acc_unif": 0.635,
+      "acc_random": 0.655,
+      "updates_search": 14.0,
+      "updates_unif": 15.0,
+      "saving": 0.06666666666666665,
+      "band_ok": true,
+      "beats_random": false
+    },
+    {
+      "dataset": "citeseer",
+      "L": 3,
+      "seed": 1,
+      "T_star": 4,
+      "T_l_search": [
+        4,
+        4
+      ],
+      "T_l_random": [
+        12,
+        4
+      ],
+      "acc_search": 0.344,
+      "acc_unif": 0.344,
+      "acc_random": 0.415,
+      "updates_search": 12.0,
+      "updates_unif": 12.0,
+      "saving": 0.0,
+      "band_ok": true,
+      "beats_random": false
+    },
+    {
+      "dataset": "citeseer",
+      "L": 3,
+      "seed": 2,
+      "T_star": 5,
+      "T_l_search": [
+        5,
+        3
+      ],
+      "T_l_random": [
+        16,
+        1
+      ],
+      "acc_search": 0.616,
+      "acc_unif": 0.621,
+      "acc_random": 0.615,
+      "updates_search": 13.0,
+      "updates_unif": 15.0,
+      "saving": 0.1333333333333333,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "citeseer",
+      "L": 3,
+      "seed": 3,
+      "T_star": 5,
+      "T_l_search": [
+        5,
+        3
+      ],
+      "T_l_random": [
+        12,
+        6
+      ],
+      "acc_search": 0.601,
+      "acc_unif": 0.601,
+      "acc_random": 0.584,
+      "updates_search": 13.0,
+      "updates_unif": 15.0,
+      "saving": 0.1333333333333333,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "citeseer",
+      "L": 4,
+      "seed": 0,
+      "T_star": 64,
+      "T_l_search": [
+        64,
+        8,
+        6
+      ],
+      "T_l_random": [
+        12,
+        8,
+        1
+      ],
+      "acc_search": 0.396,
+      "acc_unif": 0.402,
+      "acc_random": 0.348,
+      "updates_search": 142.0,
+      "updates_unif": 256.0,
+      "saving": 0.4453125,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "citeseer",
+      "L": 4,
+      "seed": 1,
+      "T_star": 64,
+      "T_l_search": [
+        12,
+        3,
+        1
+      ],
+      "T_l_random": [
+        12,
+        16,
+        2
+      ],
+      "acc_search": 0.477,
+      "acc_unif": 0.469,
+      "acc_random": 0.463,
+      "updates_search": 28.0,
+      "updates_unif": 256.0,
+      "saving": 0.890625,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "citeseer",
+      "L": 4,
+      "seed": 2,
+      "T_star": 64,
+      "T_l_search": [
+        16,
+        6,
+        2
+      ],
+      "T_l_random": [
+        12,
+        3,
+        1
+      ],
+      "acc_search": 0.416,
+      "acc_unif": 0.42,
+      "acc_random": 0.368,
+      "updates_search": 40.0,
+      "updates_unif": 256.0,
+      "saving": 0.84375,
+      "band_ok": true,
+      "beats_random": true
+    },
+    {
+      "dataset": "citeseer",
+      "L": 4,
+      "seed": 3,
+      "T_star": 5,
+      "T_l_search": [
+        5,
+        5,
+        2
+      ],
+      "T_l_random": [
+        6,
+        4,
+        3
+      ],
+      "acc_search": 0.364,
+      "acc_unif": 0.363,
+      "acc_random": 0.343,
+      "updates_search": 17.0,
+      "updates_unif": 20.0,
+      "saving": 0.15000000000000002,
+      "band_ok": true,
+      "beats_random": true
+    }
+  ],
+  "verdict": {
+    "n": 16,
+    "band_and_20pct": 6,
+    "fraction": 0.375,
+    "arm_success": false,
+    "arm_partial": false,
+    "random_falsifier_ok": true
+  }
+}

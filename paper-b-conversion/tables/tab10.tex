@@ -1,0 +1,35 @@
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{The membrane decoder is invariant to the \emph{order} of layer-1 spikes, and the count
+decoder is not. \emph{permute} applies an independent random permutation of the $T$ steps to
+every layer-1 neuron; \emph{shift} applies a per-node cyclic shift, so a node's spikes no longer
+line up with its neighbours'. The membrane column is unchanged to four decimals in every cell
+(max spread 0.000\,pp), which is what
+$\sum_t\mathrm{inst}_t=\Ahat(\mathrm{count}_1M_2)+Tb_2$ predicts: the identity contains no $t$.
+The count column moves by up to $1.6$\,pp. Temporal ordering is therefore not a source of error
+in this conversion at all; the error is the per-node rate quantisation, propagated spatially.}
+\label{tab:order}
+\begin{tabular}{lllrr}
+\toprule
+dataset & neuron & perturbation & membrane & count \\
+\midrule
+cora & IF & base & 0.8026 & 0.7707 \\
+cora & IF & permute & 0.8026 & 0.7863 \\
+cora & IF & shift & 0.8026 & 0.7843 \\
+cora & IF & both & 0.8026 & 0.7869 \\
+cora & TPP & base & 0.7664 & 0.7484 \\
+cora & TPP & permute & 0.7664 & 0.7414 \\
+cora & TPP & shift & 0.7664 & 0.7460 \\
+cora & TPP & both & 0.7664 & 0.7400 \\
+citeseer & IF & base & 0.6907 & 0.6390 \\
+citeseer & IF & permute & 0.6907 & 0.6529 \\
+citeseer & IF & shift & 0.6907 & 0.6501 \\
+citeseer & IF & both & 0.6907 & 0.6529 \\
+citeseer & TPP & base & 0.6334 & 0.5926 \\
+citeseer & TPP & permute & 0.6334 & 0.5964 \\
+citeseer & TPP & shift & 0.6334 & 0.5961 \\
+citeseer & TPP & both & 0.6334 & 0.5929 \\
+\bottomrule
+\end{tabular}
+\end{table}

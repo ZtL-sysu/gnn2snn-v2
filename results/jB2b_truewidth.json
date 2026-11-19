@@ -1,0 +1,629 @@
+{
+  "stage": "E-B2b-truewidth",
+  "device": "cuda",
+  "K": 2,
+  "protocol": "external formulation with real hidden spiking layer; not a published-number reproduction",
+  "cells": [
+    {
+      "dataset": "cora",
+      "hidden": 16,
+      "T": 4,
+      "acc_mean": 0.366,
+      "acc_std": 0.07943550843294202,
+      "acc_per_seed": [
+        0.431,
+        0.319,
+        0.319,
+        0.319,
+        0.319,
+        0.536,
+        0.319
+      ],
+      "cost_mean": {
+        "synops_spike": 669061.375,
+        "dense_worst": 249569280.0,
+        "node_h": 173312.0,
+        "hidden_spikes": 699.2857142857143,
+        "input_spikes": 10148.146484375
+      }
+    },
+    {
+      "dataset": "cora",
+      "hidden": 16,
+      "T": 8,
+      "acc_mean": 0.8004285714285715,
+      "acc_std": 0.006608590574983079,
+      "acc_per_seed": [
+        0.81,
+        0.805,
+        0.796,
+        0.797,
+        0.789,
+        0.8,
+        0.806
+      ],
+      "cost_mean": {
+        "synops_spike": 3684237.5,
+        "dense_worst": 499138560.0,
+        "node_h": 346624.0,
+        "hidden_spikes": 19398.428571428572,
+        "input_spikes": 20296.29296875
+      }
+    },
+    {
+      "dataset": "cora",
+      "hidden": 16,
+      "T": 16,
+      "acc_mean": 0.8037142857142856,
+      "acc_std": 0.011028719466067845,
+      "acc_per_seed": [
+        0.818,
+        0.81,
+        0.795,
+        0.792,
+        0.817,
+        0.789,
+        0.805
+      ],
+      "cost_mean": {
+        "synops_spike": 14659990.0,
+        "dense_worst": 998277120.0,
+        "node_h": 693248.0,
+        "hidden_spikes": 38109.71428571428,
+        "input_spikes": 40592.5859375
+      }
+    },
+    {
+      "dataset": "cora",
+      "hidden": 32,
+      "T": 4,
+      "acc_mean": 0.36428571428571427,
+      "acc_std": 0.11092689263746679,
+      "acc_per_seed": [
+        0.319,
+        0.319,
+        0.636,
+        0.319,
+        0.319,
+        0.319,
+        0.319
+      ],
+      "cost_mean": {
+        "synops_spike": 1310322.75,
+        "dense_worst": 499138560.0,
+        "node_h": 346624.0,
+        "hidden_spikes": 405.7142857142857,
+        "input_spikes": 10148.146484375
+      }
+    },
+    {
+      "dataset": "cora",
+      "hidden": 32,
+      "T": 8,
+      "acc_mean": 0.8182857142857143,
+      "acc_std": 0.006295447010437311,
+      "acc_per_seed": [
+        0.811,
+        0.826,
+        0.81,
+        0.825,
+        0.814,
+        0.824,
+        0.818
+      ],
+      "cost_mean": {
+        "synops_spike": 6756099.0,
+        "dense_worst": 998277120.0,
+        "node_h": 693248.0,
+        "hidden_spikes": 27861.571428571428,
+        "input_spikes": 20296.29296875
+      }
+    },
+    {
+      "dataset": "cora",
+      "hidden": 32,
+      "T": 16,
+      "acc_mean": 0.8001428571428573,
+      "acc_std": 0.005436085025840133,
+      "acc_per_seed": [
+        0.807,
+        0.802,
+        0.792,
+        0.806,
+        0.802,
+        0.799,
+        0.793
+      ],
+      "cost_mean": {
+        "synops_spike": 27136492.0,
+        "dense_worst": 1996554240.0,
+        "node_h": 1386496.0,
+        "hidden_spikes": 56724.0,
+        "input_spikes": 40592.5859375
+      }
+    },
+    {
+      "dataset": "cora",
+      "hidden": 512,
+      "T": 4,
+      "acc_mean": 0.319,
+      "acc_std": 0.0,
+      "acc_per_seed": [
+        0.319,
+        0.319,
+        0.319,
+        0.319,
+        0.319,
+        0.319,
+        0.319
+      ],
+      "cost_mean": {
+        "synops_spike": 20783404.0,
+        "dense_worst": 7986216960.0,
+        "node_h": 5545984.0,
+        "hidden_spikes": 0.0,
+        "input_spikes": 10148.146484375
+      }
+    },
+    {
+      "dataset": "cora",
+      "hidden": 512,
+      "T": 8,
+      "acc_mean": 0.7940000000000002,
+      "acc_std": 0.008298020417975782,
+      "acc_per_seed": [
+        0.794,
+        0.806,
+        0.792,
+        0.786,
+        0.78,
+        0.801,
+        0.799
+      ],
+      "cost_mean": {
+        "synops_spike": 86572880.0,
+        "dense_worst": 15972433920.0,
+        "node_h": 11091968.0,
+        "hidden_spikes": 61415.42857142857,
+        "input_spikes": 20296.29296875
+      }
+    },
+    {
+      "dataset": "cora",
+      "hidden": 512,
+      "T": 16,
+      "acc_mean": 0.8068571428571428,
+      "acc_std": 0.0115687827663016,
+      "acc_per_seed": [
+        0.786,
+        0.82,
+        0.821,
+        0.81,
+        0.807,
+        0.808,
+        0.796
+      ],
+      "cost_mean": {
+        "synops_spike": 358390400.0,
+        "dense_worst": 31944867840.0,
+        "node_h": 22183936.0,
+        "hidden_spikes": 230856.57142857142,
+        "input_spikes": 40592.5859375
+      }
+    },
+    {
+      "dataset": "citeseer",
+      "hidden": 16,
+      "T": 4,
+      "acc_mean": 0.18100000000000002,
+      "acc_std": 2.7755575615628914e-17,
+      "acc_per_seed": [
+        0.181,
+        0.181,
+        0.181,
+        0.181,
+        0.181,
+        0.181,
+        0.181
+      ],
+      "cost_mean": {
+        "synops_spike": 814196.25,
+        "dense_worst": 789749952.0,
+        "node_h": 212928.0,
+        "hidden_spikes": 0.0,
+        "input_spikes": 12721.81640625
+      }
+    },
+    {
+      "dataset": "citeseer",
+      "hidden": 16,
+      "T": 8,
+      "acc_mean": 0.6829999999999999,
+      "acc_std": 0.018708286933869677,
+      "acc_per_seed": [
+        0.666,
+        0.713,
+        0.7,
+        0.662,
+        0.662,
+        0.686,
+        0.692
+      ],
+      "cost_mean": {
+        "synops_spike": 4039479.8571428573,
+        "dense_worst": 1579499904.0,
+        "node_h": 425856.0,
+        "hidden_spikes": 16306.142857142857,
+        "input_spikes": 25443.6328125
+      }
+    },
+    {
+      "dataset": "citeseer",
+      "hidden": 16,
+      "T": 16,
+      "acc_mean": 0.6421428571428571,
+      "acc_std": 0.02266166411383251,
+      "acc_per_seed": [
+        0.638,
+        0.624,
+        0.63,
+        0.611,
+        0.681,
+        0.667,
+        0.644
+      ],
+      "cost_mean": {
+        "synops_spike": 15092566.285714285,
+        "dense_worst": 3158999808.0,
+        "node_h": 851712.0,
+        "hidden_spikes": 21514.85714285714,
+        "input_spikes": 50887.265625
+      }
+    },
+    {
+      "dataset": "citeseer",
+      "hidden": 32,
+      "T": 4,
+      "acc_mean": 0.18100000000000002,
+      "acc_std": 2.7755575615628914e-17,
+      "acc_per_seed": [
+        0.181,
+        0.181,
+        0.181,
+        0.181,
+        0.181,
+        0.181,
+        0.181
+      ],
+      "cost_mean": {
+        "synops_spike": 1628392.5,
+        "dense_worst": 1579499904.0,
+        "node_h": 425856.0,
+        "hidden_spikes": 0.0,
+        "input_spikes": 12721.81640625
+      }
+    },
+    {
+      "dataset": "citeseer",
+      "hidden": 32,
+      "T": 8,
+      "acc_mean": 0.6884285714285713,
+      "acc_std": 0.01448010598675833,
+      "acc_per_seed": [
+        0.689,
+        0.687,
+        0.657,
+        0.694,
+        0.69,
+        0.693,
+        0.709
+      ],
+      "cost_mean": {
+        "synops_spike": 7623343.714285715,
+        "dense_worst": 3158999808.0,
+        "node_h": 851712.0,
+        "hidden_spikes": 23120.285714285714,
+        "input_spikes": 25443.6328125
+      }
+    },
+    {
+      "dataset": "citeseer",
+      "hidden": 32,
+      "T": 16,
+      "acc_mean": 0.6604285714285715,
+      "acc_std": 0.01787941468247089,
+      "acc_per_seed": [
+        0.662,
+        0.684,
+        0.676,
+        0.667,
+        0.644,
+        0.663,
+        0.627
+      ],
+      "cost_mean": {
+        "synops_spike": 30535121.14285714,
+        "dense_worst": 6317999616.0,
+        "node_h": 1703424.0,
+        "hidden_spikes": 46675.42857142857,
+        "input_spikes": 50887.265625
+      }
+    },
+    {
+      "dataset": "citeseer",
+      "hidden": 512,
+      "T": 4,
+      "acc_mean": 0.18100000000000002,
+      "acc_std": 2.7755575615628914e-17,
+      "acc_per_seed": [
+        0.181,
+        0.181,
+        0.181,
+        0.181,
+        0.181,
+        0.181,
+        0.181
+      ],
+      "cost_mean": {
+        "synops_spike": 26054280.0,
+        "dense_worst": 25271998464.0,
+        "node_h": 6813696.0,
+        "hidden_spikes": 0.0,
+        "input_spikes": 12721.81640625
+      }
+    },
+    {
+      "dataset": "citeseer",
+      "hidden": 512,
+      "T": 8,
+      "acc_mean": 0.6654285714285715,
+      "acc_std": 0.016986188867574078,
+      "acc_per_seed": [
+        0.64,
+        0.656,
+        0.655,
+        0.67,
+        0.683,
+        0.66,
+        0.694
+      ],
+      "cost_mean": {
+        "synops_spike": 106961314.28571428,
+        "dense_worst": 50543996928.0,
+        "node_h": 13627392.0,
+        "hidden_spikes": 57170.71428571428,
+        "input_spikes": 25443.6328125
+      }
+    },
+    {
+      "dataset": "citeseer",
+      "hidden": 512,
+      "T": 16,
+      "acc_mean": 0.6757142857142858,
+      "acc_std": 0.01278072528362572,
+      "acc_per_seed": [
+        0.682,
+        0.673,
+        0.684,
+        0.665,
+        0.7,
+        0.663,
+        0.663
+      ],
+      "cost_mean": {
+        "synops_spike": 438630665.14285713,
+        "dense_worst": 101087993856.0,
+        "node_h": 27254784.0,
+        "hidden_spikes": 226689.42857142858,
+        "input_spikes": 50887.265625
+      }
+    },
+    {
+      "dataset": "pubmed",
+      "hidden": 16,
+      "T": 4,
+      "acc_mean": 0.5111428571428572,
+      "acc_std": 0.1002217948515457,
+      "acc_per_seed": [
+        0.407,
+        0.666,
+        0.407,
+        0.512,
+        0.562,
+        0.407,
+        0.617
+      ],
+      "cost_mean": {
+        "synops_spike": 4414692.0,
+        "dense_worst": 634729664.0,
+        "node_h": 1261888.0,
+        "hidden_spikes": 6325.0,
+        "input_spikes": 67793.625
+      }
+    },
+    {
+      "dataset": "pubmed",
+      "hidden": 16,
+      "T": 8,
+      "acc_mean": 0.7577142857142858,
+      "acc_std": 0.009602295643889185,
+      "acc_per_seed": [
+        0.753,
+        0.765,
+        0.759,
+        0.765,
+        0.737,
+        0.767,
+        0.758
+      ],
+      "cost_mean": {
+        "synops_spike": 19464778.285714287,
+        "dense_worst": 1269459328.0,
+        "node_h": 2523776.0,
+        "hidden_spikes": 87900.42857142857,
+        "input_spikes": 135587.25
+      }
+    },
+    {
+      "dataset": "pubmed",
+      "hidden": 16,
+      "T": 16,
+      "acc_mean": 0.7655714285714286,
+      "acc_std": 0.012303973142933996,
+      "acc_per_seed": [
+        0.762,
+        0.77,
+        0.775,
+        0.737,
+        0.773,
+        0.773,
+        0.769
+      ],
+      "cost_mean": {
+        "synops_spike": 78245122.28571428,
+        "dense_worst": 2538918656.0,
+        "node_h": 5047552.0,
+        "hidden_spikes": 183842.7142857143,
+        "input_spikes": 271174.5
+      }
+    },
+    {
+      "dataset": "pubmed",
+      "hidden": 32,
+      "T": 4,
+      "acc_mean": 0.48728571428571427,
+      "acc_std": 0.08260182337267016,
+      "acc_per_seed": [
+        0.548,
+        0.641,
+        0.407,
+        0.407,
+        0.481,
+        0.407,
+        0.52
+      ],
+      "cost_mean": {
+        "synops_spike": 8778334.285714285,
+        "dense_worst": 1269459328.0,
+        "node_h": 2523776.0,
+        "hidden_spikes": 8395.857142857143,
+        "input_spikes": 67793.625
+      }
+    },
+    {
+      "dataset": "pubmed",
+      "hidden": 32,
+      "T": 8,
+      "acc_mean": 0.7517142857142858,
+      "acc_std": 0.021042231588025127,
+      "acc_per_seed": [
+        0.714,
+        0.744,
+        0.785,
+        0.753,
+        0.773,
+        0.746,
+        0.747
+      ],
+      "cost_mean": {
+        "synops_spike": 37418763.428571425,
+        "dense_worst": 2538918656.0,
+        "node_h": 5047552.0,
+        "hidden_spikes": 112851.14285714286,
+        "input_spikes": 135587.25
+      }
+    },
+    {
+      "dataset": "pubmed",
+      "hidden": 32,
+      "T": 16,
+      "acc_mean": 0.7655714285714286,
+      "acc_std": 0.014430692913342175,
+      "acc_per_seed": [
+        0.78,
+        0.779,
+        0.762,
+        0.752,
+        0.739,
+        0.769,
+        0.778
+      ],
+      "cost_mean": {
+        "synops_spike": 152703284.57142857,
+        "dense_worst": 5077837312.0,
+        "node_h": 10095104.0,
+        "hidden_spikes": 288790.4285714286,
+        "input_spikes": 271174.5
+      }
+    },
+    {
+      "dataset": "pubmed",
+      "hidden": 512,
+      "T": 4,
+      "acc_mean": 0.407,
+      "acc_std": 0.0,
+      "acc_per_seed": [
+        0.407,
+        0.407,
+        0.407,
+        0.407,
+        0.407,
+        0.407,
+        0.407
+      ],
+      "cost_mean": {
+        "synops_spike": 138841344.0,
+        "dense_worst": 20311349248.0,
+        "node_h": 40380416.0,
+        "hidden_spikes": 0.0,
+        "input_spikes": 67793.625
+      }
+    },
+    {
+      "dataset": "pubmed",
+      "hidden": 512,
+      "T": 8,
+      "acc_mean": 0.7498571428571429,
+      "acc_std": 0.019164167243124593,
+      "acc_per_seed": [
+        0.746,
+        0.75,
+        0.774,
+        0.729,
+        0.765,
+        0.767,
+        0.718
+      ],
+      "cost_mean": {
+        "synops_spike": 561070018.2857143,
+        "dense_worst": 40622698496.0,
+        "node_h": 80760832.0,
+        "hidden_spikes": 237693.42857142858,
+        "input_spikes": 135587.25
+      }
+    },
+    {
+      "dataset": "pubmed",
+      "hidden": 512,
+      "T": 16,
+      "acc_mean": 0.7711428571428571,
+      "acc_std": 0.005138887356744276,
+      "acc_per_seed": [
+        0.766,
+        0.774,
+        0.776,
+        0.763,
+        0.773,
+        0.778,
+        0.768
+      ],
+      "cost_mean": {
+        "synops_spike": 2269138004.571429,
+        "dense_worst": 81245396992.0,
+        "node_h": 161521664.0,
+        "hidden_spikes": 993260.4285714285,
+        "input_spikes": 271174.5
+      }
+    }
+  ]
+}
