@@ -108,7 +108,15 @@ def train_ann(data, hidden=16, n_layers=2, seed=0, alpha=0.0, beta_idm=0.0,
 
     torch.manual_seed(seed)
     np.random.seed(seed)
-    dev = torch.device(device if (device == "cpu" or torch.cuda.is_available()) else "cpu")
+    # CPU is the registered device: CUDA sparse reductions moved PubMed ANN
+    # accuracy by more than the effects in the original protocol. MPS is
+    # accepted only when the caller asks for it and the backend exists.
+    if device == "mps" and torch.backends.mps.is_available():
+        dev = torch.device("mps")
+    elif str(device).startswith("cuda") and torch.cuda.is_available():
+        dev = torch.device(device)
+    else:
+        dev = torch.device("cpu")
 
     X, y, adj = data["X"], data["y"], data["adj"]
     N, F, C = data["N"], data["F"], data["C"]
@@ -305,7 +313,7 @@ def _const_terms(data, model):
 
 def convert(data, model, T: int, theta: float = 1.0, betas=None, readout="membrane",
             l1_mode="if", seed=0, init_jitter: float = 0.0, record: bool = True,
-            return_logits: bool = False, thetas=None) -> dict:
+            return_logits: bool = False, return_pred: bool = False, thetas=None) -> dict:
     """Convert an L-layer ANN to an L-layer spiking network and simulate T steps.
 
     Per timestep, hidden layer l accumulates
@@ -364,8 +372,19 @@ def convert(data, model, T: int, theta: float = 1.0, betas=None, readout="membra
             us[l] += inst
             th_l = thetas[l]
             if l1_mode == "tpp":
-                p = np.clip(us[l], 0.0, th_l) / th_l
-                s = (rng.random(us[l].shape) < p).astype(np.int8)
+                # Expected spike count equals the clipped activation in threshold units,
+                # with no upper cap at one spike: P(K>=k) = clip(u/theta - (k-1), 0, 1).
+                # The k=1 case reduces to the classic two-phase rule; k>1 matters once an
+                # activation exceeds the threshold, which is common at small T.
+                s = np.zeros(us[l].shape, np.int16)
+                remaining = us[l] / th_l
+                for _k in range(8):
+                    p = np.clip(remaining, 0.0, 1.0)
+                    if not np.any(p > 0):
+                        break
+                    s += (rng.random(us[l].shape) < p).astype(np.int16)
+                    remaining -= 1.0
+                s = s.astype(np.int8)
             else:
                 s = (us[l] >= th_l).astype(np.int8)
             us[l] -= s * th_l
@@ -396,6 +415,8 @@ def convert(data, model, T: int, theta: float = 1.0, betas=None, readout="membra
     if return_logits:
         # WP5 needs the accumulator itself, not just its argmax, in order to average views.
         out["logits"] = acc_out / float(T)
+    if return_pred:
+        out["pred"] = pred
     return out
 
 
