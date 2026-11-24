@@ -1,0 +1,54 @@
+# Python caches & environments
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# LaTeX build intermediates
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.dvi
+
+# Datasets, weights & large binary artifacts
+.data/
+data/
+datasets/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.npz
+*.npy
+*.bin
+*.onnx
+*.h5
+*.parquet
+*.zip
+*.tar
+*.tar.gz
+*.gz
+*.7z
+
+# Logs, temporary & OS files
+*.err
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+.claude/
+.workbuddy/
